@@ -3,9 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticlesCommentsRepository")
+ * @Entity
+ * @Table(name="p5_ArticlesComments")
  */
 class ArticlesComments
 {
