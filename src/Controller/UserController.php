@@ -29,10 +29,27 @@ class UserController extends AbstractController
 
             $manager->persist($user);
             $manager->flush();
+
+            return $this->redirectToRoute("user_login");
         }
 
         return $this->render('user/index.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/login", name="user_login")
+     */
+    public function login(){
+        return $this->render("user/login.html.twig");
+    }
+
+
+    /**
+     * @Route("/logout", name="user_logout")
+     */
+    public function logout(){
+
     }
 }
