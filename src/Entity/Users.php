@@ -7,13 +7,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
  * @Entity
  * @Table(name="p5_Users")
  */
-class Users
+class Users implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -34,6 +36,7 @@ class Users
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="8" , minMessage="le mdp c'est 8 char mini connard")
      */
     private $password;
 
@@ -71,6 +74,11 @@ class Users
      * @ORM\OneToMany(targetEntity="App\Entity\TopicsComments", mappedBy="author")
      */
     private $topicsComments;
+
+    /**
+     *@Assert\EqualTo(propertyPath="password", message="Les deux mot de passe ne sont pas identiques")
+     */
+    public $confirm_password;
 
     public function __construct()
     {
@@ -299,5 +307,44 @@ class Users
         }
 
         return $this;
+    }
+
+    /**
+     * Returns the roles granted to the user.
+     *
+     *     public function getRoles()
+     *     {
+     *         return ['ROLE_USER'];
+     *     }
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return (Role|string)[] The user roles
+     */
+    public function getRoles() {
+        return['ROLE_USER'];
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt() {
+        // TODO: Implement getSalt() method.
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials() {
+        // TODO: Implement eraseCredentials() method.
     }
 }
