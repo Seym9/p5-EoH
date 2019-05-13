@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ article.name }}</h1>
+    <p>{{ article.content | raw }}</p>
+
+    <h2>comments</h2>
+    {% for comment in article.ArticlesComments %}
+        <div class="card">
+            <p>{{ dump(comment.author.username)}}</p>
+            <p>{{ comment.content | raw }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
