@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <h1>Categories</h1>
+    {% for category in categories %}
+        <ul>
+            <li>
+                <a href="">{{ category.name }} contient {{ category.topics | length }} thread</a>
+            </li>
+        </ul>
+        <p></p>
+    {% endfor %}
+
+    <div class="col-md-5">
+        <h2>Dernièrs sujets</h2>
+        <div class="card">
+            {% for topic in topics %}
+                <p>{{ topic.name }} {{ topic.topicsComments | length }}</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

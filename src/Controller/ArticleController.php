@@ -6,8 +6,10 @@ use App\Entity\Articles;
 use App\Entity\ArticlesComments;
 use App\Entity\Users;
 use App\Form\ArticleCommentType;
+use App\Form\ArticleCreationType;
 use App\Repository\ArticlesCategoriesRepository;
 use App\Repository\ArticlesRepository;
+use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,6 +58,30 @@ class ArticleController extends AbstractController
            'controller_name' => 'ArticleController',
             'article' => $article,
             'commentForm' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/create-article", name="article_creation")
+     */
+    public function CreateArticle(Request $request, ObjectManager $manager){
+
+        $article = new Articles();
+
+        $form = $this->createForm(ArticleCreationType::class, $article);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+                $article->setCreatedAt(new DateTime());
+
+            $manager->persist($article);
+            $manager->flush();
+
+            return $this->redirectToRoute('articleRead' , ['id' => $article->getId()]);
+        }
+        return $this->render('admin/createArticle.html.twig', [
+            'formArticle' => $form->createView(),
         ]);
     }
 }

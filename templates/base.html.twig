@@ -24,7 +24,10 @@
                     <a class="nav-link" href="#">Tips</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Forum</a>
+                    <a class="nav-link" href="{{ path('forum_home')}}">Forum</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('article_creation')}}">creation article</a>
                 </li>
 
                 {% if not app.user %}
