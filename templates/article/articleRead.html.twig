@@ -4,11 +4,18 @@
     <h1>{{ article.name }}</h1>
     <p>{{ article.content | raw }}</p>
 
-    <h2>comments</h2>
+    <h2>{{ article.ArticlesComments | length }} Commentaire :</h2>
+    {{ dump(app.user) }}
+    {{ form_start(commentForm) }}
+    <p>{{ app.user.username }}</p>
+    {{ form_row(commentForm.content, {'label':'Message', 'attr': {'placeholder': "Message"}}) }}
+    <button type="submit" class="btn btn-success">Envoyer</button>
+    {{ form_end(commentForm) }}
     {% for comment in article.ArticlesComments %}
         <div class="card">
-            <p>{{ dump(comment.author.username)}}</p>
+            <p>{{ comment.author.username}}</p>
             <p>{{ comment.content | raw }}</p>
         </div>
+
     {% endfor %}
 {% endblock %}
