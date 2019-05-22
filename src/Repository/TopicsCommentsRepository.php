@@ -22,19 +22,18 @@ class TopicsCommentsRepository extends ServiceEntityRepository
     // /**
     //  * @return TopicsComments[] Returns an array of TopicsComments objects
     //  */
-    /*
+
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
+            ->select("count(t)")
+            ->andWhere('t.topic = :val')
+            ->setParameter(":val", $value)
             ->getQuery()
-            ->getResult()
+            ->getOneOrNullResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?TopicsComments

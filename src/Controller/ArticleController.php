@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Articles;
 use App\Entity\ArticlesComments;
-use App\Entity\Users;
 use App\Form\ArticleCommentType;
 use App\Form\ArticleCreationType;
 use App\Repository\ArticlesCategoriesRepository;
@@ -38,8 +37,7 @@ class ArticleController extends AbstractController
      */
     public function articleRead (Articles $article, Request $request, ObjectManager $manager, Security $security){
         $user = $security->getUser();
-//        dump($user);
-//        die();
+
         $comment = new ArticlesComments();
         $form = $this->createForm(ArticleCommentType::class, $comment);
         $form->handleRequest($request);
@@ -47,7 +45,7 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $comment->setCreatedAt(new \DateTime())
                     ->setArticle($article)
-                    ->setAuthor($user->getId());
+                    ->setAuthor($user);
 
             $manager->persist($comment);
             $manager->flush();
@@ -64,8 +62,8 @@ class ArticleController extends AbstractController
     /**
      * @Route("/create-article", name="article_creation")
      */
-    public function CreateArticle(Request $request, ObjectManager $manager){
-
+    public function CreateArticle(Request $request, ObjectManager $manager, Security $security){
+        $user = $security->getUser();
         $article = new Articles();
 
         $form = $this->createForm(ArticleCreationType::class, $article);
@@ -73,7 +71,8 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
-                $article->setCreatedAt(new DateTime());
+                $article->setCreatedAt(new DateTime())
+                        ->setAuthor($user);
 
             $manager->persist($article);
             $manager->flush();

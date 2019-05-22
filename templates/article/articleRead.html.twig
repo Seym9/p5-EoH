@@ -5,12 +5,15 @@
     <p>{{ article.content | raw }}</p>
 
     <h2>{{ article.ArticlesComments | length }} Commentaire :</h2>
-    {{ dump(app.user) }}
+    {% if app.user %}
     {{ form_start(commentForm) }}
     <p>{{ app.user.username }}</p>
     {{ form_row(commentForm.content, {'label':'Message', 'attr': {'placeholder': "Message"}}) }}
     <button type="submit" class="btn btn-success">Envoyer</button>
     {{ form_end(commentForm) }}
+    {% else %}
+    Connectez vous pour pouvoir mettre un com
+    {% endif %}
     {% for comment in article.ArticlesComments %}
         <div class="card">
             <p>{{ comment.author.username}}</p>

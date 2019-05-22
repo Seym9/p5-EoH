@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <h1>Nom categorie : {{ category.name }}</h1>
+    {% for topic in category.topics %}
+        <div class="card">
+            <h3>{{ topic.name }}</h3>
+            <p>Auteur : {{ topic.author.username }}</p>
+            <p>Nombre de commentaires : {{ topic.topicscomments | length}}</p>
+            <p>Créer le : {{ topic.createdAt|date('d-m-Y') }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
