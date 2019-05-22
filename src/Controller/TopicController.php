@@ -4,9 +4,16 @@ namespace App\Controller;
 
 use App\Entity\ForumCategories;
 
+use App\Entity\Topics;
+use App\Entity\TopicsComments;
+use App\Form\TopicsCommentsType;
+use App\Form\TopicType;
 use App\Repository\ForumCategoriesRepository;
 use App\Repository\TopicsRepository;
+use DateTime;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
@@ -39,8 +46,53 @@ class TopicController extends AbstractController
         ]);
     }
 
-    public function topicView(){
+    /**
+     * @Route ("/topic/{id}", name="topic_view")
+     */
+    public function topicView(Topics $topic, Request $request, ObjectManager $manager, Security $security){
+        $user = $security->getUser();
 
-        return $this->render("topic/topicView.html.twig");
+        $comment = new TopicsComments();
+        $form = $this->createForm(TopicsCommentsType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $comment->setCreatedAt(new \DateTime())
+                    ->setTopic($topic)
+                    ->setAuthor($user);
+
+            $manager->persist($comment);
+            $manager->flush();
+        }
+
+        return $this->render("topic/topicView.html.twig",[
+            'topic' => $topic,
+            'commentForm' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route ("/create-topic", name="topic_creation")
+     */
+    public function createTopic(Request $request, ObjectManager $manager, Security $security){
+        $user = $security->getUser();
+        $topic = new Topics();
+
+        $form = $this->createForm(TopicType::class, $topic);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $topic->setCreatedAt(new DateTime())
+                ->setAuthor($user);
+
+            $manager->persist($topic);
+            $manager->flush();
+
+            return $this->redirectToRoute('topic_view' , ['id' => $topic->getId()]);
+        }
+
+        return $this->render('admin/createTopic.html.twig', [
+            'formTopic' => $form->createView(),
+        ]);
     }
 }

@@ -4,7 +4,7 @@
     {% for category in categories %}
         <ul>
             <li>
-                <a href="">{{ category.name }} contient {{ category.topics | length }} thread</a>
+                <a href="{{ path('forum_category_view', {'id': category.id}) }}">{{ category.name }} contient {{ category.topics | length }} thread</a>
             </li>
         </ul>
         <p></p>

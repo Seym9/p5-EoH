@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+   <h2>{{ topic.name }}</h2>
+    <p>{{ topic.content | raw }}</p>
+
+    {% if app.user %}
+        {{ form_start(commentForm) }}
+        <p>{{ app.user.username }}</p>
+        {{ form_row(commentForm.content, {'label':'Message', 'attr': {'placeholder': "Message"}}) }}
+        <button type="submit" class="btn btn-success">Envoyer</button>
+        {{ form_end(commentForm) }}
+    {% else %}
+        Connectez vous pour pouvoir mettre un com
+    {% endif %}
+    {% for comment in topic.topicsComments %}
+        <div class="card">
+            <p>{{ comment.author.username}}</p>
+            <p>{{ comment.content | raw }}</p>
+        </div>
+
+    {% endfor %}
+{% endblock %}

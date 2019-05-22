@@ -62,7 +62,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/create-article", name="article_creation")
      */
-    public function CreateArticle(Request $request, ObjectManager $manager, Security $security){
+    public function createArticle(Request $request, ObjectManager $manager, Security $security){
         $user = $security->getUser();
         $article = new Articles();
 
