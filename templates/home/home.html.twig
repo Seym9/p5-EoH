@@ -37,7 +37,9 @@
             Sujets populaires
             <div class="card">
                 {% for topic in topics %}
-                    <p>{{ topic.name }} {{ topic.topicsComments | length }}</p>
+                    <p>{{ topic.name }}</p>
+                    <p> commentaires : {{ topic.topicsComments | length }}</p>
+                    <a href="{{ path('topic_view', {'id': topic.id}) }}" class="btn btn-primary">Lire</a>
                 {% endfor %}
             </div>
         </div>

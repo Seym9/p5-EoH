@@ -21,7 +21,7 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="#">Toutes les catégories</a>
                                 {% for categorie in categories %}
-                                <a class="dropdown-item" href="#">{{ categorie.name }}</a>
+                                    <a class="dropdown-item" href="#">{{ categorie.name }}</a>
                                 {% endfor %}
                             </div>
                         </div>
@@ -29,20 +29,20 @@
                 </div>
                 <div class="row">
                     {% for article in articles %}
-                    <div class="col-md-4">
-                        <img alt="Bootstrap Image Preview" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg" />
-                        <div class="jumbotron">
-                            <h3>
-                                {{ article.name }}
-                            </h3>
-                            <p>
-                                {{ article.content | striptags | slice(0, 100) }}
-                            </p>
-                            <p>
-                                <a class="btn btn-primary btn-large" href="{{ path('articleRead', {'id': article.id}) }}">Learn more</a>
-                            </p>
+                        <div class="col-md-4">
+                            <div class="jumbotron">
+                                <img alt="Bootstrap Image Preview" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg" />
+                                <h3>
+                                    {{ article.name }}
+                                </h3>
+                                <p>
+                                    {{ article.content | striptags | slice(0, 100) }}
+                                </p>
+                                <p>
+                                    <a class="btn btn-primary btn-large" href="{{ path('articleRead', {'id': article.id}) }}">Learn more</a>
+                                </p>
+                            </div>
                         </div>
-                    </div>
                     {% endfor %}
                 </div>
             </div>
