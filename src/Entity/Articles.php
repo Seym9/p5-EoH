@@ -53,6 +53,11 @@ class Articles
      */
     private $articlesComments;
 
+    /**
+     * @ORM\OneToOne(targetEntity="Image", cascade={"persist", "remove"})
+     */
+    private $image;
+
     public function __construct()
     {
         $this->articlesComments = new ArrayCollection();
@@ -152,5 +157,19 @@ class Articles
         }
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage(): ?Image {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image): void {
+        $this->image = $image;
     }
 }

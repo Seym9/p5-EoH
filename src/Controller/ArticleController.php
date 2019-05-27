@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Articles;
 use App\Entity\ArticlesComments;
+use App\Entity\Image;
 use App\Form\ArticleCommentType;
 use App\Form\ArticleCreationType;
 use App\Repository\ArticlesCategoriesRepository;
@@ -11,6 +12,7 @@ use App\Repository\ArticlesRepository;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
@@ -71,6 +73,16 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
+            /** @var Image $image */
+            $image = $article->getImage();
+
+            /** @var UploadedFile $file */
+            $file = $image->getFile();
+
+            $name = md5(uniqid()). '.' .$file->guessExtension();
+            $file->move("../public/img/file-img", $name);
+            $image->setName($name);
+
                 $article->setCreatedAt(new DateTime())
                         ->setAuthor($user);
 

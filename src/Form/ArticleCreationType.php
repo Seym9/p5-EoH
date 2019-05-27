@@ -20,7 +20,9 @@ class ArticleCreationType extends AbstractType
             ->add('category', EntityType::class, [
                 'class' => ArticlesCategories::class,
                 'choice_label' => 'name'
-            ]);
+            ])
+            ->add('image', ImageArticleType::class, ['label'=> false])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
