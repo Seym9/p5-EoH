@@ -31,7 +31,11 @@
                     {% for article in articles %}
                         <div class="col-md-4">
                             <div class="jumbotron">
-                                <img alt="Bootstrap Image Preview" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg" />
+                                {% if article.image.name is defined %}
+                                <img src="{{ asset('img/uploaded-img/article-img/')~article.image.name }}" alt="" style="max-width: 150px;max-height: 150px;">
+                                    {% else %}
+                                    <p>Pas d'image</p>
+                                {% endif %}
                                 <h3>
                                     {{ article.name }}
                                 </h3>

@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Entity\Users;
 use App\Form\RegistrationType;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -23,6 +25,16 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
+
+            /** @var Image $image */
+            $image = $user->getImage();
+
+            /** @var UploadedFile $file */
+            $file = $image->getFile();
+            $name = md5(uniqid()). '.' .$file->guessExtension();
+            $file->move("../public/img/uploaded-img/user-img", $name);
+            $image->setName($name);
+
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setCreatedAt(new \DateTime());
             $user->setPassword($hash);

@@ -80,7 +80,7 @@ class ArticleController extends AbstractController
             $file = $image->getFile();
 
             $name = md5(uniqid()). '.' .$file->guessExtension();
-            $file->move("../public/img/file-img", $name);
+            $file->move("../public/img/uploaded-img/article-img", $name);
             $image->setName($name);
 
                 $article->setCreatedAt(new DateTime())

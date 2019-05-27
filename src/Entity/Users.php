@@ -85,6 +85,10 @@ class Users implements UserInterface
      *@Assert\EqualTo(propertyPath="password", message="Les deux mot de passe ne sont pas identiques")
      */
     public $confirm_password;
+    /**
+     * @ORM\OneToOne(targetEntity="ImageUser", cascade={"persist", "remove"})
+     */
+    private $image;
 
     public function __construct()
     {
@@ -352,5 +356,19 @@ class Users implements UserInterface
      */
     public function eraseCredentials() {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage(): ?ImageUser {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image): void {
+        $this->image = $image;
     }
 }
