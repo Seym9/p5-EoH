@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Articles;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -17,6 +18,33 @@ class ArticlesRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Articles::class);
+    }
+
+    /**
+     * @return Query
+     */
+    public function findAllVisible(): Query
+    {
+        return $this->createQueryBuilder('t')
+            ->getQuery()
+            ;
+    }
+     /**
+     * @return Articles[] Returns an array of Articles objects
+     */
+
+    public function pagination($value)
+    {
+        return $this->createQueryBuilder('a')
+
+
+            ->andWhere('a.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     // /**

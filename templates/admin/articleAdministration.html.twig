@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <h1>Article Admin</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>
+                            Titre
+                        </th>
+                        <th>
+                            Commentaires
+                        </th>
+                        <th>
+                            Categorie
+                        </th>
+                        <th>
+                            Date de création
+                        </th>
+                        <th>
+                            Options
+                        </th>
+                    </tr>
+                    </thead>
+                    {% for article in articles %}
+                    <tbody>
+                    <tr>
+                        <td>
+                            {{ article.name }}
+                        </td>
+                        <td>
+                            {{ article.articlesComments | length }}
+                        </td>
+                        <td>
+                            {{ article.category.name }}
+                        </td>
+                        <td>
+                            {{ article.createdAt | date('d-m-Y') }}
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                <button type="button" class="btn btn-primary">Primary</button>
+                                <div class="btn-group" role="group">
+                                    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                        <a class="dropdown-item" href="#">Dropdown link</a>
+                                        <a class="dropdown-item" href="#">Dropdown link</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

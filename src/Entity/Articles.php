@@ -43,13 +43,13 @@ class Articles
     private $category;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="articles", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ArticlesComments", mappedBy="article")
+     * @ORM\OneToMany(targetEntity="App\Entity\ArticlesComments", mappedBy="article", cascade={"persist", "remove"})
      */
     private $articlesComments;
 

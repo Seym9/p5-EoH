@@ -42,7 +42,7 @@ class Users implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min="8" , minMessage="le mdp c'est 8 char mini connard")
+     * @Assert\Length(min="8" , minMessage="le mdp c'est 8 char mini")
      */
     private $password;
 
@@ -67,7 +67,7 @@ class Users implements UserInterface
     private $topics;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Articles", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="App\Entity\Articles", mappedBy="author", cascade={"persist", "remove"})
      */
     private $articles;
 

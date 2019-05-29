@@ -34,6 +34,10 @@ class ArticleController extends AbstractController
         ]);
     }
 
+
+
+
+
     /**
      * @Route("/article/{id}", name="articleRead")
      */
