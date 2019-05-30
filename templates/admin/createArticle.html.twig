@@ -2,7 +2,11 @@
 {% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
 {% block body %}
 
+    {% if editMode %}
+        <h1>Modification d'un article !</h1>
+    {% else %}
         <h1>Création d'un article !</h1>
+    {% endif %}
 
     {{ form_start(formArticle) }}
 
@@ -10,7 +14,15 @@
     {{ form_row(formArticle.category) }}
     {{ form_row(formArticle.content,{'attr': {'placeholder': 'contenu'}}) }}
     {{ form_row(formArticle.image) }}
-    <button type="submit" class="btn btn-success">Ajouter l'article</button>
+
+
+    <button type="submit" class="btn btn-success">
+        {% if editMode %}
+            Modifier l'article
+        {% else %}
+            Ajouter l'article
+        {% endif %}
+    </button>
 
     {{ form_end(formArticle) }}
 {% endblock %}

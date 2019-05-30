@@ -6,6 +6,7 @@ use App\Entity\ForumCategories;
 
 use App\Entity\Topics;
 use App\Entity\TopicsComments;
+use App\Entity\Users;
 use App\Form\TopicsCommentsType;
 use App\Form\TopicType;
 use App\Repository\ForumCategoriesRepository;
@@ -94,5 +95,28 @@ class TopicController extends AbstractController
         return $this->render('admin/createTopic.html.twig', [
             'formTopic' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route ("/topic-report/{id}", name="topic_report")
+     */
+    public function topicReport(Topics $topic, ObjectManager $manager){
+        $topic->setReport($topic->getReport() + 1);
+
+        $manager->persist($topic);
+        $manager->flush();
+
+        return $this->redirectToRoute('home');
+    }
+    /**
+     * @Route ("/topic-comment-report/{id}", name="topicComment_report")
+     */
+    public function articleCommentReport(TopicsComments $topicComment, ObjectManager $manager){
+        $topicComment->setReport($topicComment->getReport() + 1);
+
+        $manager->persist($topicComment);
+        $manager->flush();
+
+        return $this->redirectToRoute('home');
     }
 }

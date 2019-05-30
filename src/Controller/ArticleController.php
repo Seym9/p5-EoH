@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Articles;
 use App\Entity\ArticlesComments;
 use App\Entity\Image;
+use App\Entity\Topics;
 use App\Form\ArticleCommentType;
 use App\Form\ArticleCreationType;
 use App\Repository\ArticlesCategoriesRepository;
@@ -67,10 +68,13 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/create-article", name="article_creation")
+     * @Route ("/edit-article/{id}", name="article_edit")
      */
-    public function createArticle(Request $request, ObjectManager $manager, Security $security){
+    public function createArticle(Request $request, ObjectManager $manager, Security $security, Articles $article = null){
         $user = $security->getUser();
-        $article = new Articles();
+        if (!$article){
+            $article = new Articles();
+        }
 
         $form = $this->createForm(ArticleCreationType::class, $article);
 
@@ -86,9 +90,10 @@ class ArticleController extends AbstractController
             $name = md5(uniqid()). '.' .$file->guessExtension();
             $file->move("../public/img/uploaded-img/article-img", $name);
             $image->setName($name);
-
+            if (!$article->getId()){
                 $article->setCreatedAt(new DateTime())
-                        ->setAuthor($user);
+                    ->setAuthor($user);
+            }
 
             $manager->persist($article);
             $manager->flush();
@@ -97,6 +102,18 @@ class ArticleController extends AbstractController
         }
         return $this->render('admin/createArticle.html.twig', [
             'formArticle' => $form->createView(),
+            'editMode' => $article->getId() !== null
         ]);
+    }
+    /**
+     * @Route ("/article-comment-report/{id}", name="articleComment_report")
+     */
+    public function articleCommentReport(ArticlesComments $articlesComment, ObjectManager $manager){
+        $articlesComment->setReport($articlesComment->getReport() + 1);
+
+        $manager->persist($articlesComment);
+        $manager->flush();
+
+        return $this->redirectToRoute('home');
     }
 }
