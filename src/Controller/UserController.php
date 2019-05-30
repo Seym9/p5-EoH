@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Articles;
 use App\Entity\Image;
 use App\Entity\Users;
 use App\Form\RegistrationType;
+use App\Repository\UsersRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,8 +72,11 @@ class UserController extends AbstractController
      */
     public function profilePage(Users $user){
 
+//        $article = $repo->findById($user->getId());
+
         return $this->render("user/userProfile.html.twig",[
-           'user' => $user
+           'user' => $user,
+//            'article' => $article,
         ]);
     }
 }

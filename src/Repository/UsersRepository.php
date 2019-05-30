@@ -19,6 +19,27 @@ class UsersRepository extends ServiceEntityRepository
         parent::__construct($registry, Users::class);
     }
 
+
+    /**
+     * @param $value
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+//    public function FindByIf($value)
+//    {
+//        return $this->createQueryBuilder('u')
+//            ->innerJoin('u.articles', 'c')
+//            ->addSelect('c')
+//            ->andWhere('c.author = :id')
+//            ->setParameter('id', $value)
+//            ->orderBy('c.id', 'ASC')
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getSingleScalarResult()
+//        ;
+//    }
+
+
     // /**
     //  * @return Users[] Returns an array of Users objects
     //  */
