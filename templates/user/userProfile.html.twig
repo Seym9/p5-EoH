@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Bonjour {{ user.username }}</h1>
+
+    <p>Vos sujets</p>
+    {% for topic in user.topics %}
+    <ul>
+        <li>{{ topic.name }}</li>
+    </ul>
+    {% endfor %}
+
+    <p>Vos réponses dans le forum</p>
+    {% for topicComment in user.topicsComments %}
+        <ul>
+            <li>{{ topicComment.content | raw  }}</li>
+        </ul>
+    {% endfor %}
+
+    <p>Vos commentaires sous les articles</p>
+    {% for articleComment in user.articlesComments %}
+        <ul>
+            <li>{{ articleComment.content | raw }}</li>
+        </ul>
+    {% endfor %}
+
+{% endblock %}

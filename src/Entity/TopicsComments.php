@@ -37,12 +37,13 @@ class TopicsComments
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Topics", inversedBy="topicsComments")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $topic;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="topicsComments")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $author;
 

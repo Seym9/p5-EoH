@@ -33,6 +33,16 @@ class TopicsRepository extends ServiceEntityRepository
         ;
     }
 
+        public function report()
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.report')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    public function findByNbOfComments()
 //    {
 //        return $this->createQueryBuilder('t')

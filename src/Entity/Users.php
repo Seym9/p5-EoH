@@ -62,22 +62,26 @@ class Users implements UserInterface
     private $tips;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Topics", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="App\Entity\Topics", mappedBy="author", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $topics;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Articles", mappedBy="author", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $articles;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ArticlesComments", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="App\Entity\ArticlesComments", mappedBy="author", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $articlesComments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TopicsComments", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="App\Entity\TopicsComments", mappedBy="author", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $topicsComments;
 

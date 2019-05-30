@@ -42,8 +42,8 @@ class ArticlesComments
     private $article;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\users", inversedBy="articlesComments", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\users", inversedBy="articlesComments", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $author;
 

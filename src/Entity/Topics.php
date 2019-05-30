@@ -49,13 +49,14 @@ class Topics
     private $category;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="topics")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="topics", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TopicsComments", mappedBy="topic")
+     * @ORM\OneToMany(targetEntity="App\Entity\TopicsComments", mappedBy="topic", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $topicsComments;
 

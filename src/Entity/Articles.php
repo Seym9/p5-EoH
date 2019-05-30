@@ -44,7 +44,7 @@ class Articles
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="articles", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $author;
 
