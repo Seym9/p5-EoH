@@ -60,9 +60,15 @@ class Topics
      */
     private $topicsComments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TopicLike", mappedBy="topic")
+     */
+    private $topicLikes;
+
     public function __construct()
     {
         $this->topicsComments = new ArrayCollection();
+        $this->topicLikes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -167,6 +173,37 @@ class Topics
             // set the owning side to null (unless already changed)
             if ($topicsComment->getTopic() === $this) {
                 $topicsComment->setTopic(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TopicLike[]
+     */
+    public function getTopicLikes(): Collection
+    {
+        return $this->topicLikes;
+    }
+
+    public function addTopicLike(TopicLike $topicLike): self
+    {
+        if (!$this->topicLikes->contains($topicLike)) {
+            $this->topicLikes[] = $topicLike;
+            $topicLike->setTopic($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopicLike(TopicLike $topicLike): self
+    {
+        if ($this->topicLikes->contains($topicLike)) {
+            $this->topicLikes->removeElement($topicLike);
+            // set the owning side to null (unless already changed)
+            if ($topicLike->getTopic() === $this) {
+                $topicLike->setTopic(null);
             }
         }
 

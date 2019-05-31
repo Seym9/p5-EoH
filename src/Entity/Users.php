@@ -94,6 +94,11 @@ class Users implements UserInterface
      */
     private $image;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TopicLike", mappedBy="user")
+     */
+    private $topicLikes;
+
     public function __construct()
     {
         $this->tips = new ArrayCollection();
@@ -101,6 +106,7 @@ class Users implements UserInterface
         $this->articles = new ArrayCollection();
         $this->articlesComments = new ArrayCollection();
         $this->topicsComments = new ArrayCollection();
+        $this->topicLikes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -374,5 +380,36 @@ class Users implements UserInterface
      */
     public function setImage($image): void {
         $this->image = $image;
+    }
+
+    /**
+     * @return Collection|TopicLike[]
+     */
+    public function getTopicLikes(): Collection
+    {
+        return $this->topicLikes;
+    }
+
+    public function addTopicLike(TopicLike $topicLike): self
+    {
+        if (!$this->topicLikes->contains($topicLike)) {
+            $this->topicLikes[] = $topicLike;
+            $topicLike->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopicLike(TopicLike $topicLike): self
+    {
+        if ($this->topicLikes->contains($topicLike)) {
+            $this->topicLikes->removeElement($topicLike);
+            // set the owning side to null (unless already changed)
+            if ($topicLike->getUser() === $this) {
+                $topicLike->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
