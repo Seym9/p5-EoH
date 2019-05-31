@@ -1,21 +1,28 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+    <a href="#" class="btn btn-link">
+        <i class="far fa-thumbs-up"></i>
+        <span class="js-likes">10</span>
+        <span class="js-label">J'aime</span>
+    </a>
    <h2>{{ topic.name }}</h2>
     <p>{{ topic.content | raw }}</p>
-
+    <a class="btn btn-outline-danger" href="{{ path('topic_report', {'id': topic.id}) }}">Signaler</a>
     {% if app.user %}
         {{ form_start(commentForm) }}
         <p>{{ app.user.username }}</p>
         {{ form_row(commentForm.content, {'label':'Message', 'attr': {'placeholder': "Message"}}) }}
         <button type="submit" class="btn btn-success">Envoyer</button>
         {{ form_end(commentForm) }}
+
     {% else %}
         Connectez vous pour pouvoir mettre un com
     {% endif %}
     {% for comment in topic.topicsComments %}
         <div class="card">
             <p>{{ comment.author.username}}</p>
+            <a class="btn btn-outline-danger" href="{{ path('topicComment_report', {'id': comment.id}) }}">Signaler</a>
             <p>{{ comment.content | raw }}</p>
         </div>
 

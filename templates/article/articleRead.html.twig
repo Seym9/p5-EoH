@@ -16,7 +16,7 @@
     {% endif %}
     {% for comment in article.ArticlesComments %}
         <div class="card">
-            <p>{{ comment.author.username}}</p>
+            <p>{{ comment.author.username}}</p><a class="btn btn-outline-danger" href="{{ path('articleComment_report', {'id': comment.id}) }}">Signaler</a>
             <p>{{ comment.content | raw }}</p>
         </div>
 

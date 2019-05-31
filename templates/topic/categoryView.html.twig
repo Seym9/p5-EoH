@@ -3,6 +3,11 @@
     <h1>Nom categorie : {{ category.name }}</h1>
     {% for topic in category.topics %}
         <div class="card">
+            <a href="#" class="btn btn-link">
+                <i class="far fa-thumbs-up"></i>
+                <span class="js-likes">{{ topic.topicLikes.count }}</span>
+                <span class="js-label">J'aime</span>
+            </a>
             <h3>{{ topic.name }}</h3>
             <p>Auteur : {{ topic.author.username }}</p>
             <p>Nombre de commentaires : {{ topic.topicscomments | length}}</p>
