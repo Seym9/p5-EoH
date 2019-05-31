@@ -209,4 +209,18 @@ class Topics
 
         return $this;
     }
+
+
+    /**
+     * Allow to know if the Topic is liked by a user
+     *
+     * @param Users $user
+     * @return bool
+     */
+    public function isLikeByUser(Users $user): bool {
+        foreach ($this->topicLikes as $like){
+            if ($like->getAuthor() === $user) return true;
+        }
+        return false;
+    }
 }

@@ -3,8 +3,12 @@
     <h1>Nom categorie : {{ category.name }}</h1>
     {% for topic in category.topics %}
         <div class="card">
-            <a href="#" class="btn btn-link">
-                <i class="far fa-thumbs-up"></i>
+            <a href="#" class="btn btn-link js-like">
+                {% if app.user and topic.likeByUser(app.user) %}
+                    <i class="fas fa-thumbs-up"></i>
+                {% else %}
+                    <i class="far fa-thumbs-up"></i>
+                {% endif %}
                 <span class="js-likes">{{ topic.topicLikes.count }}</span>
                 <span class="js-label">J'aime</span>
             </a>
