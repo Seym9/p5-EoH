@@ -6,6 +6,7 @@ use App\Entity\Articles;
 use App\Entity\ArticlesCategories;
 use App\Entity\ArticlesComments;
 use App\Entity\ForumCategories;
+use App\Entity\TopicLike;
 use App\Entity\Topics;
 use App\Entity\TopicsComments;
 use App\Entity\Users;
@@ -19,11 +20,24 @@ class ArticleFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = \Faker\Factory::create("fr_FR");
+        $users = [];
         $user = new Users();
-        $userid = $user->setCreatedAt(new \DateTime())
+        $user->setCreatedAt(new \DateTime())
                         ->setEmail('test@test.com')
                         ->setPassword('test')
-                        ->setUsername('test');
+                        ->setUsername('Aymeric');
+        $users[] = $user;
+
+        for ($h = 0; $h < 20; $h++){
+            $user = new Users();
+            $user->setCreatedAt(new \DateTime())
+                ->setEmail($faker->email)
+                ->setPassword('test')
+                ->setUsername($faker->name);
+
+            $manager->persist($user);
+            $users[] = $user;
+        }
 
         for ($i = 1; $i <=3; $i++){
             $category = new ArticlesCategories();
@@ -39,7 +53,7 @@ class ArticleFixtures extends Fixture
                         ->setContent($content)
                         ->setCreatedAt($faker->dateTimeBetween('-months'))
                         ->setCategory($category)
-                        ->setAuthor($userid);
+                        ->setAuthor($user);
                 $manager->persist($article);
 
                 for ($k = 1; $k <= mt_rand(4, 10); $k++){
@@ -50,7 +64,7 @@ class ArticleFixtures extends Fixture
                     $now = new \DateTime();
                     $days = $now->diff($article->getCreatedAt())->days;
 
-                    $articleComments->setAuthor($userid)
+                    $articleComments->setAuthor($user)
                                     ->setArticle($article)
                                     ->setCreatedAt($faker->dateTimeBetween('-' . $days . ' days'))
                                     ->setContent($content);
@@ -72,7 +86,7 @@ class ArticleFixtures extends Fixture
                     ->setContent($content)
                     ->setCreatedAt($faker->dateTimeBetween('-months'))
                     ->setCategory($category)
-                    ->setAuthor($userid);
+                    ->setAuthor($user);
                 $manager->persist($article);
 
                 for ($k = 1; $k <= mt_rand(4, 10); $k++){
@@ -83,11 +97,19 @@ class ArticleFixtures extends Fixture
                     $now = new \DateTime();
                     $days = $now->diff($article->getCreatedAt())->days;
 
-                    $articleComments->setAuthor($userid)
+                    $articleComments->setAuthor($user)
                         ->setTopic($article)
                         ->setCreatedAt($faker->dateTimeBetween('-' . $days . ' days'))
                         ->setContent($content);
                     $manager->persist($articleComments);
+                }
+                for ($g = 1; $g <= mt_rand(4, 10); $g++){
+                    $like = new TopicLike();
+                    $like
+                        ->setTopic($article)
+                        ->setUser($faker->randomElement($users))
+                        ->setCreatedAt($faker->dateTimeBetween('-' . $days . ' days'));
+                    $manager->persist($like);
                 }
             }
         }
