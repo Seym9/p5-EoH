@@ -2,6 +2,7 @@ security:
     encoders:
         App\Entity\Users:
             algorithm: bcrypt
+            cost: 13
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
@@ -26,6 +27,15 @@ security:
             logout:
                 path: user_logout
                 target: home
+
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 2592000 # set to 30 days
+
+    access_control:
+         - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/profile, roles: ROLE_USER }
+
             # activate different ways to authenticate
 
             # http_basic: true
@@ -36,6 +46,4 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
-    access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+
