@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TopicLikeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TopicCommentReportRepository")
  */
-class TopicLike
+class TopicCommentReport
 {
     /**
      * @ORM\Id()
@@ -17,12 +17,12 @@ class TopicLike
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Topics", inversedBy="topicLikes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\TopicsComments", inversedBy="topicCommentReports")
      */
-    private $topic;
+    private $comment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="topicLikes", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="topicCommentReports", cascade={"persist"})
      */
     private $user;
 
@@ -36,14 +36,14 @@ class TopicLike
         return $this->id;
     }
 
-    public function getTopic(): ?Topics
+    public function getComment(): ?TopicsComments
     {
-        return $this->topic;
+        return $this->comment;
     }
 
-    public function setTopic(?Topics $topic): self
+    public function setComment(?TopicsComments $comment): self
     {
-        $this->topic = $topic;
+        $this->comment = $comment;
 
         return $this;
     }

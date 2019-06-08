@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TopicLikeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TopicReportRepository")
  */
-class TopicLike
+class TopicReport
 {
     /**
      * @ORM\Id()
@@ -17,12 +17,12 @@ class TopicLike
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Topics", inversedBy="topicLikes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Topics", inversedBy="topicReports")
      */
     private $topic;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="topicLikes", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="topicReports", cascade={"persist"})
      */
     private $user;
 

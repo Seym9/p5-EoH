@@ -49,7 +49,7 @@ class Topics
     private $category;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="topics", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="topics", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $author;
@@ -61,14 +61,21 @@ class Topics
     private $topicsComments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TopicLike", mappedBy="topic")
+     * @ORM\OneToMany(targetEntity="App\Entity\TopicLike", mappedBy="topic", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $topicLikes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TopicReport", mappedBy="topic", cascade={"persist", "remove"})
+     */
+    private $topicReports;
 
     public function __construct()
     {
         $this->topicsComments = new ArrayCollection();
         $this->topicLikes = new ArrayCollection();
+        $this->topicReports = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -219,7 +226,45 @@ class Topics
      */
     public function isLikeByUser(Users $user): bool {
         foreach ($this->topicLikes as $like){
-            if ($like->getAuthor() === $user) return true;
+            if ($like->getUser() === $user) return true;
+        }
+        return false;
+    }
+    
+    /**
+     * @return Collection|TopicReport[]
+     */
+    public function getTopicReports(): Collection
+    {
+        return $this->topicReports;
+    }
+
+    public function addTopicReport(TopicReport $topicReport): self
+    {
+        if (!$this->topicReports->contains($topicReport)) {
+            $this->topicReports[] = $topicReport;
+            $topicReport->setTopic($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopicReport(TopicReport $topicReport): self
+    {
+        if ($this->topicReports->contains($topicReport)) {
+            $this->topicReports->removeElement($topicReport);
+            // set the owning side to null (unless already changed)
+            if ($topicReport->getTopic() === $this) {
+                $topicReport->setTopic(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isReportedByUser(Users $user): bool {
+        foreach ($this->topicReports as $report){
+            if ($report->getUser() === $user) return true;
         }
         return false;
     }

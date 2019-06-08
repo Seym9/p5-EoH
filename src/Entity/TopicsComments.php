@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
@@ -46,6 +48,16 @@ class TopicsComments
      * @ORM\JoinColumn(nullable=true)
      */
     private $author;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TopicCommentReport", mappedBy="comment",cascade={"persist", "remove"})
+     */
+    private $topicCommentReports;
+
+    public function __construct()
+    {
+        $this->topicCommentReports = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -110,5 +122,43 @@ class TopicsComments
         $this->author = $author;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|TopicCommentReport[]
+     */
+    public function getTopicCommentReports(): Collection
+    {
+        return $this->topicCommentReports;
+    }
+
+    public function addTopicCommentReport(TopicCommentReport $topicCommentReport): self
+    {
+        if (!$this->topicCommentReports->contains($topicCommentReport)) {
+            $this->topicCommentReports[] = $topicCommentReport;
+            $topicCommentReport->setComment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopicCommentReport(TopicCommentReport $topicCommentReport): self
+    {
+        if ($this->topicCommentReports->contains($topicCommentReport)) {
+            $this->topicCommentReports->removeElement($topicCommentReport);
+            // set the owning side to null (unless already changed)
+            if ($topicCommentReport->getComment() === $this) {
+                $topicCommentReport->setComment(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isReportedByUser(Users $user): bool {
+        foreach ($this->topicCommentReports as $report){
+            if ($report->getUser() === $user) return true;
+        }
+        return false;
     }
 }
