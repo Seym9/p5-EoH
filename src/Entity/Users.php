@@ -62,25 +62,25 @@ class Users implements UserInterface
     private $tips;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Topics", mappedBy="author", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Topics", mappedBy="author")
      * @ORM\JoinColumn(nullable=true)
      */
     private $topics;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Articles", mappedBy="author", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Articles", mappedBy="author")
      * @ORM\JoinColumn(nullable=true)
      */
     private $articles;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ArticlesComments", mappedBy="author", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\ArticlesComments", mappedBy="author")
      * @ORM\JoinColumn(nullable=true)
      */
     private $articlesComments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TopicsComments", mappedBy="author", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\TopicsComments", mappedBy="author")
      * @ORM\JoinColumn(nullable=true)
      */
     private $topicsComments;
@@ -95,7 +95,7 @@ class Users implements UserInterface
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TopicLike", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\TopicLike", mappedBy="user", cascade={"persist", "remove"})
      */
     private $topicLikes;
 
@@ -329,22 +329,36 @@ class Users implements UserInterface
         return $this;
     }
 
+//    /**
+//     * Returns the roles granted to the user.
+//     *
+//     *     public function getRoles()
+//     *     {
+//     *         return ['ROLE_USER'];
+//     *     }
+//     *
+//     * Alternatively, the roles might be stored on a ``roles`` property,
+//     * and populated in any number of different ways when the user object
+//     * is created.
+//     *
+//     * @return (Role|string)[] The user roles
+//     */
+//    public function getRoles() {
+//
+//        return['ROLE_USER'];
+//    }
     /**
-     * Returns the roles granted to the user.
-     *
-     *     public function getRoles()
-     *     {
-     *         return ['ROLE_USER'];
-     *     }
-     *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
-     * @return (Role|string)[] The user roles
+     * @ORM\Column(type="array")
      */
-    public function getRoles() {
-        return['ROLE_USER'];
+    private $roles = [];
+
+    public function getRoles(): array
+    {
+        $role = $this->roles;
+        if (empty($role)) {
+            $role[] = 'ROLE_USER';
+        }
+        return array_unique($role);
     }
 
     /**
@@ -412,4 +426,33 @@ class Users implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @var string le token qui servira lors de l'oubli de mot de passe
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $resetToken;
+
+    /**
+     * @return string
+     */
+    public function getResetToken(): string
+    {
+        return $this->resetToken;
+    }
+
+    /**
+     * @param string $resetToken
+     */
+    public function setResetToken(?string $resetToken): void
+    {
+        $this->resetToken = $resetToken;
+    }
+
+    public function setRole(array $role): self
+    {
+        $this->roles = $role;
+        return $this;
+    }
+
 }
