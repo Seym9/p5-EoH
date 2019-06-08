@@ -43,7 +43,7 @@ class Articles
     private $category;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="articles", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="articles", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $author;
@@ -54,7 +54,7 @@ class Articles
     private $articlesComments;
 
     /**
-     * @ORM\OneToOne(targetEntity="Image", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Image", cascade={"persist"}, cascade={"persist", "remove"})
      */
     private $image;
 
@@ -142,7 +142,6 @@ class Articles
             $this->articlesComments[] = $articlesComment;
             $articlesComment->setArticle($this);
         }
-
         return $this;
     }
 

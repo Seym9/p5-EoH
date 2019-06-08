@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
@@ -42,10 +44,20 @@ class ArticlesComments
     private $article;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\users", inversedBy="articlesComments", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\users", inversedBy="articlesComments")
      * @ORM\JoinColumn(nullable=true)
      */
     private $author;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ArticleCommentReport", mappedBy="comment")
+     */
+    private $articleCommentReports;
+
+    public function __construct()
+    {
+        $this->articleCommentReports = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -110,5 +122,43 @@ class ArticlesComments
         $this->author = $author;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|ArticleCommentReport[]
+     */
+    public function getArticleCommentReports(): Collection
+    {
+        return $this->articleCommentReports;
+    }
+
+    public function addArticleCommentReport(ArticleCommentReport $articleCommentReport): self
+    {
+        if (!$this->articleCommentReports->contains($articleCommentReport)) {
+            $this->articleCommentReports[] = $articleCommentReport;
+            $articleCommentReport->setComment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleCommentReport(ArticleCommentReport $articleCommentReport): self
+    {
+        if ($this->articleCommentReports->contains($articleCommentReport)) {
+            $this->articleCommentReports->removeElement($articleCommentReport);
+            // set the owning side to null (unless already changed)
+            if ($articleCommentReport->getComment() === $this) {
+                $articleCommentReport->setComment(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isReportedByUser(Users $user): bool {
+        foreach ($this->articleCommentReports as $report){
+            if ($report->getUser() === $user) return true;
+        }
+        return false;
     }
 }
