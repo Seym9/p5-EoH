@@ -8,51 +8,80 @@ use App\Entity\Users;
 use App\Repository\ArticlesRepository;
 use App\Repository\TopicsRepository;
 use App\Repository\UsersRepository;
-use Doctrine\Common\Persistence\ObjectManager;
-use http\Env\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
-
-    /**
-     * @Route("/admin-articles", name="administration_article")
-     */
-    public function articlesAdmin (ArticlesRepository $articles){
-        $articles = $articles->findAll();
-
-        return $this->render("admin/articleAdministration.html.twig",[
-            'articles' => $articles,
-        ]);
-    }
-
     /**
      * @Route("/article-delete/{id}" ,name="article_delete")
      * @return Response
      */
-        public function delArticle($id) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $article = $entityManager->getRepository(Articles::class)->find($id);
+    public function delArticle($id) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $article = $entityManager->getRepository(Articles::class)->find($id);
 
-            $entityManager->remove($article);
-            $entityManager->flush();
-            $this->addFlash("success", "Ce message a ");
-            return $this->redirectToRoute("home");
-        }
+        $entityManager->remove($article);
+        $entityManager->flush();
+        $this->addFlash("success", "Ce message a ");
 
+        return $this->json([
+            'code' => 200,
+            'message' => 'Article delete',
+        ], 200);
+    }
 
     /**
-     * @Route("/admin-users", name="administration_users")
+     * @Route("/admin-articles/{page}", name="administration_article")
+     *
      */
-    public function usersAdmin (UsersRepository $users){
-        $users = $users->findAll();
+    public function articleAdminView(ArticlesRepository $articlesRepository, $page){
 
-        return $this->render("admin/usersAdministration.html.twig",[
-            'users' => $users,
-        ]);
+        $nb_articles 		= $articlesRepository->FindAllAsInt();
+        $nb_articles_page 	= 12;
+        $nb_pages 			=  ceil($nb_articles / $nb_articles_page);
+        $offset 			= ($page-1) * $nb_articles_page;
+
+        $articles	= $articlesRepository->FindByPage($nb_articles_page ,$offset);
+
+        if(!$articles ){
+            throw $this->createNotFoundException('La page demandée n\'existe pas');
+        }
+
+        return $this->render('admin/articleAdministration.html.twig', array(
+            'articles' => $articles,
+            'page'		=> $page,
+            'nb_pages'	=> $nb_pages,
+        ));
+    }
+
+    /**
+     * @Route("/admin-users/{page}", name="administration_users")
+     *
+     * @param UsersRepository $topicsRepository
+     * @param $page
+     * @return Response
+     */
+    public function usersAdminView(UsersRepository $topicsRepository, $page){
+
+        $nb_users 		    = $topicsRepository->FindAllAsInt();
+        $nb_users_page 	    = 12;
+        $nb_pages 			=  ceil($nb_users / $nb_users_page);
+        $offset 			= ($page-1) * $nb_users_page;
+
+        $users	= $topicsRepository->FindByPage($nb_users_page ,$offset);
+
+        if(!$users ){
+            throw $this->createNotFoundException('La page demandée n\'existe pas');
+        }
+
+        return $this->render('admin/usersAdministration.html.twig', array(
+            'users'    => $users,
+            'page'		=> $page,
+            'nb_pages'	=> $nb_pages,
+        ));
     }
     /**
      * @Route("/user-delete/{id}" ,name="user_delete")
@@ -65,18 +94,38 @@ class AdminController extends AbstractController
         $entityManager->remove($user);
         $entityManager->flush();
         $this->addFlash("success", "Cet utilisateur a ");
-        return $this->redirectToRoute("home");
+        return $this->json([
+            'code' => 200,
+            'message' => 'Utilisateur delete',
+        ], 200);
     }
 
     /**
-     * @Route("/admin-forum", name="administration_forum")
+     * @Route("/admin-forum/{page}", name="administration_forum")
+     *
+     * @param TopicsRepository $topicsRepository
+     * @param $page
+     * @return Response
+     * @throws NonUniqueResultException
      */
-    public function forumAdmin (TopicsRepository $topics){
-        $topics = $topics->findAll();
+    public function forumAdminView(TopicsRepository $topicsRepository, $page){
 
-        return $this->render("admin/forumAdministration.html.twig",[
-            'topics' => $topics,
-        ]);
+        $nb_topics 		    = $topicsRepository->FindAllAsInt();
+        $nb_topics_page 	= 12;
+        $nb_pages 			=  ceil($nb_topics / $nb_topics_page);
+        $offset 			= ($page-1) * $nb_topics_page;
+
+        $topics	= $topicsRepository->FindByPage($nb_topics_page ,$offset);
+
+        if(!$topics ){
+            throw $this->createNotFoundException('La page demandée n\'existe pas');
+        }
+
+        return $this->render('admin/forumAdministration.html.twig', array(
+            'topics'    => $topics,
+            'page'		=> $page,
+            'nb_pages'	=> $nb_pages,
+        ));
     }
 
     /**
@@ -90,7 +139,10 @@ class AdminController extends AbstractController
         $entityManager->remove($topic);
         $entityManager->flush();
         $this->addFlash("success", "Ce topic a ");
-        return $this->redirectToRoute("home");
+        return $this->json([
+            'code' => 200,
+            'message' => 'Topic delete',
+        ], 200);
     }
 
 }
