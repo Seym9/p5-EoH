@@ -4,17 +4,24 @@ namespace App\Controller;
 
 use App\Entity\ForumCategories;
 
+use App\Entity\TopicLike;
+use App\Entity\TopicReport;
 use App\Entity\Topics;
 use App\Entity\TopicsComments;
-use App\Entity\Users;
 use App\Form\TopicsCommentsType;
 use App\Form\TopicType;
 use App\Repository\ForumCategoriesRepository;
+use App\Repository\TopicLikeRepository;
+use App\Repository\TopicReportRepository;
 use App\Repository\TopicsRepository;
+use App\Repository\UsersRepository;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
+
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
@@ -98,26 +105,93 @@ class TopicController extends AbstractController
     }
 
     /**
-     * @Route ("/topic-report/{id}", name="topic_report")
+     * Allow to like or unlike topics
+     *
+     * @Route("/topic/{id}/like", name="topic_like")
+     *
+     * @param Topics $topic
+     * @param ObjectManager $manager
+     * @param TopicLikeRepository $likeRepository
+     * @return Response
+     * @throws \Exception
      */
-    public function topicReport(Topics $topic, ObjectManager $manager){
-        $topic->setReport($topic->getReport() + 1);
+    public function like (Topics $topic, ObjectManager $manager, TopicLikeRepository $likeRepository) : Response{
+        $user = $this->getUser();
 
-        $manager->persist($topic);
+        if (!$user) return $this->json([
+            'code' => 403,
+            'message' => "Unauthorized"
+        ], 403);
+
+        if ($topic->isLikeByUser($user)){
+            $like = $likeRepository->findOneBy([
+                'topic' => $topic,
+                'user' => $user
+            ]);
+            $manager->remove($like);
+            $manager->flush();
+
+            return $this->json([
+                'code' => 200,
+                'message' => 'Like deleted',
+                'likes' => $likeRepository->count(['topic' => $topic])
+            ], 200);
+        }
+
+        $like = new TopicLike();
+        $like
+            ->setTopic($topic)
+            ->setUser($user)
+            ->setCreatedAt(new DateTime());
+
+        $manager->persist($like);
         $manager->flush();
-
-        return $this->redirectToRoute('home');
+        return $this->json([
+            'code' => 200,
+            'message' => 'Like Added',
+            'likes' => $likeRepository->count(['topic' => $topic])
+        ], 200);
     }
+
+
     /**
-     * @Route ("/topic-comment-report/{id}", name="topicComment_report")
+     * Allow to report topics
+     *
+     * @Route ("/topic/{id}/report", name="report_topic")
+     *
+     * @param Topics $topic
+     * @param ObjectManager $manager
+     * @param TopicReportRepository $reportRepository
+     * @return Response
+     * @throws \Exception
      */
-    public function articleCommentReport(TopicsComments $topicComment, ObjectManager $manager){
-        $topicComment->setReport($topicComment->getReport() + 1);
+    public function reportTopic(Topics $topic, ObjectManager $manager, TopicReportRepository $reportRepository){
+        $user = $this->getUser();
 
-        $manager->persist($topicComment);
+        if (!$user) return $this->json([
+            'code' => 403,
+            'message' => "Unauthorized"
+        ], 403);
+
+        if ($topic->isReportedByUser($user)){
+            return $this->json([
+                'code' => 403,
+                'message' => 'Already reported',
+            ], 403);
+        }
+
+        $report = new TopicReport();
+        $report
+            ->setUser($user)
+            ->setTopic($topic)
+            ->setCreatedAt( new DateTime());
+
+        $manager->persist($report);
         $manager->flush();
-
-        return $this->redirectToRoute('home');
+        return $this->json([
+            'code' => 200,
+            'message' => 'Reported',
+            'report' => $reportRepository->count(['topic' => $topic])
+        ], 200);
     }
-
 }
