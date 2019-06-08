@@ -12,32 +12,46 @@ use App\Repository\ArticlesCategoriesRepository;
 use App\Repository\ArticlesRepository;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/article", name="article")
+     * @Route("/article/page-{page}", name="article")
+     *
+     * @param ArticlesRepository $articlesRepository
+     * @param $page
+     * @return Response
+     * @throws NonUniqueResultException
      */
-    public function articleSummary(ArticlesRepository $repo, ArticlesCategoriesRepository $cat)
+    public function articleSummary(ArticlesRepository $articlesRepository, ArticlesCategoriesRepository $cat, $page)
     {
-        $articles = $repo->findAll();
         $categories = $cat->findAll();
 
-        return $this->render('article/articlesSummary.html.twig', [
-            'controller_name' => 'ArticleController',
+        $nb_articles 		= $articlesRepository->FindAllAsInt();
+        $nb_articles_page 	= 12;
+        $nb_pages 			=  ceil($nb_articles / $nb_articles_page);
+        $offset 			= ($page-1) * $nb_articles_page;
+
+        $articles	= $articlesRepository->FindByPage($nb_articles_page ,$offset);
+
+        if(!$articles ){
+            throw $this->createNotFoundException('La page demandée n\'existe pas');
+        }
+
+        return $this->render('article/articlesSummary.html.twig', array(
             'articles' => $articles,
+            'page'		=> $page,
+            'nb_pages'	=> $nb_pages,
             'categories' => $categories,
-        ]);
+        ));
     }
-
-
-
-
 
     /**
      * @Route("/article/{id}", name="articleRead")
@@ -105,6 +119,7 @@ class ArticleController extends AbstractController
             'editMode' => $article->getId() !== null
         ]);
     }
+
     /**
      * @Route ("/article-comment-report/{id}", name="articleComment_report")
      */
