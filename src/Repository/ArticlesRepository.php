@@ -4,8 +4,13 @@ namespace App\Repository;
 
 use App\Entity\Articles;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
+use InvalidArgumentException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Articles|null find($id, $lockMode = null, $lockVersion = null)
@@ -29,23 +34,65 @@ class ArticlesRepository extends ServiceEntityRepository
             ->getQuery()
             ;
     }
-     /**
-     * @return Articles[] Returns an array of Articles objects
-     */
 
-    public function pagination($value)
+    /**
+     * @return int
+     * @throws NonUniqueResultException
+     */
+    public function FindAllAsInt(){
+        $qb=$this->createQueryBuilder('a')
+            ->select('COUNT(a)');
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function FindByPage($nb_articles_page,$offset){
+
+        $q = $this->createQueryBuilder('a')
+            ->select('a')
+            ->setFirstResult($offset)
+            ->setMaxResults($nb_articles_page)
+            ->orderBy('a.createdAt','desc')
+        ;
+
+        return $q->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param $value
+     * @param $nb
+     * @return mixed
+     */
+    public function FindAllArticles($value, $nb)
     {
         return $this->createQueryBuilder('a')
-
-
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
+            ->innerJoin('a.author', 'u')
+            ->addSelect('u')
+            ->andWhere('a.author = :id')
+            ->setParameter('id', $value)
             ->orderBy('a.id', 'ASC')
-            ->setMaxResults(5)
+            ->setMaxResults($nb)
             ->getQuery()
             ->getResult()
         ;
     }
+//     /**
+//     * @return Articles[] Returns an array of Articles objects
+//     */
+//
+//    public function pagination($value)
+//    {
+//        return $this->createQueryBuilder('a')
+//
+//
+//            ->andWhere('a.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->orderBy('a.id', 'ASC')
+//            ->setMaxResults(5)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
 
     // /**
     //  * @return Articles[] Returns an array of Articles objects

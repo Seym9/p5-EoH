@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,6 +20,30 @@ class UsersRepository extends ServiceEntityRepository
         parent::__construct($registry, Users::class);
     }
 
+
+
+    /**
+     * @return int
+     * @throws NonUniqueResultException
+     */
+    public function FindAllAsInt(){
+        $qb=$this->createQueryBuilder('a')
+            ->select('COUNT(a)');
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+//, $category = null
+//->where('a.categoryId')
+    public function FindByPage($nb_users_page,$offset){
+
+        $q = $this->createQueryBuilder('a')
+            ->select('a')
+            ->setFirstResult($offset)
+            ->setMaxResults($nb_users_page)
+            ->orderBy('a.createdAt','desc')
+        ;
+
+        return $q->getQuery()->getResult();
+    }
 
     /**
      * @param $value

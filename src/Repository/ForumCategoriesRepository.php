@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ForumCategories;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,6 +20,27 @@ class ForumCategoriesRepository extends ServiceEntityRepository
         parent::__construct($registry, ForumCategories::class);
     }
 
+    /**
+     * @return int
+     * @throws NonUniqueResultException
+     */
+    public function FindAllAsInt(){
+        $qb=$this->createQueryBuilder('a')
+            ->select('COUNT(a)');
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function FindByPage($nb_topics_page,$offset){
+
+        $q = $this->createQueryBuilder('a')
+            ->select('a')
+            ->setFirstResult($offset)
+            ->setMaxResults($nb_topics_page)
+            ->orderBy('a.createdAt','desc')
+        ;
+
+        return $q->getQuery()->getResult();
+    }
     // /**
     //  * @return ForumCategories[] Returns an array of ForumCategories objects
     //  */
