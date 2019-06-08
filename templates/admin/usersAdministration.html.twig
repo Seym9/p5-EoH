@@ -35,12 +35,12 @@
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                    <button type="button" class="btn btn-primary">Primary</button>
+                                    <button type="button" class="btn btn-primary">Options</button>
                                     <div class="btn-group" role="group">
                                         <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                            <a class="dropdown-item" href="#">Dropdown link</a>
-                                            <a class="dropdown-item" href="#">Dropdown link</a>
+                                            <a class="dropdown-item" href="{{ path('user_promotion', {'id': user.id}) }}">Admin</a>
+                                            <a class="dropdown-item js-delete" href="{{ path('user_delete', {'id': user.id}) }}">Delete</a>
                                         </div>
                                     </div>
                                 </div>
@@ -52,4 +52,33 @@
             </div>
         </div>
     </div>
+    <div>
+        <ul class="pagination pagination-sm">
+            {%  if page > 1 %}
+                <li class="page-item disabled">
+                    <a class="page-link" {{path('administration_users',{'page': page-1}) }}>&laquo;</a>
+                </li>
+
+                <li class="page-item">
+                    <a class="page-link" href="{{path('administration_users',{'page': page-1}) }}" >{{ page - 1}}</a>
+                </li>
+            {% endif %}
+            <li class="page-item active">
+                <a class="page-link" href="{{path('administration_users',{'page': page}) }}" >{{ page}}</a>
+            </li>
+            {%  if page < nb_pages %}
+                <li class="page-item">
+                    <a class="page-link" href="{{path('administration_users',{'page': page+1}) }}" >{{ page + 1}}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="{{path('administration_users',{'page':page+1 }) }}" >&raquo;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('js/delete.js') }}"></script>
 {% endblock %}

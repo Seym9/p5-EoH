@@ -22,7 +22,7 @@ class TopicCommentReport
     private $comment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="topicCommentReports", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="topicCommentReports")
      */
     private $user;
 

@@ -22,7 +22,7 @@ class TopicLike
     private $topic;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="topicLikes", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="topicLikes")
      */
     private $user;
 

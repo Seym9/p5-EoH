@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+    {% if app.session.flashBag.has('success') %}
+        {% for msg in app.session.flashBag.get('success') %} {{ msg }} <i class="ti-close" id="flash-message-close" style="float:right;cursor:pointer;"></i> {% endfor %}
+    {% endif %}
     <h1>Article Admin</h1>
     <div class="container-fluid">
         <div class="row">
@@ -26,7 +29,7 @@
                     </thead>
                     {% for article in articles %}
                     <tbody>
-                    <tr>
+                    <tr class="article-row">
                         <td>
                             {{ article.name }}
                         </td>
@@ -46,7 +49,7 @@
                                     <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                         <a class="dropdown-item" href="{{ path('articleRead', {'id': article.id}) }}">Voir l'article</a>
-                                        <a class="dropdown-item" href="{{ path('article_delete', {'id': article.id}) }}">Supprimer</a>
+                                        <a class="dropdown-item js-delete" href="{{ path('article_delete', {'id': article.id}) }}">Supprimer</a>
                                     </div>
                                 </div>
                             </div>
@@ -58,4 +61,34 @@
             </div>
         </div>
     </div>
+
+    <div>
+        <ul class="pagination pagination-sm">
+            {%  if page > 1 %}
+            <li class="page-item disabled">
+                <a class="page-link" {{path('administration_article',{'page': page-1}) }}>&laquo;</a>
+            </li>
+
+            <li class="page-item">
+                <a class="page-link" href="{{path('administration_article',{'page': page-1}) }}" >{{ page - 1}}</a>
+            </li>
+            {% endif %}
+            <li class="page-item active">
+                <a class="page-link" href="{{path('administration_article',{'page': page}) }}" >{{ page}}</a>
+            </li>
+            {%  if page < nb_pages %}
+            <li class="page-item">
+                <a class="page-link" href="{{path('administration_article',{'page': page+1}) }}" >{{ page + 1}}</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="{{path('administration_article',{'page':page+1 }) }}" >&raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('js/delete.js') }}"></script>
 {% endblock %}
