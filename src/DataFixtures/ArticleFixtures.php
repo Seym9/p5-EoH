@@ -45,7 +45,7 @@ class ArticleFixtures extends Fixture
 
             $manager->persist($category);
 
-            for ($j = 1; $j <= mt_rand(4, 6); $j++){
+            for ($j = 1; $j <= mt_rand(15, 20); $j++){
                 $article = new Articles();
 
                 $content = '<p>' . join($faker->paragraphs(5), '</p><p>') . '</p>';
