@@ -21,18 +21,6 @@ class HomeController extends AbstractController
     {
         $articles = $repo->findOneBy(array(), array('id' => 'DESC'));
         $topics = $topic->findByThree();
-//        $topics = $topic->findAll();
-//
-//        foreach ($topics as $topic){
-//            $topicsComment[$topic->getId()] = $commentsRepository->findByExampleField($topic->getId())[1];
-//        }
-//        $keys =array_keys($topicsComment);
-//        array_multisort(
-//            array_column($topicsComment, 'order'), SORT_DESC, SORT_NUMERIC, $topicsComment, $keys
-//        );
-//        $array = array_combine($keys, $topicsComment);
-//        dump($array);
-//        die();
 
         return $this->render('home/home.html.twig', [
             'topics' => $topics,
