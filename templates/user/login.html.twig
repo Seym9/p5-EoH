@@ -12,8 +12,16 @@
                 <input placeholder="Mot de passe" required name="_password" type="password">
             </label>
         </div>
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
         <div class="form-group">
             <button type="submit" class="btn btn-success">Con</button>
         </div>
     </form>
+    <div>
+        <a  href="{{ path('app_forgotten_password') }}">Mot de passe oublier ?</a>
+    </div>
 {% endblock %}

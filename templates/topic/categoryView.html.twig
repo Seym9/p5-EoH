@@ -3,7 +3,7 @@
     <h1>Nom categorie : {{ category.name }}</h1>
     {% for topic in category.topics %}
         <div class="card">
-            <a href="#" class="btn btn-link js-like">
+            <a href="{{ path('topic_like' , {'id': topic.id}) }}" class="btn btn-link js-like">
                 {% if app.user and topic.likeByUser(app.user) %}
                     <i class="fas fa-thumbs-up"></i>
                 {% else %}
@@ -12,6 +12,12 @@
                 <span class="js-likes">{{ topic.topicLikes.count }}</span>
                 <span class="js-label">J'aime</span>
             </a>
+
+            <a href="{{ path('report_topic', {'id': topic.id})}}" class="btn btn-link js-report">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Signaler</span>
+            </a>
+
             <h3>{{ topic.name }}</h3>
             <p>Auteur : {{ topic.author.username }}</p>
             <p>Nombre de commentaires : {{ topic.topicscomments | length}}</p>
@@ -19,4 +25,11 @@
             <a href="{{ path('topic_view', {'id': topic.id}) }}" class="btn btn-primary">Lire</a>
         </div>
     {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('js/like.js') }}"></script>
+    <script src="{{ asset('js/report.js') }}"></script>
 {% endblock %}

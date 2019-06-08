@@ -52,4 +52,28 @@
             </div>
         </div>
     </div>
+    <div>
+        <ul class="pagination pagination-sm">
+            {%  if page > 1 %}
+                <li class="page-item disabled">
+                    <a class="page-link" {{path('article',{'page': page-1}) }}>&laquo;</a>
+                </li>
+
+                <li class="page-item">
+                    <a class="page-link" href="{{path('article',{'page': page-1}) }}" >{{ page - 1}}</a>
+                </li>
+            {% endif %}
+            <li class="page-item active">
+                <a class="page-link" href="{{path('article',{'page': page}) }}" >{{ page}}</a>
+            </li>
+            {%  if page < nb_pages %}
+                <li class="page-item">
+                    <a class="page-link" href="{{path('article',{'page': page+1}) }}" >{{ page + 1}}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="{{path('article',{'page':page+1 }) }}" >&raquo;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
 {% endblock %}

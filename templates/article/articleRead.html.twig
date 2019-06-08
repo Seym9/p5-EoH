@@ -16,9 +16,17 @@
     {% endif %}
     {% for comment in article.ArticlesComments %}
         <div class="card">
-            <p>{{ comment.author.username}}</p><a class="btn btn-outline-danger" href="{{ path('articleComment_report', {'id': comment.id}) }}">Signaler</a>
+            <a href="{{ path('report_article_comment', {'id': comment.id}) }}" class="btn btn-link js-report">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Signaler</span>
+            </a>
+            <p>{{ comment.author.username}}</p>
             <p>{{ comment.content | raw }}</p>
         </div>
 
     {% endfor %}
+{% endblock %}
+{% block javascripts %}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('js/report.js') }}"></script>
 {% endblock %}

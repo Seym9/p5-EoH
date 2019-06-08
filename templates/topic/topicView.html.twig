@@ -6,9 +6,13 @@
         <span class="js-likes">10</span>
         <span class="js-label">J'aime</span>
     </a>
+    <a href="{{ path('report_topic', {'id': topic.id}) }}" class="btn btn-link js-report">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>Signaler</span>
+    </a>
    <h2>{{ topic.name }}</h2>
     <p>{{ topic.content | raw }}</p>
-    <a class="btn btn-outline-danger" href="{{ path('topic_report', {'id': topic.id}) }}">Signaler</a>
+    <a class="btn btn-outline-danger" href="{{ path('report_topic', {'id': topic.id}) }}">Signaler</a>
     {% if app.user %}
         {{ form_start(commentForm) }}
         <p>{{ app.user.username }}</p>
@@ -22,9 +26,17 @@
     {% for comment in topic.topicsComments %}
         <div class="card">
             <p>{{ comment.author.username}}</p>
-            <a class="btn btn-outline-danger" href="{{ path('topicComment_report', {'id': comment.id}) }}">Signaler</a>
+            <a href="{{ path('report_topic_comment', {'id': comment.id}) }}" class="btn btn-link js-report">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Signaler</span>
+            </a>
             <p>{{ comment.content | raw }}</p>
         </div>
 
     {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('js/report.js') }}"></script>
 {% endblock %}

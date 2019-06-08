@@ -3,9 +3,6 @@
 {% block title %}Hello Discord{% endblock %}
 
 {% block body %}
-    {% if app.session.flashBag.has('success') %}
-        {% for msg in app.session.flashBag.get('success') %} {{ msg }} <i class="ti-close" id="flash-message-close" style="float:right;cursor:pointer;"></i> {% endfor %}
-    {% endif %}
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
