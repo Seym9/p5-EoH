@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageUserRepository")
@@ -21,6 +22,8 @@ class ImageUser
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
+
     private $file;
 
     public function getId(): ?int

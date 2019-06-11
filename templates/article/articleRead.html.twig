@@ -1,32 +1,58 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>{{ article.name }}</h1>
-    <p>{{ article.content | raw }}</p>
-
-    <h2>{{ article.ArticlesComments | length }} Commentaire :</h2>
-    {% if app.user %}
-    {{ form_start(commentForm) }}
-    <p>{{ app.user.username }}</p>
-    {{ form_row(commentForm.content, {'label':'Message', 'attr': {'placeholder': "Message"}}) }}
-    <button type="submit" class="btn btn-success">Envoyer</button>
-    {{ form_end(commentForm) }}
-    {% else %}
-    Connectez vous pour pouvoir mettre un com
-    {% endif %}
-    {% for comment in article.ArticlesComments %}
-        <div class="card">
-            <a href="{{ path('report_article_comment', {'id': comment.id}) }}" class="btn btn-link js-report">
-                <i class="fas fa-exclamation-triangle"></i>
-                <span>Signaler</span>
-            </a>
-            <p>{{ comment.author.username}}</p>
-            <p>{{ comment.content | raw }}</p>
+    <div class="mt-5">
+        <h1 class="text-center">{{ article.name }}</h1>
+        <div class="text-center">
+            {% if article.image.name is defined %}
+                <img class="card-img-left" src="{{ asset('img/uploaded-img/article-img/')~article.image.name }}" alt="" style="max-width: 200px;max-height: 100%;min-width: 200px;min-height: 100%;">
+            {% else %}
+                <p></p>
+            {% endif %}
         </div>
+        <p>{{ article.content | raw }}</p>
+    </div>
+        <h2>{{ article.ArticlesComments | length }} Commentaire :</h2>
+        {% if app.user %}
+        {{ form_start(commentForm) }}
+        <p>{{ app.user.username }}</p>
+        {{ form_row(commentForm.content, {'label':'Message', 'attr': {'placeholder': "Message"}}) }}
+        <button type="submit" class="btn btn-success">Envoyer</button>
+        {{ form_end(commentForm) }}
+        {% else %}
+        Connectez vous pour pouvoir mettre un com
+        {% endif %}
 
+
+        {% for comment in article.ArticlesComments %}
+
+            <div class="media card flex-row p-2 mb-2">
+                <div>
+                    {% if article.image.name is defined %}
+                        <img class="card-img-left" src="{{ asset('img/uploaded-img/user-img/')~comment.author.image.name }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
+                    {% else %}
+                        <p></p>
+                    {% endif %}
+                    <p class="mr-2 pt-2">{{ comment.author.username}}</p>
+                    <p>Message : <span>{{ comment.author.articlesComments | length }}</span></p>
+                </div>
+                <div class="media-body pr-5 pl-2 ml-4" style="border-left: 1px solid red;">
+                    <div class="d-flex w-100 justify-content-between">
+                        <span>Le : {{ comment.createdAt | date ("d-m-Y") }}</span>
+                        <a href="{{ path('report_article_comment', {'id': comment.id}) }}" class="btn btn-link js-report">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Signaler</span>
+                        </a>
+                    </div>
+                    <div class="card p-2">
+                    <p>{{ comment.content | raw }}</p>
+                    </div>
+                </div>
+            </div>
     {% endfor %}
 {% endblock %}
 {% block javascripts %}
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="{{ asset('js/report.js') }}"></script>
 {% endblock %}
+

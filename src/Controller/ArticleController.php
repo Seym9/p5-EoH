@@ -35,7 +35,7 @@ class ArticleController extends AbstractController
         $categories = $cat->findAll();
 
         $nb_articles 		= $articlesRepository->FindAllAsInt();
-        $nb_articles_page 	= 12;
+        $nb_articles_page 	= 6;
         $nb_pages 			=  ceil($nb_articles / $nb_articles_page);
         $offset 			= ($page-1) * $nb_articles_page;
 

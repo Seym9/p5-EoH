@@ -14,7 +14,6 @@
                     </div>
                     <div class="col-md-2">
                         <div class="dropdown">
-
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
                                 Choisir une catégorie
                             </button>
@@ -28,35 +27,39 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-md-12">
                     {% for article in articles %}
-                        <div class="col-md-4">
-                            <div class="jumbotron">
-                                {% if article.image.name is defined %}
-                                <img src="{{ asset('img/uploaded-img/article-img/')~article.image.name }}" alt="" style="max-width: 150px;max-height: 150px;">
-                                    {% else %}
-                                    <p>Pas d'image</p>
-                                {% endif %}
-                                <h3>
-                                    {{ article.name }}
-                                </h3>
-                                <p>
-                                    {{ article.content | striptags | slice(0, 100) }}
-                                </p>
-                                <p>
-                                    <a class="btn btn-primary btn-large" href="{{ path('articleRead', {'id': article.id}) }}">Learn more</a>
-                                </p>
+                    <div class="media card flex-row p-2 mb-2">
+                        {% if article.image.name is defined %}
+                            <img class="card-img-left" src="{{ asset('img/uploaded-img/article-img/')~article.image.name }}" alt="" style="max-width: 200px;max-height: 100%;min-width: 200px;min-height: 100%;">
+                        {% else %}
+                            <p></p>
+                        {% endif %}
+                        <div class="media-body pr-5">
+                            <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mt-0 p-2">
+                                Titre : {{ article.name }}
+                            </h5>
+                                <span>Créer le : {{ article.createdAt | date ("d-m-Y") }}</span>
                             </div>
+                            <p class="p-2">
+                                Preview de l'article : {{ article.content | striptags | slice(0, 100) }}
+                            </p>
+                            <p>
+                                <a class="btn btn-primary btn-large mt-2 ml-2" href="{{ path('articleRead', {'id': article.id}) }}">Learn more</a>
+                            </p>
                         </div>
+                    </div>
                     {% endfor %}
-                </div>
+                    </div>
             </div>
         </div>
     </div>
     <div>
         <ul class="pagination pagination-sm">
             {%  if page > 1 %}
-                <li class="page-item disabled">
-                    <a class="page-link" {{path('article',{'page': page-1}) }}>&laquo;</a>
+                <li class="page-item">
+                    <a class="page-link" href="{{path('article',{'page': page-1}) }}">&laquo;</a>
                 </li>
 
                 <li class="page-item">
@@ -75,5 +78,6 @@
                 </li>
             {% endif %}
         </ul>
+    </div>
     </div>
 {% endblock %}
