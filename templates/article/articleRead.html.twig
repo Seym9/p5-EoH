@@ -1,28 +1,32 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/article.css') }}">
+{% endblock %}
 {% block body %}
-    <div class="mt-5">
+    <div class="mt-5" id="main-article-page">
         <h1 class="text-center">{{ article.name }}</h1>
         <div class="text-center">
             {% if article.image.name is defined %}
-                <img class="card-img-left" src="{{ asset('img/uploaded-img/article-img/')~article.image.name }}" alt="" style="max-width: 200px;max-height: 100%;min-width: 200px;min-height: 100%;">
+                <img class="card-img-left" src="{{ asset('img/uploaded-img/article-img/')~article.image.name }}" alt="" id="image-article-page">
             {% else %}
                 <p></p>
             {% endif %}
         </div>
         <p>{{ article.content | raw }}</p>
     </div>
+    <div id="editor">
         <h2>{{ article.ArticlesComments | length }} Commentaire :</h2>
         {% if app.user %}
         {{ form_start(commentForm) }}
         <p>{{ app.user.username }}</p>
-        {{ form_row(commentForm.content, {'label':'Message', 'attr': {'placeholder': "Message"}}) }}
+        {{ form_row(commentForm.content, {'label':'Message', 'attr': {'placeholder': "Message", 'class': 'editor'}}) }}
         <button type="submit" class="btn btn-success">Envoyer</button>
         {{ form_end(commentForm) }}
         {% else %}
         Connectez vous pour pouvoir mettre un com
         {% endif %}
-
+    </div>
 
         {% for comment in article.ArticlesComments %}
 
@@ -36,7 +40,7 @@
                     <p class="mr-2 pt-2">{{ comment.author.username}}</p>
                     <p>Message : <span>{{ comment.author.articlesComments | length }}</span></p>
                 </div>
-                <div class="media-body pr-5 pl-2 ml-4" style="border-left: 1px solid red;">
+                <div class="media-body pr-5 pl-2 ml-4" id="profile-article-comment">
                     <div class="d-flex w-100 justify-content-between">
                         <span>Le : {{ comment.createdAt | date ("d-m-Y") }}</span>
                         <a href="{{ path('report_article_comment', {'id': comment.id}) }}" class="btn btn-link js-report">
@@ -52,6 +56,8 @@
     {% endfor %}
 {% endblock %}
 {% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/editor.js') }}"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="{{ asset('js/report.js') }}"></script>
 {% endblock %}

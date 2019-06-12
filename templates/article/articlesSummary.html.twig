@@ -1,83 +1,54 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/articleSummary.css') }}">
+{% endblock %}
 {% block title %}Hello ArticleController!{% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="text-center">
-                    Tous les articles
-                </h1>
-                <div class="row">
-                    <div class="col-md-10">
-                    </div>
-                    <div class="col-md-2">
-                        <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
-                                Choisir une catégorie
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Toutes les catégories</a>
-                                {% for categorie in categories %}
-                                    <a class="dropdown-item" href="#">{{ categorie.name }}</a>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
+<div class="row" id="main-article-sum">
+    <div class="col-md-12">
+        {% for article in articles %}
+        <div class="media card flex-row p-2 mb-2">
+            {% if article.image.name is defined %}
+            <img class="card-img-left" src="{{ asset('img/uploaded-img/article-img/')~article.image.name }}" alt="" style="max-width: 200px;max-height: 100%;min-width: 200px;min-height: 100%;">
+            {% else %}
+            {% endif %}
+            <div class="media-body pr-5">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mt-0 p-2">
+                        Titre : {{ article.name }}
+                    </h5>
+                    <span>Créer le : {{ article.createdAt | date ("d-m-Y") }}</span>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                    {% for article in articles %}
-                    <div class="media card flex-row p-2 mb-2">
-                        {% if article.image.name is defined %}
-                            <img class="card-img-left" src="{{ asset('img/uploaded-img/article-img/')~article.image.name }}" alt="" style="max-width: 200px;max-height: 100%;min-width: 200px;min-height: 100%;">
-                        {% else %}
-                            <p></p>
-                        {% endif %}
-                        <div class="media-body pr-5">
-                            <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mt-0 p-2">
-                                Titre : {{ article.name }}
-                            </h5>
-                                <span>Créer le : {{ article.createdAt | date ("d-m-Y") }}</span>
-                            </div>
-                            <p class="p-2">
-                                Preview de l'article : {{ article.content | striptags | slice(0, 100) }}
-                            </p>
-                            <p>
-                                <a class="btn btn-primary btn-large mt-2 ml-2" href="{{ path('articleRead', {'id': article.id}) }}">Learn more</a>
-                            </p>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    </div>
+                    <p class="p-2">Preview de l'article : {{ article.content | striptags | slice(0, 100) }}</p>
+                    <p><a class="btn btn-primary btn-large mt-2 ml-2" href="{{ path('articleRead', {'id': article.id}) }}">Learn more</a></p>
             </div>
         </div>
+        {% endfor %}
     </div>
-    <div>
+    <div class="">
         <ul class="pagination pagination-sm">
             {%  if page > 1 %}
-                <li class="page-item">
-                    <a class="page-link" href="{{path('article',{'page': page-1}) }}">&laquo;</a>
-                </li>
-
-                <li class="page-item">
-                    <a class="page-link" href="{{path('article',{'page': page-1}) }}" >{{ page - 1}}</a>
-                </li>
+            <li class="page-item">
+                <a class="page-link" href="{{path('article',{'page': page-1}) }}">&laquo;</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="{{path('article',{'page': page-1}) }}" >{{ page - 1}}</a>
+            </li>
             {% endif %}
             <li class="page-item active">
                 <a class="page-link" href="{{path('article',{'page': page}) }}" >{{ page}}</a>
             </li>
             {%  if page < nb_pages %}
-                <li class="page-item">
-                    <a class="page-link" href="{{path('article',{'page': page+1}) }}" >{{ page + 1}}</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="{{path('article',{'page':page+1 }) }}" >&raquo;</a>
-                </li>
+            <li class="page-item">
+                <a class="page-link" href="{{path('article',{'page': page+1}) }}" >{{ page + 1}}</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="{{path('article',{'page':page+1 }) }}" >&raquo;</a>
+            </li>
             {% endif %}
         </ul>
     </div>
-    </div>
+</div>
 {% endblock %}

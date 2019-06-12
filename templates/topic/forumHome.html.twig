@@ -1,21 +1,63 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/forumHome.css') }}">
+{% endblock %}
 {% block body %}
-    <h1>Categories</h1>
-    {% for category in categories %}
-        <ul>
-            <li>
-                <a href="{{ path('forum_category_view', {'id': category.id}) }}">{{ category.name }} contient {{ category.topics | length }} thread</a>
-            </li>
-        </ul>
-        <p></p>
-    {% endfor %}
-
-    <div class="col-md-5">
-        <h2>Dernièrs sujets</h2>
-        <div class="card">
-            {% for topic in topics %}
-                <p>{{ topic.name }} {{ topic.topicsComments | length }}</p>
-            {% endfor %}
+    <div id="main-home-forum" class="card">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center">
+                    Bienvenue sur le forum
+                    {% if app.user %}
+                    {{ app.user.username }}
+                    {% else %}
+                    {% endif %}
+                </h3>
+                <div class="row">
+                    {% for category in categories %}
+                    <div class="col-md-4">
+                        <div class="card" id="card-category-forum">
+                            <h5 class="card-header">
+                                <a href="{{ path('forum_category_view', {'id': category.id}) }}">{{ category.name }}</a>
+                            </h5>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    {{ category.topics | length }}
+                                        {% if category.topics | length > 1 %}
+                                            sujets
+                                        {% else %}
+                                            sujet
+                                        {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row pt-5">
+            <div class="col-md-8">
+                <blockquote class="blockquote text-right">
+                    <p class="mb-0">Si tu veux aller vite, marche seul mais si tu veux aller loin, marchons ensemble.</p>
+                    <footer class="blockquote-footer"><cite title="Source Title">Proverbe Africain</cite></footer>
+                </blockquote>
+                <img alt="Bootstrap Image Preview" src="{{ asset('img/forum/forum-home.jpg') }}" class="col-md-12 img-responsive" />
+            </div>
+            <div class="col-md-4">
+                <div class="card p-2">
+                    <h3>Pourquoi un forum me direz-vous ? </h3>
+                    <p>Un forum est pour moi un des lieus sur internet ou il peut se passer de grandes choses !</p>
+                    <p>De nos jours , faire attention à la planète est devenu une chose plus importante que jamais !</p>
+                    <p>Et je crois que c'est par l'action collective que cela peut changer même si ça ne sera pas facile !</p>
+                    <p>Partagez ici vos conseils, vos opinions, vos craintes créer une initiative ou rejoignez-en une !</p>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

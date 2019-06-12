@@ -34,7 +34,10 @@
             <h2>Dernière news</h2>
             <div class="card">
                 <div class="card-header"><h3>{{ articles.name }}</h3></div>
+                {% if article.image.name is defined %}
                 <img src="{{ asset('img/uploaded-img/article-img/')~articles.image.name }}" alt="">
+                {% else %}
+                {% endif %}
                 <div class="card-body">
                     <p class="card-text">{{ articles.content | striptags | slice(0, 550) }} . . .</p>
                     <a href="{{ path('articleRead', {'id': articles.id}) }}" class="btn btn-primary">Lire la suite</a>

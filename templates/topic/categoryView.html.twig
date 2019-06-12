@@ -1,30 +1,28 @@
 {% extends "base.html.twig" %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/forumSummary.css') }}">
+{% endblock %}
 {% block body %}
+    <div id="forum-category-view">
+
+
     <h1>Nom categorie : {{ category.name }}</h1>
     {% for topic in category.topics %}
-        <div class="card">
-            <a href="{{ path('topic_like' , {'id': topic.id}) }}" class="btn btn-link js-like">
-                {% if app.user and topic.likeByUser(app.user) %}
-                    <i class="fas fa-thumbs-up"></i>
-                {% else %}
-                    <i class="far fa-thumbs-up"></i>
-                {% endif %}
-                <span class="js-likes">{{ topic.topicLikes.count }}</span>
-                <span class="js-label">J'aime</span>
-            </a>
-
-            <a href="{{ path('report_topic', {'id': topic.id})}}" class="btn btn-link js-report">
-                <i class="fas fa-exclamation-triangle"></i>
-                <span>Signaler</span>
-            </a>
-
+        <div class="card mb-3" id="forum-topic">
             <h3>{{ topic.name }}</h3>
-            <p>Auteur : {{ topic.author.username }}</p>
-            <p>Nombre de commentaires : {{ topic.topicscomments | length}}</p>
-            <p>Créer le : {{ topic.createdAt|date('d-m-Y') }}</p>
+            <div class="d-flex justify-content-between">
+            <p>Par {{ topic.author.username }} le {{ topic.createdAt|date('d-m-Y') }} </p>
+                {% if topic.topicscomments | length > 1 %}
+                <p>Reponses : {{ topic.topicscomments | length}}</p>
+                {% else %}
+
+                {% endif %}
+            </div>
             <a href="{{ path('topic_view', {'id': topic.id}) }}" class="btn btn-primary">Lire</a>
         </div>
     {% endfor %}
+    </div>
 {% endblock %}
 
 {% block javascripts %}

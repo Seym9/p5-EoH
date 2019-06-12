@@ -1,6 +1,24 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+
+
+    <a href="{{ path('topic_like' , {'id': topic.id}) }}" class="btn btn-link js-like">
+        {% if app.user and topic.likeByUser(app.user) %}
+            <i class="fas fa-thumbs-up"></i>
+        {% else %}
+            <i class="far fa-thumbs-up"></i>
+        {% endif %}
+        <span class="js-likes">{{ topic.topicLikes.count }}</span>
+        <span class="js-label">J'aime</span>
+    </a>
+
+    <a href="{{ path('report_topic', {'id': topic.id})}}" class="btn btn-link js-report">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>Signaler</span>
+    </a>
+
+
     <a href="#" class="btn btn-link">
         <i class="far fa-thumbs-up"></i>
         <span class="js-likes">10</span>
@@ -37,6 +55,8 @@
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('js/like.js') }}"></script>
     <script src="{{ asset('js/report.js') }}"></script>
 {% endblock %}
