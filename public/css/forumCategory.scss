@@ -1,0 +1,23 @@
+@import "variable";
+body{
+  @include bodyCover('../img/forum/steven-kamenar-11107-unsplash.jpg');
+}
+
+#forum-category-view{
+  margin-top: 10%;
+  padding: 10px;
+  border:10px double #000000;
+  border-radius: 3px ;
+  h1{
+    padding-bottom: 5%;
+    padding-top: 5%;
+    text-align: center;
+  }
+}
+#card-category-forum{
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  margin: 0 auto;
+  padding-top:10px;
+  padding-left: 5px;
+}

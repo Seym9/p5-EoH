@@ -64,10 +64,17 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
+            if($form->getViewData()->getContent() === null){
+
+                return $this->render('article/articleRead.html.twig', [
+                    'controller_name' => 'ArticleController',
+                    'article' => $article,
+                    'commentForm' => $form->createView(),
+                ]);
+            }
             $comment->setCreatedAt(new \DateTime())
                     ->setArticle($article)
                     ->setAuthor($user);
-
             $manager->persist($comment);
             $manager->flush();
         }
