@@ -72,13 +72,13 @@ class ArticleFixtures extends Fixture
                 }
             }
         }
-        for ($i = 1; $i <=3; $i++){
+        for ($i = 1; $i <= mt_rand(6, 8); $i++){
             $category = new ForumCategories();
             $category->setName($faker->sentence());
 
             $manager->persist($category);
 
-            for ($j = 1; $j <= mt_rand(4, 6); $j++){
+            for ($j = 1; $j <= mt_rand(10, 15); $j++){
                 $article = new Topics();
 
                 $content = '<p>' . join($faker->paragraphs(5), '</p><p>') . '</p>';

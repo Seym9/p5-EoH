@@ -23,7 +23,13 @@ class ImageUser
      */
     private $name;
 
-
+    /**
+     * @Assert\File(
+     *     maxSize = "512k",
+     *     mimeTypes = {"image/png", "image/jpg"},
+     *     mimeTypesMessage = "Seul les formats ..."
+     * )
+     */
     private $file;
 
     public function getId(): ?int
@@ -47,7 +53,7 @@ class ImageUser
         return $this->file;
     }
 
-    public function setFile(UploadedFile $file): void {
+    public function setFile(UploadedFile $file = null): void {
         $this->file = $file;
     }
 }

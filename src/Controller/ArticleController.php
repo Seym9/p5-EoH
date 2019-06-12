@@ -57,7 +57,7 @@ class ArticleController extends AbstractController
      * @Route("/article/{id}", name="articleRead")
      */
     public function articleRead (Articles $article, Request $request, ObjectManager $manager, Security $security){
-        $user = $security->getUser();
+        $user = $this->getUser();
 
         $comment = new ArticlesComments();
         $form = $this->createForm(ArticleCommentType::class, $comment);
@@ -70,7 +70,6 @@ class ArticleController extends AbstractController
 
             $manager->persist($comment);
             $manager->flush();
-
         }
 
         return $this->render('article/articleRead.html.twig', [

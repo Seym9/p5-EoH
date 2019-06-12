@@ -21,7 +21,7 @@ class ArticleCreationType extends AbstractType
                 'class' => ArticlesCategories::class,
                 'choice_label' => 'name'
             ])
-            ->add('image', ImageArticleType::class, ['label'=> false])
+            ->add('image', ImageArticleType::class, ['label'=> false, 'required' => false])
         ;
     }
 
