@@ -1,0 +1,17 @@
+@import "variable";
+body {
+  @include bodyCover("../img/forum/forum-background.jpg")
+}
+#main-home-forum{
+  margin-top: 15%;
+  padding: 10px;
+  border:10px double #000000;
+  border-radius: 3px ;
+  h3{
+    padding-bottom: 5%;
+    padding-top: 5%;
+  }
+}
+#card-category-forum{
+  margin-bottom:2px ;
+}
