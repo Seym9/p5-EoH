@@ -3,7 +3,7 @@ window.addEventListener("load",() => {
         selector: '.editor',
         language: 'fr_FR',
         width: '100%',
-        height: 500,
+        height: 250,
         plugins: "lists, image, link, code, wordcount, autolink, autosave, table, hr, lists",
         toolbar: "undo redo | formatselect | link image | alignleft aligncenter alignright  | bold italic underline forecolor blockquote | bullist numlist",
         autosave_restore_when_empty: false,

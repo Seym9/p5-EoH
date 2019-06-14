@@ -1,62 +1,101 @@
 {% extends "base.html.twig" %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/topic.css') }}">
+{% endblock %}
 {% block body %}
 
+<div id="main-topic-page">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Library</a></li>
+        <li class="breadcrumb-item active">Data</li>
+    </ol>
+    <h2>{{ topic.name }}</h2>
+    <div class="text-right">
+        <a href="{{ path('topic_like' , {'id': topic.id}) }}" class="btn btn-link js-like">
+            {% if app.user and topic.likeByUser(app.user) %}
+                <i class="fas fa-thumbs-up"></i>
+            {% else %}
+                <i class="far fa-thumbs-up"></i>
+            {% endif %}
+            <span class="js-likes">{{ topic.topicLikes.count }}</span>
+            <span class="js-label">J'aime</span>
+        </a>
 
-    <a href="{{ path('topic_like' , {'id': topic.id}) }}" class="btn btn-link js-like">
-        {% if app.user and topic.likeByUser(app.user) %}
-            <i class="fas fa-thumbs-up"></i>
-        {% else %}
-            <i class="far fa-thumbs-up"></i>
-        {% endif %}
-        <span class="js-likes">{{ topic.topicLikes.count }}</span>
-        <span class="js-label">J'aime</span>
-    </a>
-
-    <a href="{{ path('report_topic', {'id': topic.id})}}" class="btn btn-link js-report">
-        <i class="fas fa-exclamation-triangle"></i>
-        <span>Signaler</span>
-    </a>
-
-
-    <a href="#" class="btn btn-link">
-        <i class="far fa-thumbs-up"></i>
-        <span class="js-likes">10</span>
-        <span class="js-label">J'aime</span>
-    </a>
-    <a href="{{ path('report_topic', {'id': topic.id}) }}" class="btn btn-link js-report">
-        <i class="fas fa-exclamation-triangle"></i>
-        <span>Signaler</span>
-    </a>
-   <h2>{{ topic.name }}</h2>
-    <p>{{ topic.content | raw }}</p>
-    <a class="btn btn-outline-danger" href="{{ path('report_topic', {'id': topic.id}) }}">Signaler</a>
-    {% if app.user %}
-        {{ form_start(commentForm) }}
-        <p>{{ app.user.username }}</p>
-        {{ form_row(commentForm.content, {'label':'Message', 'attr': {'placeholder': "Message"}}) }}
-        <button type="submit" class="btn btn-success">Envoyer</button>
-        {{ form_end(commentForm) }}
-
-    {% else %}
-        Connectez vous pour pouvoir mettre un com
-    {% endif %}
-    {% for comment in topic.topicsComments %}
-        <div class="card">
-            <p>{{ comment.author.username}}</p>
-            <a href="{{ path('report_topic_comment', {'id': comment.id}) }}" class="btn btn-link js-report">
-                <i class="fas fa-exclamation-triangle"></i>
-                <span>Signaler</span>
-            </a>
-            <p>{{ comment.content | raw }}</p>
+        <a href="{{ path('report_topic', {'id': topic.id})}}" class="btn btn-link js-report">
+            <i class="fas fa-exclamation-triangle report-icon"></i>
+            <span class="">Signaler</span>
+        </a>
+    </div>
+    <div class="media card flex-row p-2 mb-2">
+        <div>
+            {% if topic.author.image.name is defined %}
+                <img class="card-img-left" src="{{ asset('img/uploaded-img/user-img/')~comment.author.image.name }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
+            {% else %}
+                <p></p>
+            {% endif %}
+            <p class="mr-2 pt-2">{{ topic.author.username}}</p>
+            <p>Message : <span>{{ topic.author.articlesComments | length }}</span></p>
         </div>
+        <div class="media-body pr-5 pl-2 ml-4" id="profile-article-comment">
+            <div class="d-flex w-100 justify-content-between">
+                <span>Le : {{ topic.createdAt | date ("d-m-Y") }}</span>
+            </div>
+            <div class="card p-2">
+                <p>{{ topic.content | raw }}</p>
+            </div>
+        </div>
+    </div>
 
+
+    <div id="editor">
+        <h2>{{ topic.topicsComments | length }}
+            {% if topic.topicsComments | length < 1 %}Commentaire :{% else %}Commentaires :{% endif %}
+        </h2>
+        {% if app.user %}
+            {{ form_start(commentForm) }}
+            <h3>{{ app.user.username }}</h3>
+            {{ form_row(commentForm.content, {'label':'Message', 'attr': {'placeholder': "Message", 'class': 'editor'}}) }}
+            <button type="submit" class="btn btn-success">Envoyer</button>
+            {{ form_end(commentForm) }}
+        {% else %}
+            Connectez vous pour pouvoir mettre un com
+        {% endif %}
+    </div>
+
+    {% for comment in topic.topicsComments %}
+    <div class="media card flex-row p-2 mb-2">
+        <div>
+            {% if comment.author.image.name is defined %}
+                <img class="card-img-left" src="{{ asset('img/uploaded-img/user-img/')~comment.author.image.name }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
+            {% else %}
+                <p></p>
+            {% endif %}
+            <p class="mr-2 pt-2">{{ comment.author.username}}</p>
+            <p>Message : <span>{{ comment.author.articlesComments | length }}</span></p>
+        </div>
+        <div class="media-body pr-5 pl-2 ml-4" id="profile-article-comment">
+            <div class="d-flex w-100 justify-content-between">
+                <span>Le : {{ comment.createdAt | date ("d-m-Y") }}</span>
+                <a href="{{ path('report_topic_comment', {'id': comment.id}) }}" class="btn btn-link js-report">
+                    <i class="fas fa-exclamation-triangle report-icon"></i>
+                    <span>Signaler</span>
+                </a>
+            </div>
+            <div class="card p-2">
+                <p>{{ comment.content | raw }}</p>
+            </div>
+        </div>
+    </div>
     {% endfor %}
+</div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('js/editor.js') }}"></script>
     <script src="{{ asset('js/like.js') }}"></script>
     <script src="{{ asset('js/report.js') }}"></script>
 {% endblock %}

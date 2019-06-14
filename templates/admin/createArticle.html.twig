@@ -1,7 +1,18 @@
 {% extends 'base.html.twig' %}
 {% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
 {% block body %}
-
+    <style>
+        .custom-file-name:after {
+            content: attr(data-content) !important;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            display: block;
+            height: 100%;
+            overflow: hidden;
+            padding: 0.5rem 1rem;
+        }
+    </style>
     {% if editMode %}
         <h1>Modification d'un article !</h1>
     {% else %}
@@ -13,8 +24,7 @@
     {{ form_row(formArticle.name, {'attr': {'placeholder': 'titre'}}) }}
     {{ form_row(formArticle.category) }}
     {{ form_row(formArticle.content,{'attr': {'placeholder': 'contenu'}}) }}
-    {{ form_row(formArticle.image) }}
-
+    {{ form_row(formArticle.image, {'attr': {'class': 'custom-file-name'}}) }}
 
     <button type="submit" class="btn btn-success">
         {% if editMode %}
@@ -25,4 +35,9 @@
     </button>
 
     {{ form_end(formArticle) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+    <script src="{{ asset('js/inputFix.js') }}"></script>
 {% endblock %}

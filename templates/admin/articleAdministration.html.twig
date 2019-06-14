@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/adminPage.css') }}">
+{% endblock %}
 {% block body %}
     {% if app.session.flashBag.has('success') %}
         {% for msg in app.session.flashBag.get('success') %} {{ msg }} <i class="ti-close" id="flash-message-close" style="float:right;cursor:pointer;"></i> {% endfor %}
     {% endif %}
     <h1>Article Admin</h1>
-    <div class="container-fluid">
+    <div class="admin-page-summary">
         <div class="row">
             <div class="col-md-12">
                 <table class="table">
@@ -12,15 +16,6 @@
                     <tr>
                         <th>
                             Titre
-                        </th>
-                        <th>
-                            Commentaires
-                        </th>
-                        <th>
-                            Categorie
-                        </th>
-                        <th>
-                            Date de création
                         </th>
                         <th>
                             Options
@@ -34,21 +29,13 @@
                             {{ article.name }}
                         </td>
                         <td>
-                            {{ article.articlesComments | length }}
-                        </td>
-                        <td>
-                            {{ article.category.name }}
-                        </td>
-                        <td>
-                            {{ article.createdAt | date('d-m-Y') }}
-                        </td>
-                        <td>
                             <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                <button type="button" class="btn btn-primary">Primary</button>
+                                <button type="button" class="btn btn-primary btn-sm">Primary</button>
                                 <div class="btn-group" role="group">
-                                    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                    <button id="btnGroupDrop1" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                         <a class="dropdown-item" href="{{ path('articleRead', {'id': article.id}) }}">Voir l'article</a>
+                                        <a class="dropdown-item" href="{{ path('article_edit', {'id': article.id}) }}">Modifier l'article</a>
                                         <a class="dropdown-item js-delete" href="{{ path('article_delete', {'id': article.id}) }}">Supprimer</a>
                                     </div>
                                 </div>

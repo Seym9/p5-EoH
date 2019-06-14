@@ -65,6 +65,12 @@ class TopicController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
+            if($form->getViewData()->getContent() === null){
+                return $this->render("topic/topicView.html.twig",[
+                    'topic' => $topic,
+                    'commentForm' => $form->createView()
+                ]);
+            }
             $comment->setCreatedAt(new \DateTime())
                     ->setTopic($topic)
                     ->setAuthor($user);

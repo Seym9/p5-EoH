@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/adminPage.css') }}">
+{% endblock %}
 {% block body %}
     <h1>Forum Admin</h1>
-    <div class="container-fluid">
+    <div class="admin-page-summary">
         <div class="row">
             <div class="col-md-12">
                 <table class="table">
@@ -12,12 +16,6 @@
                         </th>
                         <th>
                             Commentaires
-                        </th>
-                        <th>
-                            Categorie
-                        </th>
-                        <th>
-                            Date de création
                         </th>
                         <th>
                             Options
@@ -34,19 +32,13 @@
                                 {{ topic.topicsComments | length }}
                             </td>
                             <td>
-                                {{ topic.category.name }}
-                            </td>
-                            <td>
-                                {{ topic.createdAt | date('d-m-Y') }}
-                            </td>
-                            <td>
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                    <button type="button" class="btn btn-primary">Primary</button>
+                                    <button type="button" class="btn btn-primary btn-sm">Primary</button>
                                     <div class="btn-group" role="group">
-                                        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                            <a class="dropdown-item" href="#">Dropdown link</a>
-                                            <a class="dropdown-item js-delete" href="{{ path('topic_delete', {'id': topic.id}) }}">delete</a>
+                                            <a class="dropdown-item" href="{{ path('topic_view', {'id': topic.id}) }}">Lire le sujet</a>
+                                            <a class="dropdown-item js-delete" href="{{ path('topic_delete', {'id': topic.id}) }}">Supprimer le sujet </a>
                                         </div>
                                     </div>
                                 </div>

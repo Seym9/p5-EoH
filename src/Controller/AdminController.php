@@ -63,6 +63,7 @@ class AdminController extends AbstractController
      * @param UsersRepository $topicsRepository
      * @param $page
      * @return Response
+     * @throws NonUniqueResultException
      */
     public function usersAdminView(UsersRepository $topicsRepository, $page){
 

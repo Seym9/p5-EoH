@@ -102,7 +102,7 @@ class UserController extends AbstractController
         $manager->persist($users);
         $manager->flush();
 
-        return $this->redirectToRoute("administration_users");
+        return $this->redirectToRoute("administration_users",['page' => 1 ]);
     }
     /**
      * @Route("/forgotten_password", name="app_forgotten_password")

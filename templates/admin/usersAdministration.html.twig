@@ -1,17 +1,18 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/adminPage.css') }}">
+{% endblock %}
 {% block body %}
     <h1>User Admin</h1>
-    <div class="container-fluid">
+    <div class="admin-page-summary">
         <div class="row">
             <div class="col-md-12">
                 <table class="table">
                     <thead>
                     <tr>
                         <th>
-                            Titre
-                        </th>
-                        <th>
-                            Categorie
+                            Nom
                         </th>
                         <th>
                             Date de création
@@ -28,18 +29,21 @@
                                 {{ user.username }}
                             </td>
                             <td>
-                                {{ user.report | length }}
-                            </td>
-                            <td>
                                 {{ user.createdAt | date('d-m-Y') }}
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                    <button type="button" class="btn btn-primary">Options</button>
+                                    <button type="button" class="btn btn-primary btn-sm">Options</button>
                                     <div class="btn-group" role="group">
-                                        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                            <a class="dropdown-item" href="{{ path('user_promotion', {'id': user.id}) }}">Admin</a>
+                                            <a class="dropdown-item" href="{{ path('user_promotion', {'id': user.id}) }}">
+                                                {% if user.roles | join == "ROLE_ADMIN" %}
+                                                Passer membre
+                                                {% else %}
+                                                passer Admin
+                                                {% endif %}
+                                            </a>
                                             <a class="dropdown-item js-delete" href="{{ path('user_delete', {'id': user.id}) }}">Delete</a>
                                         </div>
                                     </div>
