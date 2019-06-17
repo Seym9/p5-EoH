@@ -152,19 +152,27 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("",name="")
+     * @Route("/admin/dashboard",name="admin_dashboard")
      *
      * @param ArticlesRepository $articlesRepository
      * @param TopicsRepository $topicsRepository
-     * @param TopicsCommentsRepository $commentsRepository
+     * @param TopicsCommentsRepository $topicsCommentsRepository
      * @param ArticlesCommentsRepository $articlesCommentsRepository
+     * @return Response
      */
-//    public function dashboard(ArticlesRepository $articlesRepository, TopicsRepository $topicsRepository, TopicsCommentsRepository $commentsRepository, ArticlesCommentsRepository $articlesCommentsRepository){
-//        $articlesRepository->findAll();
-//        $topicsRepository->findAll();
-//        $commentsRepository->findAll();
-//        $articlesCommentsRepository->findAll();
+    public function dashboard(ArticlesRepository $articlesRepository, TopicsRepository $topicsRepository, TopicsCommentsRepository $topicsCommentsRepository, ArticlesCommentsRepository $articlesCommentsRepository, UsersRepository $usersRepository){
+        $articles = $articlesRepository->findAll();
+        $topics = $topicsRepository->findAll();
+        $topicsComments = $topicsCommentsRepository->findAll();
+        $articlesComments = $articlesCommentsRepository->findAll();
+        $users = $usersRepository->findAll();
 
-
-//    }
+        return $this->render("admin/dashboard.html.twig",[
+            "articles" => $articles,
+            "topics" => $topics,
+            "topicsComments" => $topicsComments,
+            "articlesComments" => $articlesComments,
+            "users" => $users
+        ]);
+    }
 }

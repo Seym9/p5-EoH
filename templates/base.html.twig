@@ -33,19 +33,10 @@
                     <a class="nav-link" href="{{ path('forum_home')}}">Forum</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('article_creation')}}">creation article</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{{ path('topic_creation')}}">creation topic</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('administration_users', {'page': "1"})}}">admin user</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('administration_forum', {'page': "1"})}}">admin forum</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('administration_article', {'page': "1"})}}">admin article</a>
+                    <a class="nav-link" href="{{ path('admin_dashboard')}}">Dashboard</a>
                 </li>
                 {% if not app.user %}
                 <li class="nav-item">
