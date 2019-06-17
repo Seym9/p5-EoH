@@ -1,0 +1,12 @@
+@import "variable";
+body {
+  @include bodyCover("../img/login/aaron-burden-719169-unsplash.jpg");
+  font-size: 13px;
+}
+.login-dark {
+  background: linear-gradient(210deg, #1a1a1a, #343a40);
+}
+.security-form{
+  margin: 0 auto;
+padding-top: 35%;
+}

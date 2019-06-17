@@ -10,6 +10,8 @@ use App\Repository\ArticlesRepository;
 use App\Repository\UsersRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use Doctrine\ORM\NonUniqueResultException;
+use Swift_Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -104,16 +106,18 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute("administration_users",['page' => 1 ]);
     }
+
     /**
      * @Route("/forgotten_password", name="app_forgotten_password")
      * @param Request $request
-     * @param \Swift_Mailer $mailer
+     * @param Swift_Mailer $mailer
      * @param TokenGeneratorInterface $tokenGenerator
      * @return Response
+     * @throws NonUniqueResultException
      */
     public function forgottenPassword(
         Request $request,
-        \Swift_Mailer $mailer,
+        Swift_Mailer $mailer,
         TokenGeneratorInterface $tokenGenerator
     ): Response
     {
@@ -124,7 +128,7 @@ class UserController extends AbstractController
             /* @var $user Users */
             if ($user === null) {
                 $this->addFlash('danger', 'Email Inconnu');
-                return $this->redirectToRoute('home');
+                return $this->redirectToRoute('app_forgotten_password');
             }
             $token = $tokenGenerator->generateToken();
             try{
@@ -143,16 +147,22 @@ class UserController extends AbstractController
                     'text/html'
                 );
             $mailer->send($message);
-            $this->addFlash('notice', 'Mail envoyé');
             return $this->redirectToRoute('home');
         }
         return $this->render('user/forgotten_password.html.twig');
     }
+
     /**
      * @Route("/reset_password/{token}", name="app_reset_password")
+     * @param Request $request
+     * @param string $token
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return RedirectResponse|Response
+     * @throws NonUniqueResultException
      */
     public function resetPassword(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder)
     {
+//        dd($request);
         if ($request->isMethod('POST')) {
             $entityManager = $this->getDoctrine()->getManager();
             $user = $entityManager->getRepository(Users::class)->findOneByResetToken($token);
@@ -161,11 +171,12 @@ class UserController extends AbstractController
                 $this->addFlash('danger', 'Token Inconnu');
                 return $this->redirectToRoute('home');
             }
+//            dd("ntm");
             $user->setResetToken(null);
             $user->setPassword($passwordEncoder->encodePassword($user, $request->request->get('password')));
             $entityManager->flush();
-            $this->addFlash('notice', 'Mot de passe mis à jour');
-            return $this->redirectToRoute('home');
+            $this->addFlash('success', 'Mot de passe mis à jour');
+            return $this->redirectToRoute('user_login');
         }else {
             return $this->render('user/reset_password.html.twig', ['token' => $token]);
         }

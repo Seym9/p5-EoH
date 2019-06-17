@@ -2,10 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\ArticleCommentReport;
 use App\Entity\Articles;
 use App\Entity\Topics;
 use App\Entity\Users;
+use App\Repository\ArticleCommentReportRepository;
+use App\Repository\ArticlesCommentsRepository;
 use App\Repository\ArticlesRepository;
+use App\Repository\TopicCommentReportRepository;
+use App\Repository\TopicsCommentsRepository;
 use App\Repository\TopicsRepository;
 use App\Repository\UsersRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -67,12 +72,12 @@ class AdminController extends AbstractController
      */
     public function usersAdminView(UsersRepository $topicsRepository, $page){
 
-        $nb_users 		    = $topicsRepository->FindAllAsInt();
+        $nb_users 		    = $topicsRepository->findAllAsInt();
         $nb_users_page 	    = 12;
         $nb_pages 			=  ceil($nb_users / $nb_users_page);
         $offset 			= ($page-1) * $nb_users_page;
 
-        $users	= $topicsRepository->FindByPage($nb_users_page ,$offset);
+        $users	= $topicsRepository->findByPage($nb_users_page ,$offset);
 
         if(!$users ){
             throw $this->createNotFoundException('La page demandée n\'existe pas');
@@ -146,4 +151,20 @@ class AdminController extends AbstractController
         ], 200);
     }
 
+    /**
+     * @Route("",name="")
+     *
+     * @param ArticlesRepository $articlesRepository
+     * @param TopicsRepository $topicsRepository
+     * @param TopicsCommentsRepository $commentsRepository
+     * @param ArticlesCommentsRepository $articlesCommentsRepository
+     */
+//    public function dashboard(ArticlesRepository $articlesRepository, TopicsRepository $topicsRepository, TopicsCommentsRepository $commentsRepository, ArticlesCommentsRepository $articlesCommentsRepository){
+//        $articlesRepository->findAll();
+//        $topicsRepository->findAll();
+//        $commentsRepository->findAll();
+//        $articlesCommentsRepository->findAll();
+
+
+//    }
 }

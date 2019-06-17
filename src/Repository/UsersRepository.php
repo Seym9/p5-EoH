@@ -21,19 +21,48 @@ class UsersRepository extends ServiceEntityRepository
     }
 
 
+    /**
+     * @param $value
+     * @return Users|null
+     * @throws NonUniqueResultException
+     */
+    public function findOneByEmail($value): ?Users
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.email = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+    /**
+     * @param $value
+     * @return Users|null
+     * @throws NonUniqueResultException
+     */
+    public function findOneByResetToken($value): ?Users
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.resetToken = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 
     /**
      * @return int
      * @throws NonUniqueResultException
      */
-    public function FindAllAsInt(){
+    public function findAllAsInt(){
         $qb=$this->createQueryBuilder('a')
             ->select('COUNT(a)');
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 //, $category = null
 //->where('a.categoryId')
-    public function FindByPage($nb_users_page,$offset){
+    public function findByPage($nb_users_page, $offset){
 
         $q = $this->createQueryBuilder('a')
             ->select('a')
