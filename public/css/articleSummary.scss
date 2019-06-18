@@ -5,11 +5,18 @@ body {
 #main-article-sum{
   background-color: rgba(175, 172, 168, 0.8);
   margin-top: 15%;
+  margin-bottom: 5%;
   padding: 5px;
   border:10px double #000000;
   border-radius: 3px ;
   h3{
     padding-bottom: 5%;
     padding-top: 5%;
+  }
+  .card-img-left{
+    max-width: 200px;
+    max-height: 200px;
+    min-width: 200px;
+    min-height: 200px;
   }
 }

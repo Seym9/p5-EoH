@@ -9,7 +9,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ path('forum_home') }}">Home</a></li>
         <li class="breadcrumb-item"><a href="{{ path('forum_category_view', {'id': topic.category.id}) }}">{{ topic.category.name }}</a></li>
-        <li class="breadcrumb-item active">Data</li>
+        <li class="breadcrumb-item active">{{ topic.name }}</li>
     </ol>
     <h2>{{ topic.name }}</h2>
     <div class="text-right">
@@ -33,7 +33,7 @@
             {% if topic.author.image.name is defined %}
                 <img class="card-img-left" src="{{ asset('img/uploaded-img/user-img/')~topic.author.image.name }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
             {% else %}
-                <p></p>
+                <img src="{{ asset('img/user/avatar-default.png') }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
             {% endif %}
             <p class="mr-2 pt-2">{{ topic.author.username}}</p>
             <p>Message : <span>{{ topic.author.articlesComments | length }}</span></p>
@@ -70,7 +70,7 @@
             {% if comment.author.image.name is defined %}
                 <img class="card-img-left" src="{{ asset('img/uploaded-img/user-img/')~comment.author.image.name }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
             {% else %}
-                <p></p>
+                <img src="{{ asset('img/user/avatar-default.png') }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
             {% endif %}
             <p class="mr-2 pt-2">{{ comment.author.username}}</p>
             <p>Message : <span>{{ comment.author.articlesComments | length }}</span></p>

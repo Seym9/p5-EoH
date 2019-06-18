@@ -1,29 +1,32 @@
 {% extends 'base.html.twig' %}
 {% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/creation.css') }}">
+{% endblock %}
 {% block body %}
-    <style>
-        .custom-file-name:after {
-            content: attr(data-content) !important;
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            display: block;
-            height: 100%;
-            overflow: hidden;
-            padding: 0.5rem 1rem;
-        }
-    </style>
+
+        <h1 class="title-creation-page">
     {% if editMode %}
-        <h1>Modification d'un article !</h1>
+            Modification d'un article !
     {% else %}
-        <h1>Création d'un article !</h1>
+        Création d'un article !
     {% endif %}
+        </h1>
+
 
     {{ form_start(formArticle) }}
 
     {{ form_row(formArticle.name, {'attr': {'placeholder': 'titre'}}) }}
     {{ form_row(formArticle.category) }}
     {{ form_row(formArticle.content,{'attr': {'placeholder': 'contenu', 'class': 'editor'}}) }}
+    {% if app.session.flashBag.has('notice') %}
+        {% for msg in app.session.flashBag.get('notice') %}
+            <div class="alert alert-danger">
+                {{ msg }}
+            </div>
+        {% endfor %}
+    {% endif %}
     {{ form_row(formArticle.image, {'attr': {'class': 'custom-file-name'}}) }}
 
     <button type="submit" class="btn btn-success">
@@ -35,6 +38,8 @@
     </button>
 
     {{ form_end(formArticle) }}
+{% endblock %}
+{% block footer %}
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}

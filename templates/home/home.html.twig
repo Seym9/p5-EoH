@@ -29,13 +29,13 @@
     </header>
 {% endblock %}
 {% block body %}
-    <div class="row">
+    <div class="row" id="home-content">
         <div class="border-primary mb-3 col-md-7">
             <h2>Dernière news</h2>
-            <div class="card">
+            <div class="card col-md-12">
                 <div class="card-header"><h3>{{ articles.name }}</h3></div>
-                {% if article.image.name is defined %}
-                <img src="{{ asset('img/uploaded-img/article-img/')~articles.image.name }}" alt="">
+                {% if articles.image.name is defined %}
+                <img src="{{ asset('img/uploaded-img/article-img/')~articles.image.name }}" alt="" class="img-responsive home-image-article">
                 {% else %}
                 {% endif %}
                 <div class="card-body">

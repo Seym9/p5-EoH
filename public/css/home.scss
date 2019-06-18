@@ -7,3 +7,12 @@
   -o-background-size: cover;
   background-size: cover;
 }
+#home-content{
+  margin-top: 10%;
+  .card-header{
+    margin-top: 5px;
+  }
+}
+.home-image-article{
+  max-height: 350px;
+}

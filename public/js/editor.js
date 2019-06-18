@@ -4,6 +4,7 @@ window.addEventListener("load",() => {
         language: 'fr_FR',
         width: '100%',
         height: 250,
+        max_height: 300,
         plugins: "lists, image, link, code, wordcount, autolink, autosave, table, hr, lists",
         toolbar: "undo redo | formatselect | link image | alignleft aligncenter alignright  | bold italic underline forecolor blockquote | bullist numlist",
         autosave_restore_when_empty: false,

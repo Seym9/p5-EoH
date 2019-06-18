@@ -11,7 +11,7 @@
         {% for article in articles %}
         <div class="media card flex-row p-2 mb-2">
             {% if article.image.name is defined %}
-            <img class="card-img-left" src="{{ asset('img/uploaded-img/article-img/')~article.image.name }}" alt="" style="max-width: 200px;max-height: 100%;min-width: 200px;min-height: 100%;">
+            <img class="card-img-left img-responsive" src="{{ asset('img/uploaded-img/article-img/')~article.image.name }}" alt="">
             {% else %}
             {% endif %}
             <div class="media-body pr-5">
