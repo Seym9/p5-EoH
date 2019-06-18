@@ -28,10 +28,6 @@ security:
                 path: user_logout
                 target: home
 
-            remember_me:
-                secret:   '%kernel.secret%'
-                lifetime: 2592000 # set to 30 days
-
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/profile, roles: ROLE_USER }

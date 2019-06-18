@@ -7,8 +7,8 @@
 
 <div id="main-topic-page">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Library</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('forum_home') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('forum_category_view', {'id': topic.category.id}) }}">{{ topic.category.name }}</a></li>
         <li class="breadcrumb-item active">Data</li>
     </ol>
     <h2>{{ topic.name }}</h2>
@@ -31,7 +31,7 @@
     <div class="media card flex-row p-2 mb-2">
         <div>
             {% if topic.author.image.name is defined %}
-                <img class="card-img-left" src="{{ asset('img/uploaded-img/user-img/')~comment.author.image.name }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
+                <img class="card-img-left" src="{{ asset('img/uploaded-img/user-img/')~topic.author.image.name }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
             {% else %}
                 <p></p>
             {% endif %}

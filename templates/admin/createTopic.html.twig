@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 {% form_theme formTopic 'bootstrap_4_layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/creation.css') }}">
+{% endblock %}
 {% block body %}
 
     <h1>Création d'un topic!</h1>
@@ -8,9 +12,14 @@
 
     {{ form_row(formTopic.name, {'attr': {'placeholder': 'titre'}}) }}
     {{ form_row(formTopic.category) }}
-    {{ form_row(formTopic.content,{'attr': {'placeholder': 'contenu'}}) }}
+    {{ form_row(formTopic.content,{'attr': {'placeholder': 'contenu',  'class': 'editor'}}) }}
 
     <button type="submit" class="btn btn-success">Ajouter l'article</button>
 
     {{ form_end(formTopic) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('js/editor.js') }}"></script>
 {% endblock %}

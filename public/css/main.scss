@@ -1,6 +1,13 @@
+@import "variable";
 .navbar{
   padding: 2px;
   ul{
     margin: 0 auto;
   }
+}
+p{
+  color: $textAndLiColor;
+}
+li{
+  color: $textAndLiColor;
 }

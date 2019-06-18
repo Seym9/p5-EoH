@@ -34,15 +34,16 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
+            if ($user->getImage()){
+                /** @var Image $image */
+                $image = $user->getImage();
 
-            /** @var Image $image */
-            $image = $user->getImage();
-
-            /** @var UploadedFile $file */
-            $file = $image->getFile();
-            $name = md5(uniqid()). '.' .$file->guessExtension();
-            $file->move("../public/img/uploaded-img/user-img", $name);
-            $image->setName($name);
+                /** @var UploadedFile $file */
+                $file = $image->getFile();
+                $name = md5(uniqid()). '.' .$file->guessExtension();
+                $file->move("../public/img/uploaded-img/user-img", $name);
+                $image->setName($name);
+            }
 
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setCreatedAt(new \DateTime());

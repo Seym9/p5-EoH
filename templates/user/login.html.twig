@@ -6,11 +6,13 @@
 {% block body %}
 
     <div class="col-md-6 security-form">
-        {% for message in app.session.flashbag.get('success',[0]) %}
+        {% if app.session.flashBag.has('success') %}
+            {% for msg in app.session.flashBag.get('success') %}
                 <div class="alert alert-success">
-                    {{ message }}
+                    {{ msg }}
                 </div>
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
         <div class="login-dark p-3 shadow-lg rounded">
             <div class="pt-3">
                 <h2 class="text-white ">Connexion </h2>
@@ -29,11 +31,6 @@
                            class="form-control form-control-sm bg-light"
                            placeholder="Mot de passe"
                            required name="_password">
-                </div>
-
-                <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="rememberCheckBox" name="_remember_me">
-                    <label class="form-check-label text-light" for="rememberCheckBox">Se souvenir de moi</label>
                 </div>
 
                 <div class="mt-5">

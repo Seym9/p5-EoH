@@ -101,15 +101,17 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
-            /** @var Image $image */
-            $image = $article->getImage();
+            if ($article->getImage()){
+                /** @var Image $image */
+                $image = $article->getImage();
+                /** @var UploadedFile $file */
+                $file = $image->getFile();
 
-            /** @var UploadedFile $file */
-            $file = $image->getFile();
+                $name = md5(uniqid()). '.' .$file->guessExtension();
+                $file->move("../public/img/uploaded-img/article-img", $name);
+                $image->setName($name);
+            }
 
-            $name = md5(uniqid()). '.' .$file->guessExtension();
-            $file->move("../public/img/uploaded-img/article-img", $name);
-            $image->setName($name);
             if (!$article->getId()){
                 $article->setCreatedAt(new DateTime())
                     ->setAuthor($user);

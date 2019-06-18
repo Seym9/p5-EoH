@@ -6,6 +6,7 @@
 {% block body %}
     <div id="forum-category-view" class="card">
     <h1>Nom categorie : {{ category.name }}</h1>
+    <a href="{{ path('topic_creation') }}" class="btn btn-primary mb-5">Créer un nouveau sujet </a>
     <div class="row">
         {% for topic in category.topics %}
         <div class="col-md-11" id="card-category-forum">

@@ -23,7 +23,7 @@
 
     {{ form_row(formArticle.name, {'attr': {'placeholder': 'titre'}}) }}
     {{ form_row(formArticle.category) }}
-    {{ form_row(formArticle.content,{'attr': {'placeholder': 'contenu'}}) }}
+    {{ form_row(formArticle.content,{'attr': {'placeholder': 'contenu', 'class': 'editor'}}) }}
     {{ form_row(formArticle.image, {'attr': {'class': 'custom-file-name'}}) }}
 
     <button type="submit" class="btn btn-success">
@@ -40,4 +40,5 @@
     {{ parent() }}
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
     <script src="{{ asset('js/inputFix.js') }}"></script>
+    <script src="{{ asset('js/editor.js') }}"></script>
 {% endblock %}
