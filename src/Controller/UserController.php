@@ -40,6 +40,11 @@ class UserController extends AbstractController
 
                 /** @var UploadedFile $file */
                 $file = $image->getFile();
+                $test = $file->guessExtension();
+                if ($test != "jpeg" && $test != "png"){
+                    $this->addFlash("notice", "Seuls les formats jpg et png sont acceptés");
+                    return $this->redirectToRoute("user_registration");
+                }
                 $name = md5(uniqid()). '.' .$file->guessExtension();
                 $file->move("../public/img/uploaded-img/user-img", $name);
                 $image->setName($name);

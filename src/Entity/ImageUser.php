@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageUserRepository")
@@ -23,13 +22,7 @@ class ImageUser
      */
     private $name;
 
-    /**
-     * @Assert\File(
-     *     maxSize = "512k",
-     *     mimeTypes = {"image/png", "image/jpg"},
-     *     mimeTypesMessage = "Seul les formats ..."
-     * )
-     */
+
     private $file;
 
     public function getId(): ?int
