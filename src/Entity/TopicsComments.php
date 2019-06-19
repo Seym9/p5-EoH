@@ -33,11 +33,6 @@ class TopicsComments
     private $createdAt;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $report;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Topics", inversedBy="topicsComments")
      * @ORM\JoinColumn(nullable=true)
      */

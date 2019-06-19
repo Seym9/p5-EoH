@@ -1,0 +1,22 @@
+.carousel-item {
+  height: 100vh;
+  min-height: 350px;
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#home-content {
+  margin-top: 10%;
+}
+#home-content .card-header {
+  margin-top: 5px;
+}
+
+.home-image-article {
+  max-height: 350px;
+}
+
+/*# sourceMappingURL=home.css.map */

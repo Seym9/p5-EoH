@@ -1,0 +1,23 @@
+.navbar {
+  padding: 2px;
+}
+.navbar ul {
+  margin: 0 auto;
+}
+
+p {
+  color: #1a1a1a;
+}
+
+li {
+  color: #1a1a1a;
+}
+
+.footer {
+  margin-top: 5%;
+  margin-bottom: 0;
+  padding: 5px;
+  background-color: #868686;
+}
+
+/*# sourceMappingURL=main.css.map */

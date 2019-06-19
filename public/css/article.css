@@ -1,0 +1,16 @@
+#main-article-page {
+  padding-top: 10%;
+}
+
+#image-article-page {
+  max-width: 200px;
+  max-height: 100%;
+  min-width: 200px;
+  min-height: 100%;
+}
+
+#profile-article-comment {
+  border-left: 1px solid black;
+}
+
+/*# sourceMappingURL=article.css.map */

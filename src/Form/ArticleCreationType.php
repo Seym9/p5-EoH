@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ArticleCreationType extends AbstractType
 {
@@ -20,9 +21,12 @@ class ArticleCreationType extends AbstractType
             ->add('content',TextareaType::class,  ['required' => false] )
             ->add('category', EntityType::class, [
                 'class' => ArticlesCategories::class,
-                'choice_label' => 'name'
+                'choice_label' => 'name',
             ])
-            ->add('image', ImageArticleType::class, ['label'=> false, 'required' => false])
+            ->add('image', ImageArticleType::class, [
+                'label'=> false,
+                'required' => false,
+            ])
         ;
     }
 

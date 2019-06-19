@@ -52,11 +52,6 @@ class Users implements UserInterface
     private $createdAt;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $report;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Tips", mappedBy="author")
      */
     private $tips;
@@ -98,6 +93,16 @@ class Users implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\TopicLike", mappedBy="user", cascade={"persist", "remove"})
      */
     private $topicLikes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TopicReport", mappedBy="users",cascade={"persist", "remove"})
+     */
+    private $topicReport;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TopicCommentReport", mappedBy="user",cascade={"persist", "remove"})
+     */
+    private $topicCommentReport;
 
     public function __construct()
     {
@@ -453,6 +458,34 @@ class Users implements UserInterface
     {
         $this->roles = $role;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTopicReport() {
+        return $this->topicReport;
+    }
+
+    /**
+     * @param mixed $TopicReport
+     */
+    public function setTopicReport($TopicReport): void {
+        $this->topicReport = $TopicReport;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTopicCommentReport() {
+        return $this->topicCommentReport;
+    }
+
+    /**
+     * @param mixed $TopicCommentReport
+     */
+    public function setTopicCommentReport($TopicCommentReport): void {
+        $this->topicCommentReport = $TopicCommentReport;
     }
 
 }

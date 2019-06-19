@@ -19,12 +19,12 @@ class TopicReport
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Topics", inversedBy="topicReports")
      */
-    private $topic;
+    private $topics;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="topicReports")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="topicReport")
      */
-    private $user;
+    private $users;
 
     /**
      * @ORM\Column(type="datetime")
@@ -38,24 +38,24 @@ class TopicReport
 
     public function getTopic(): ?Topics
     {
-        return $this->topic;
+        return $this->topics;
     }
 
     public function setTopic(?Topics $topic): self
     {
-        $this->topic = $topic;
+        $this->topics = $topic;
 
         return $this;
     }
 
     public function getUser(): ?Users
     {
-        return $this->user;
+        return $this->users;
     }
 
     public function setUser(?Users $user): self
     {
-        $this->user = $user;
+        $this->users = $user;
 
         return $this;
     }

@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background: url("../img/login/aaron-burden-719169-unsplash.jpg") center/cover no-repeat fixed;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+}
+
+.login-dark {
+  background: linear-gradient(210deg, #1a1a1a, #343a40);
+}
+
+.security-form {
+  margin: 0 auto;
+  padding-top: 35%;
+}
+
+/*# sourceMappingURL=login.css.map */

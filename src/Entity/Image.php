@@ -22,7 +22,6 @@ class Image
      */
     private $name;
 
-
     private $file;
 
     public function getId(): ?int

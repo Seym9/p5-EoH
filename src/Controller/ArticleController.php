@@ -107,16 +107,6 @@ class ArticleController extends AbstractController
                 /** @var UploadedFile $file */
                 $file = $image->getFile();
 
-                $test = $file->guessExtension();
-                if ($test != "jpeg" && $test != "png"){
-                    if (!$article->getId()){
-                        $this->addFlash("notice", "Seuls les formats jpg et png sont acceptés");
-                        return $this->redirectToRoute("article_creation");
-                    }
-                    $this->addFlash("notice", "Seuls les formats jpg et png sont acceptés");
-                    return $this->redirectToRoute('article_edit' , ['id' => $article->getId()]);
-                }
-
                 $name = md5(uniqid()). '.' .$file->guessExtension();
                 $file->move("../public/img/uploaded-img/article-img", $name);
                 $image->setName($name);

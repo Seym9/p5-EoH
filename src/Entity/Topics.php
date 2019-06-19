@@ -67,7 +67,7 @@ class Topics
     private $topicLikes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TopicReport", mappedBy="topic", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\TopicReport", mappedBy="topics", cascade={"persist", "remove"})
      */
     private $topicReports;
 
