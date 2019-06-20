@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
  * @Entity
- * @Table(name="p5_Users")
+ * @Table(name="p5_users")
  * @UniqueEntity(
  *     fields = {"email"},
  *     message = "L'adresse email que vous avez indiquée est déjà utilisé"
@@ -103,6 +103,11 @@ class Users implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\TopicCommentReport", mappedBy="user",cascade={"persist", "remove"})
      */
     private $topicCommentReport;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ArticleCommentReport", mappedBy="user",cascade={"persist", "remove"})
+     */
+    private $articleCommentReport;
 
     public function __construct()
     {
@@ -486,6 +491,20 @@ class Users implements UserInterface
      */
     public function setTopicCommentReport($TopicCommentReport): void {
         $this->topicCommentReport = $TopicCommentReport;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getArticleCommentReport() {
+        return $this->articleCommentReport;
+    }
+
+    /**
+     * @param mixed $articleCommentReport
+     */
+    public function setArticleCommentReport($articleCommentReport): void {
+        $this->articleCommentReport = $articleCommentReport;
     }
 
 }

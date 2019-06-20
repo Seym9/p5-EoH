@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\Table;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticlesCommentsRepository")
  * @Entity
- * @Table(name="p5_ArticlesComments")
+ * @Table(name="p5_articlescomments")
  */
 class ArticlesComments
 {

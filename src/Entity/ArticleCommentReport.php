@@ -22,7 +22,7 @@ class ArticleCommentReport
     private $comment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="articleCommentReports")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="articleCommentReport")
      */
     private $user;
 

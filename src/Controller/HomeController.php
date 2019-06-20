@@ -15,9 +15,11 @@ class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="home")
+     * @param ArticlesRepository $repo
+     * @param TopicsRepository $topic
      * @return Response
      */
-    public function home(ArticlesRepository $repo, TopicsRepository $topic, TopicsCommentsRepository $commentsRepository)
+    public function home(ArticlesRepository $repo, TopicsRepository $topic)
     {
         $articles = $repo->findOneBy(array(), array('id' => 'DESC'));
         $topics = $topic->findByThree();

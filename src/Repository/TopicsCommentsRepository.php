@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\TopicsComments;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -23,6 +24,11 @@ class TopicsCommentsRepository extends ServiceEntityRepository
     //  * @return TopicsComments[] Returns an array of TopicsComments objects
     //  */
 
+    /**
+     * @param $value
+     * @return mixed
+     * @throws NonUniqueResultException
+     */
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('t')

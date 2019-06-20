@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping\Table;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TipsRepository")
  * @Entity
- * @Table(name="p5_Tips")
+ * @Table(name="p5_tips")
  */
 class Tips
 {
