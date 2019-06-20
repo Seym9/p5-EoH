@@ -1,9 +1,41 @@
-.title-creation-page{
-  margin-top: 10%;
+@import "variable";
+body {
+  @include bodyCover("../img/login/backlit-clouds-friends-853168.jpg");
+  font-size: 13px;
 }
-.footer-bs{
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  z-index:  -1;
+.inscription-form{
+  padding: 5px;
+  background: linear-gradient(210deg, #1a1a1a, #343a40);
+  //input{
+  //  background-color: #f1f2f3;
+  //}
+  label{
+    color: #F5F5F5;
+  }
+  p{
+    color: #F5F5F5;
+  }
+}
+
+form {
+  padding: 5px;
+}
+
+h2 {
+  color: #F5F5F5;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.panel-primary {
+  margin-top: 25%;
+}
+.panel-body {
+  margin: auto;
+  border: solid 3px black;
+}
+@media all and (max-width: 750px){
+  .panel-primary {
+    margin-top: 50%;
+  }
 }

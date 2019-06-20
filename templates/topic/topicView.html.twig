@@ -28,7 +28,8 @@
             <span class="">Signaler</span>
         </a>
     </div>
-    <div class="media card flex-row p-2 mb-2">
+
+    <div class="media card p-2 mb-5 topic-content">
         <div>
             {% if topic.author.image.name is defined %}
                 <img class="card-img-left" src="{{ asset('img/uploaded-img/user-img/')~topic.author.image.name }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
@@ -42,30 +43,14 @@
             <div class="d-flex w-100 justify-content-between">
                 <span>Le : {{ topic.createdAt | date ("d-m-Y") }}</span>
             </div>
-            <div class="card p-2">
+            <div class=" p-2">
                 <p>{{ topic.content | raw }}</p>
             </div>
         </div>
     </div>
-
-
-    <div id="editor">
-        <h2>{{ topic.topicsComments | length }}
-            {% if topic.topicsComments | length < 1 %}Commentaire :{% else %}Commentaires :{% endif %}
-        </h2>
-        {% if app.user %}
-            {{ form_start(commentForm) }}
-            <h3>{{ app.user.username }}</h3>
-            {{ form_row(commentForm.content, {'label':'Message', 'attr': {'placeholder': "Message", 'class': 'editor'}}) }}
-            <button type="submit" class="btn btn-success">Envoyer</button>
-            {{ form_end(commentForm) }}
-        {% else %}
-            Connectez vous pour pouvoir mettre un com
-        {% endif %}
-    </div>
-
+    <div class="topic-between m-5"></div>
     {% for comment in topic.topicsComments %}
-    <div class="media card flex-row p-2 mb-2">
+    <div class="media card p-2 mb-2 topic-content">
         <div>
             {% if comment.author.image.name is defined %}
                 <img class="card-img-left" src="{{ asset('img/uploaded-img/user-img/')~comment.author.image.name }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
@@ -80,7 +65,6 @@
                 <span>Le : {{ comment.createdAt | date ("d-m-Y") }}</span>
                 <a href="{{ path('report_topic_comment', {'id': comment.id}) }}" class="btn btn-link js-report">
                     <i class="fas fa-exclamation-triangle report-icon"></i>
-                    <span>Signaler</span>
                 </a>
             </div>
             <div class="card p-2">
@@ -89,6 +73,17 @@
         </div>
     </div>
     {% endfor %}
+    <div id="editor">
+        {% if app.user %}
+            {{ form_start(commentForm) }}
+            <h3>{{ app.user.username }}</h3>
+            {{ form_row(commentForm.content, {'label':'Message', 'attr': {'placeholder': "Message", 'class': 'editor'}}) }}
+            <button type="submit" class="btn btn-success">Envoyer</button>
+            {{ form_end(commentForm) }}
+        {% else %}
+            Connectez vous pour pouvoir mettre un com
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
 
@@ -96,6 +91,7 @@
     {{ parent() }}
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="{{ asset('js/editor.js') }}"></script>
+    <script src="{{ asset('js/fr_FR.js') }}"></script>
     <script src="{{ asset('js/like.js') }}"></script>
     <script src="{{ asset('js/report.js') }}"></script>
 {% endblock %}

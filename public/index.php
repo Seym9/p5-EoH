@@ -1,9 +1,4 @@
 <?php
-//die("nique ta mère");
-
-$test = __DIR__;
-dd($test);
-
 use App\Kernel;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpFoundation\Request;

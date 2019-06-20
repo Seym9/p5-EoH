@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="FR">
+<html lang="FR" class="h-100">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,7 +12,7 @@
             <script src="https://kit.fontawesome.com/8457fb3c99.js"></script>
         {% endblock %}
     </head>
-    <body>
+    <body class="h-100 d-flex flex-column">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -27,9 +27,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('forum_home')}}">Forum</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('topic_creation')}}">creation topic</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('admin_dashboard')}}">Dashboard</a>

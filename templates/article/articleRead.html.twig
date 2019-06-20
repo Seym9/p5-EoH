@@ -6,22 +6,35 @@
 {% block body %}
     <div class="mt-5" id="main-article-page">
         <h1 class="text-center">{{ article.name }}</h1>
-        <div class="text-center">
+        <div class="text-center" id="img-article">
             {% if article.image.name is defined %}
-                <img class="card-img-left" src="{{ asset('img/uploaded-img/article-img/')~article.image.name }}" alt="" id="image-article-page">
+                <img class="text-center" src="{{ path | imagine_filter ('small') }}" alt="" id="imagesm-article-page">
+                <img class="text-center" src="{{ path | imagine_filter ('medium') }}" alt="" id="imagemd-article-page">
+                <img class="text-center" src="{{ path | imagine_filter ('big') }}" alt="" id="imagelg-article-page">
             {% else %}
-                <p></p>
             {% endif %}
         </div>
         <p>{{ article.content | raw }}</p>
+        <div class="mt-5 mb-5" id="article-author-date">
+            <p>Publier le {{ article.createdAt | date('d-m-Y') }} par <span>{{ article.author.username }}</span></p>
+        </div>
     </div>
+    <div class="article-comment">
+        <h2 class="text-center mt-5">
+            {% if article.ArticlesComments | length > 1 %}
+                {{ article.ArticlesComments | length }} Commentaires
+            {% elseif article.ArticlesComments | length == 1 %}
+                {{ article.ArticlesComments | length }} Commentaire
+            {% else %}
+                Soyez le premier à commenter cet article {% if app.user %} {{ app.user.username }}!{% endif %}
+            {% endif %}
+    </h2>
+
     <div id="editor">
-        <h2>{{ article.ArticlesComments | length }} Commentaire :</h2>
         {% if app.user %}
         {{ form_start(commentForm) }}
-        <p>{{ app.user.username }}</p>
         {{ form_row(commentForm.content, {'label':'Message', 'attr': {'placeholder': "Message", 'class': 'editor'}}) }}
-        <button type="submit" class="btn btn-success">Envoyer</button>
+        <button type="submit" class="btn btn-success mb-5">Envoyer</button>
         {{ form_end(commentForm) }}
         {% else %}
         Connectez vous pour pouvoir mettre un com
@@ -35,7 +48,7 @@
                     {% if comment.author.image.name is defined %}
                         <img class="card-img-left" src="{{ asset('img/uploaded-img/user-img/')~comment.author.image.name }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
                     {% else %}
-                        <p></p>
+                        <img src="{{ asset('img/user/avatar-default.png') }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
                     {% endif %}
                     <p class="mr-2 pt-2">{{ comment.author.username}}</p>
                     <p>Message : <span>{{ comment.author.articlesComments | length }}</span></p>
@@ -53,11 +66,13 @@
                     </div>
                 </div>
             </div>
+        </div>
     {% endfor %}
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/editor.js') }}"></script>
+    <script src="{{ asset('js/fr_FR.js') }}"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="{{ asset('js/report.js') }}"></script>
 {% endblock %}

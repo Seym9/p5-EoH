@@ -13,7 +13,7 @@
         <div class="col-md-11" id="card-category-forum">
             <h5><a href="{{ path('topic_view', {'id': topic.id}) }}">{{ topic.name }}</a></h5>
                 <div class="d-flex justify-content-between">
-                    <p>Le {{ topic.createdAt|date('d-m-Y') }} par {{ topic.author.username }} </p>
+                    <p>le {{ topic.createdAt|date('d-m-Y') }}<br id="break-forum-categories"> par {{ topic.author.username }} </p>
                     <p>Message {{ topic.topicscomments | length}} , <i class="fas fa-thumbs-up"></i> {{ topic.topicLikes.count }} </p>
                 </div>
         </div>

@@ -7,9 +7,33 @@
   min-width: 200px;
   min-height: 100%;
 }
+.topic-between{
+  border-bottom: solid 1px black;
+
+}
 #profile-article-comment{
   border-left: 1px solid black;
 }
 .report-icon{
   color: red;
+}
+
+.topic-content{
+  display:flex;
+  flex-direction: row;
+}
+#editor{
+  margin-bottom: 20px;
+}
+@media all and (max-width: 426px){
+  .topic-content{
+    display:flex;
+    flex-direction: column;
+    img{
+      display: none;
+    }
+  }
+  #profile-article-comment{
+    border-left: none;
+  }
 }

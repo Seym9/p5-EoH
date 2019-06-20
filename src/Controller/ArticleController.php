@@ -13,6 +13,7 @@ use App\Repository\ArticlesRepository;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\NonUniqueResultException;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,9 +56,23 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/article/{id}", name="articleRead")
+     * @param Articles $article
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @param Security $security
+     * @return Response
+     * @throws Exception
      */
     public function articleRead (Articles $article, Request $request, ObjectManager $manager, Security $security){
         $user = $this->getUser();
+
+        if ($article->getImage() != null){
+            $imgName = $article->getImage()->getName();
+            $path = 'img/uploaded-img/article-img/' . $imgName ;
+        }else{
+            $path = null;
+        }
+
 
         $comment = new ArticlesComments();
         $form = $this->createForm(ArticleCommentType::class, $comment);
@@ -80,9 +95,10 @@ class ArticleController extends AbstractController
         }
 
         return $this->render('article/articleRead.html.twig', [
-           'controller_name' => 'ArticleController',
+            'controller_name' => 'ArticleController',
             'article' => $article,
             'commentForm' => $form->createView(),
+            'path' => $path
         ]);
     }
 
