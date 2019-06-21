@@ -117,9 +117,9 @@ class AdminController extends AbstractController
      */
     public function forumAdminView(TopicsRepository $topicsRepository, $page){
 
-        $nb_topics 		    = $topicsRepository->FindAllAsInt();
+        $nb_topic 		= $topicsRepository->FindAllAsInt();
         $nb_topics_page 	= 12;
-        $nb_pages 			=  floor($nb_topics / $nb_topics_page);
+        $nb_pages 			=  ceil($nb_topic / $nb_topics_page);
         $offset 			= ($page-1) * $nb_topics_page;
 
         $topics	= $topicsRepository->FindByPage($nb_topics_page ,$offset);
@@ -128,8 +128,9 @@ class AdminController extends AbstractController
             throw $this->createNotFoundException('La page demandée n\'existe pas');
         }
 
+
         return $this->render('admin/forumAdministration.html.twig', array(
-            'topics'    => $topics,
+            'topics'  => $topics,
             'page'		=> $page,
             'nb_pages'	=> $nb_pages,
         ));

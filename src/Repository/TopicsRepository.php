@@ -74,6 +74,7 @@ class TopicsRepository extends ServiceEntityRepository
         return $q->getQuery()->getResult();
     }
 
+
 //    public function FindByPage($nb_topics_page,$offset, $category){
 //
 //        $q = $this->createQueryBuilder('a')

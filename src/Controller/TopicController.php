@@ -192,7 +192,13 @@ class TopicController extends AbstractController
             ->setTopic($topic)
             ->setCreatedAt( new DateTime());
 
+        $addReport = $topic->getReport() + 1;
+        $reportadd = $topic;
+        $reportadd
+            ->setReport($addReport);
+
         $manager->persist($report);
+        $manager->persist($reportadd);
         $manager->flush();
         return $this->json([
             'code' => 200,

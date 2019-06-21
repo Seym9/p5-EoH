@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ArticlesComments;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -17,6 +18,27 @@ class ArticlesCommentsRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, ArticlesComments::class);
+    }
+
+
+    /**
+     * @return int
+     * @throws NonUniqueResultException
+     */
+    public function FindAllAsInt(){
+        $qb=$this->createQueryBuilder('a')
+            ->select('COUNT(a)');
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+    public function FindByPage($nb_topics_page,$offset){
+
+        $q = $this->createQueryBuilder('a')
+            ->setFirstResult($offset)
+            ->setMaxResults($nb_topics_page)
+            ->orderBy('a.report','DESC')
+        ;
+
+        return $q->getQuery()->getResult();
     }
 
     // /**

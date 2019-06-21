@@ -16,7 +16,9 @@ use App\Repository\TopicsCommentsRepository;
 use App\Repository\TopicsRepository;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\NonUniqueResultException;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,11 +42,10 @@ class CommentController extends AbstractController
      *
      * @param TopicsComments $topicsComments
      * @param ObjectManager $manager
-     * @param TopicCommentReportRepository $reportRepository
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function reportTopicComment(TopicsComments $topicsComments, ObjectManager $manager, TopicCommentReportRepository $reportRepository){
+    public function reportTopicComment(TopicsComments $topicsComments, ObjectManager $manager){
         $user = $this->getUser();
 
         if (!$user) return $this->json([
@@ -65,7 +66,13 @@ class CommentController extends AbstractController
             ->setComment($topicsComments)
             ->setCreatedAt( new DateTime());
 
+        $addReport = $topicsComments->getReport() + 1;
+        $reportadd = $topicsComments;
+        $reportadd
+            ->setReport( $addReport);
+
         $manager->persist($report);
+        $manager->persist($reportadd);
         $manager->flush();
         return $this->json([
             'code' => 200,
@@ -78,11 +85,10 @@ class CommentController extends AbstractController
      *
      * @param ArticlesComments $articlesComments
      * @param ObjectManager $manager
-     * @param ArticleCommentReportRepository $reportRepository
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function reportArticleComment(ArticlesComments $articlesComments, ObjectManager $manager, ArticleCommentReportRepository $reportRepository){
+    public function reportArticleComment(ArticlesComments $articlesComments, ObjectManager $manager){
         $user = $this->getUser();
 
         if (!$user) return $this->json([
@@ -103,7 +109,12 @@ class CommentController extends AbstractController
             ->setComment($articlesComments)
             ->setCreatedAt( new DateTime());
 
-        $manager->persist($report);
+        $addReport = $articlesComments->getReport() + 1;
+        $reportadd = $articlesComments;
+        $reportadd
+            ->setReport($addReport);
+
+        $manager->persist($reportadd);
         $manager->flush();
         return $this->json([
             'code' => 200,
@@ -111,33 +122,62 @@ class CommentController extends AbstractController
         ], 200);
     }
 
+
     /**
-     * @Route("/admin-forum-comment", name="administration_forumComments")
+     * @Route("/admin-forum-comment/{page}", name="administration_forumComments")
      *
      * @param TopicsCommentsRepository $topicsCommentsRepository
+     * @param $page
      * @return Response
+     * @throws NonUniqueResultException
      */
-    public function forumCommentsAdminView(TopicsCommentsRepository $topicsCommentsRepository){
+    public function forumCommentsAdminView(TopicsCommentsRepository $topicsCommentsRepository, $page){
 
-        $topics = $topicsCommentsRepository->findAll();
+        $nb_topics 		= $topicsCommentsRepository->FindAllAsInt();
+        $nb_topics_page 	= 12;
+        $nb_pages 			=  ceil($nb_topics / $nb_topics_page);
+        $offset 			= ($page-1) * $nb_topics_page;
+
+        $topics	= $topicsCommentsRepository->FindByPage($nb_topics_page ,$offset);
+
+        if(!$topics ){
+            throw $this->createNotFoundException('La page demandée n\'existe pas');
+        }
+//        dd($articles);
 
         return $this->render('admin/forumCommentAdministration.html.twig', array(
-            'topics'    => $topics,
+            'topics' => $topics,
+            'page'		=> $page,
+            'nb_pages'	=> $nb_pages,
         ));
     }
 
     /**
-     * @Route("/admin-article-comment", name="administration_articleComments")
+     * @Route("/admin-article-comment/{page}", name="administration_articleComments")
      *
      * @param ArticlesCommentsRepository $articlesCommentsRepository
+     * @param $page
      * @return Response
+     * @throws NonUniqueResultException
      */
-    public function articleCommentsAdminView(ArticlesCommentsRepository $articlesCommentsRepository){
+    public function articleCommentsAdminView(ArticlesCommentsRepository $articlesCommentsRepository , $page){
 
-        $articles = $articlesCommentsRepository->findAll();
+        $nb_article 		= $articlesCommentsRepository->FindAllAsInt();
+        $nb_articles_page 	= 12;
+        $nb_pages 			=  ceil($nb_article / $nb_articles_page);
+        $offset 			= ($page-1) * $nb_articles_page;
+
+        $articles	= $articlesCommentsRepository->FindByPage($nb_articles_page ,$offset);
+
+        if(!$articles ){
+            throw $this->createNotFoundException('La page demandée n\'existe pas');
+        }
+
 
         return $this->render('admin/articleCommentAdministration.html.twig', array(
-            'articles'    => $articles,
+            'articles'  => $articles,
+            'page'		=> $page,
+            'nb_pages'	=> $nb_pages,
         ));
     }
 
