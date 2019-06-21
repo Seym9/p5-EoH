@@ -2,14 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\ArticleCommentReport;
 use App\Entity\Articles;
 use App\Entity\Topics;
 use App\Entity\Users;
-use App\Repository\ArticleCommentReportRepository;
 use App\Repository\ArticlesCommentsRepository;
 use App\Repository\ArticlesRepository;
-use App\Repository\TopicCommentReportRepository;
 use App\Repository\TopicsCommentsRepository;
 use App\Repository\TopicsRepository;
 use App\Repository\UsersRepository;
@@ -22,6 +19,7 @@ class AdminController extends AbstractController
 {
     /**
      * @Route("/article-delete/{id}" ,name="article_delete")
+     * @param $id
      * @return Response
      */
     public function delArticle($id) {
@@ -40,7 +38,10 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/admin-articles/{page}", name="administration_article")
-     *
+     * @param ArticlesRepository $articlesRepository
+     * @param $page
+     * @return Response
+     * @throws NonUniqueResultException
      */
     public function articleAdminView(ArticlesRepository $articlesRepository, $page){
 
@@ -64,7 +65,6 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/admin-users/{page}", name="administration_users")
-     *
      * @param UsersRepository $topicsRepository
      * @param $page
      * @return Response
@@ -89,8 +89,10 @@ class AdminController extends AbstractController
             'nb_pages'	=> $nb_pages,
         ));
     }
+
     /**
      * @Route("/user-delete/{id}" ,name="user_delete")
+     * @param $id
      * @return Response
      */
     public function delUser($id){
@@ -100,6 +102,7 @@ class AdminController extends AbstractController
         $entityManager->remove($user);
         $entityManager->flush();
         $this->addFlash("success", "Cet utilisateur a ");
+
         return $this->json([
             'code' => 200,
             'message' => 'Utilisateur delete',
@@ -108,8 +111,6 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/admin-forum/{page}", name="administration_forum")
-     * @Route("/admin-forum-comment/{page}", name="administration_forumComments")
-     *
      * @param TopicsRepository $topicsRepository
      * @param $page
      * @return Response
@@ -128,7 +129,6 @@ class AdminController extends AbstractController
             throw $this->createNotFoundException('La page demandée n\'existe pas');
         }
 
-
         return $this->render('admin/forumAdministration.html.twig', array(
             'topics'  => $topics,
             'page'		=> $page,
@@ -138,6 +138,7 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/topic-delete/{id}" ,name="topic_delete")
+     * @param $id
      * @return Response
      */
     public function delTopic($id){
@@ -155,11 +156,11 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/admin/dashboard",name="admin_dashboard")
-     *
      * @param ArticlesRepository $articlesRepository
      * @param TopicsRepository $topicsRepository
      * @param TopicsCommentsRepository $topicsCommentsRepository
      * @param ArticlesCommentsRepository $articlesCommentsRepository
+     * @param UsersRepository $usersRepository
      * @return Response
      */
     public function dashboard(ArticlesRepository $articlesRepository, TopicsRepository $topicsRepository, TopicsCommentsRepository $topicsCommentsRepository, ArticlesCommentsRepository $articlesCommentsRepository, UsersRepository $usersRepository){

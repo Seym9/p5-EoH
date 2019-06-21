@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Articles;
 use App\Entity\ArticlesComments;
 use App\Entity\Image;
-use App\Entity\Topics;
 use App\Form\ArticleCommentType;
 use App\Form\ArticleCreationType;
 use App\Repository\ArticlesCategoriesRepository;
@@ -16,6 +15,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,14 +25,13 @@ class ArticleController extends AbstractController
 {
     /**
      * @Route("/article/page-{page}", name="article")
-     *
      * @param ArticlesRepository $articlesRepository
+     * @param ArticlesCategoriesRepository $cat
      * @param $page
      * @return Response
      * @throws NonUniqueResultException
      */
-    public function articleSummary(ArticlesRepository $articlesRepository, ArticlesCategoriesRepository $cat, $page)
-    {
+    public function articleSummary(ArticlesRepository $articlesRepository, ArticlesCategoriesRepository $cat, $page) {
         $categories = $cat->findAll();
 
         $nb_articles 		= $articlesRepository->FindAllAsInt();
@@ -73,14 +72,12 @@ class ArticleController extends AbstractController
             $path = null;
         }
 
-
         $comment = new ArticlesComments();
         $form = $this->createForm(ArticleCommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
             if($form->getViewData()->getContent() === null){
-
                 return $this->render('article/articleRead.html.twig', [
                     'controller_name' => 'ArticleController',
                     'article' => $article,
@@ -105,9 +102,14 @@ class ArticleController extends AbstractController
     /**
      * @Route("/create-article", name="article_creation")
      * @Route ("/edit-article/{id}", name="article_edit")
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @param Articles|null $article
+     * @return RedirectResponse|Response
+     * @throws Exception
      */
-    public function createArticle(Request $request, ObjectManager $manager, Security $security, Articles $article = null){
-        $user = $security->getUser();
+    public function createArticle(Request $request, ObjectManager $manager, Articles $article = null){
+        $user = $this->getUser();
         if (!$article){
             $article = new Articles();
         }
@@ -126,7 +128,6 @@ class ArticleController extends AbstractController
                 $name = md5(uniqid()). '.' .$file->guessExtension();
                 $file->move("../public/img/uploaded-img/article-img", $name);
                 $image->setName($name);
-
             }
 
             if (!$article->getId()){
@@ -147,6 +148,9 @@ class ArticleController extends AbstractController
 
     /**
      * @Route ("/article-comment-report/{id}", name="articleComment_report")
+     * @param ArticlesComments $articlesComment
+     * @param ObjectManager $manager
+     * @return RedirectResponse
      */
     public function articleCommentReport(ArticlesComments $articlesComment, ObjectManager $manager){
         $articlesComment->setReport($articlesComment->getReport() + 1);

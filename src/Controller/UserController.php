@@ -2,15 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Articles;
 use App\Entity\Image;
 use App\Entity\Users;
 use App\Form\RegistrationType;
 use App\Repository\ArticlesRepository;
-use App\Repository\UsersRepository;
 use Doctrine\Common\Persistence\ObjectManager;
-
 use Doctrine\ORM\NonUniqueResultException;
+use Exception;
 use Swift_Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -26,6 +24,11 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/registration", name = "user_registration")
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @param UserPasswordEncoderInterface $encoder
+     * @return RedirectResponse|Response
+     * @throws Exception
      */
     public function registration(Request $request, ObjectManager $manager,UserPasswordEncoderInterface $encoder){
 
@@ -73,19 +76,19 @@ class UserController extends AbstractController
         return $this->render("user/login.html.twig");
     }
 
-
     /**
      * @Route("/logout", name="user_logout")
      */
     public function logout(){
-
     }
 
     /**
      * @Route("/user/{id}", name="user_profile")
+     * @param Users $user
+     * @param ArticlesRepository $articlesRepository
+     * @return Response
      */
     public function profilePage(Users $user, ArticlesRepository $articlesRepository){
-
         $articles =  $articlesRepository->FindAllArticles($user,5);
         dd($articles);
 
@@ -96,7 +99,6 @@ class UserController extends AbstractController
 
     /**
      * @Route("/user-promot/{id}",name="user_promotion")
-     *
      * @param Users $users
      * @param ObjectManager $manager
      * @return RedirectResponse
@@ -140,7 +142,7 @@ class UserController extends AbstractController
             try{
                 $user->setResetToken($token);
                 $entityManager->flush();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->addFlash('warning', $e->getMessage());
                 return $this->redirectToRoute('home');
             }
@@ -166,9 +168,7 @@ class UserController extends AbstractController
      * @return RedirectResponse|Response
      * @throws NonUniqueResultException
      */
-    public function resetPassword(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder)
-    {
-//        dd($request);
+    public function resetPassword(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder) {
         if ($request->isMethod('POST')) {
             $entityManager = $this->getDoctrine()->getManager();
             $user = $entityManager->getRepository(Users::class)->findOneByResetToken($token);
@@ -177,7 +177,6 @@ class UserController extends AbstractController
                 $this->addFlash('danger', 'Token Inconnu');
                 return $this->redirectToRoute('home');
             }
-//            dd("ntm");
             $user->setResetToken(null);
             $user->setPassword($passwordEncoder->encodePassword($user, $request->request->get('password')));
             $entityManager->flush();

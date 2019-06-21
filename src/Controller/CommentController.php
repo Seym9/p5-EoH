@@ -5,18 +5,11 @@ namespace App\Controller;
 use App\Entity\ArticleCommentReport;
 use App\Entity\ArticlesComments;
 use App\Entity\TopicCommentReport;
-use App\Entity\TopicReport;
-use App\Entity\Topics;
 use App\Entity\TopicsComments;
-use App\Repository\ArticleCommentReportRepository;
 use App\Repository\ArticlesCommentsRepository;
-use App\Repository\TopicCommentReportRepository;
-use App\Repository\TopicReportRepository;
 use App\Repository\TopicsCommentsRepository;
-use App\Repository\TopicsRepository;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,18 +21,14 @@ class CommentController extends AbstractController
     /**
      * @Route("/comment", name="comment")
      */
-    public function index()
-    {
+    public function index() {
         return $this->render('comment/index.html.twig', [
             'controller_name' => 'CommentController',
         ]);
     }
 
     /**
-     * Allow to report topics
-     *
      * @Route ("/comment-topic/{id}/report", name="report_topic_comment")
-     *
      * @param TopicsComments $topicsComments
      * @param ObjectManager $manager
      * @return Response
@@ -82,7 +71,6 @@ class CommentController extends AbstractController
 
     /**
      * @Route ("/comment-article/{id}/report", name="report_article_comment")
-     *
      * @param ArticlesComments $articlesComments
      * @param ObjectManager $manager
      * @return Response
@@ -125,7 +113,6 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/admin-forum-comment/{page}", name="administration_forumComments")
-     *
      * @param TopicsCommentsRepository $topicsCommentsRepository
      * @param $page
      * @return Response
@@ -143,7 +130,6 @@ class CommentController extends AbstractController
         if(!$topics ){
             throw $this->createNotFoundException('La page demandée n\'existe pas');
         }
-//        dd($articles);
 
         return $this->render('admin/forumCommentAdministration.html.twig', array(
             'topics' => $topics,
@@ -154,7 +140,6 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/admin-article-comment/{page}", name="administration_articleComments")
-     *
      * @param ArticlesCommentsRepository $articlesCommentsRepository
      * @param $page
      * @return Response
@@ -172,7 +157,6 @@ class CommentController extends AbstractController
         if(!$articles ){
             throw $this->createNotFoundException('La page demandée n\'existe pas');
         }
-
 
         return $this->render('admin/articleCommentAdministration.html.twig', array(
             'articles'  => $articles,

@@ -2,14 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Articles;
 use App\Repository\ArticlesRepository;
-use App\Repository\TopicsCommentsRepository;
 use App\Repository\TopicsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 
 class HomeController extends AbstractController
 {
@@ -19,8 +16,7 @@ class HomeController extends AbstractController
      * @param TopicsRepository $topic
      * @return Response
      */
-    public function home(ArticlesRepository $repo, TopicsRepository $topic)
-    {
+    public function home(ArticlesRepository $repo, TopicsRepository $topic) {
         $articles = $repo->findOneBy(array(), array('id' => 'DESC'));
         $topics = $topic->findByThree();
 

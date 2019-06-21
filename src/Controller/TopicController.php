@@ -14,12 +14,11 @@ use App\Repository\ForumCategoriesRepository;
 use App\Repository\TopicLikeRepository;
 use App\Repository\TopicReportRepository;
 use App\Repository\TopicsRepository;
-use App\Repository\UsersRepository;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
-
-use Doctrine\ORM\NonUniqueResultException;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,9 +30,11 @@ class TopicController extends AbstractController
 
     /**
      * @Route("/forum-home", name="forum_home")
+     * @param TopicsRepository $repotopics
+     * @param ForumCategoriesRepository $repocategory
+     * @return Response
      */
     public function forumHome(TopicsRepository $repotopics, ForumCategoriesRepository $repocategory){
-
         $categories = $repocategory->findAll();
         $topics = $repotopics->findByThree();
 
@@ -45,10 +46,10 @@ class TopicController extends AbstractController
 
     /**
      * @Route ("/forum-category/{id}", name="forum_category_view")
+     * @param ForumCategories $category
+     * @return Response
      */
     public function categoryView (ForumCategories $category) {
-
-
         return $this->render("topic/categoryView.html.twig",[
             'category' => $category
         ]);
@@ -56,6 +57,12 @@ class TopicController extends AbstractController
 
     /**
      * @Route ("/topic/{id}", name="topic_view")
+     * @param Topics $topic
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @param Security $security
+     * @return Response
+     * @throws Exception
      */
     public function topicView(Topics $topic, Request $request, ObjectManager $manager, Security $security){
         $user = $security->getUser();
@@ -87,6 +94,11 @@ class TopicController extends AbstractController
 
     /**
      * @Route ("/create-topic", name="topic_creation")
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @param Security $security
+     * @return RedirectResponse|Response
+     * @throws Exception
      */
     public function createTopic(Request $request, ObjectManager $manager, Security $security){
         $user = $security->getUser();
@@ -111,15 +123,12 @@ class TopicController extends AbstractController
     }
 
     /**
-     * Allow to like or unlike topics
-     *
      * @Route("/topic/{id}/like", name="topic_like")
-     *
      * @param Topics $topic
      * @param ObjectManager $manager
      * @param TopicLikeRepository $likeRepository
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function like (Topics $topic, ObjectManager $manager, TopicLikeRepository $likeRepository) : Response{
         $user = $this->getUser();
@@ -161,15 +170,12 @@ class TopicController extends AbstractController
 
 
     /**
-     * Allow to report topics
-     *
      * @Route ("/topic/{id}/report", name="report_topic")
-     *
      * @param Topics $topic
      * @param ObjectManager $manager
      * @param TopicReportRepository $reportRepository
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function reportTopic(Topics $topic, ObjectManager $manager, TopicReportRepository $reportRepository){
         $user = $this->getUser();
