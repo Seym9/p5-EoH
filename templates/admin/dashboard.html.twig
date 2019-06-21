@@ -38,8 +38,8 @@
                             </div>
                             <div class="mr-5">Les utilisateurs ont réagi {{ articlesComments | length }} aux articles !</div>
                         </div>
-                        <a class="card-footer text-white clearfix small z-1" href="{{ path('administration_articleComments') }}">
-                            <span class="float-left">Modérer les commentaires</span>
+                        <a class="card-footer text-white clearfix small z-1" href="{{ path('administration_articleComments', {'page': "1"}) }}">
+                            <span class="float-left">Modérer les commentaires signalés</span>
                             <span class="float-right">
                           <i class="fas fa-angle-right"></i>
                         </span>
@@ -78,8 +78,8 @@
                             </div>
                             <div class="mr-5">{{ topicsComments | length }} réponses on étaient faites sur le forum !</div>
                         </div>
-                        <a class="card-footer text-white clearfix small z-1" href="{{ path('administration_forumComments') }}">
-                            <span class="float-left">Modérer les commentaires</span>
+                        <a class="card-footer text-white clearfix small z-1" href="{{ path('administration_forumComments', {'page': "1"}) }}">
+                            <span class="float-left">Modérer les commentaires signalés</span>
                             <span class="float-right">
                           <i class="fas fa-angle-right"></i>
                         </span>

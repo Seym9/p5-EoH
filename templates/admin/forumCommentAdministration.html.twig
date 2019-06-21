@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('css/adminPage.css') }}">
 {% endblock %}
 {% block body %}
-    <h1>Forum Admin</h1>
+    <h1 class="mt-5 text-center">Forum Commentaires</h1>
     <div class="admin-page-summary">
         <div class="row">
             <div class="col-md-12">
@@ -22,34 +22,58 @@
                         </th>
                     </tr>
                     </thead>
+
                     {% for topic in topics %}
-                        {% if topic.topicCommentReports | length > 0 %}
                         <tbody>
-                        <tr>
-                            <td>
-                                {{ topic.author.username }}
-                            </td>
-                            <td>
-                                {{ topic.topicCommentReports | length }}
-                            </td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                    <button type="button" class="btn btn-primary btn-sm">Primary</button>
-                                    <div class="btn-group" role="group">
-                                        <button id="btnGroupDrop1" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                            <a class="dropdown-item" href="{{ path('topic_view', {'id': topic.id}) }}">Lire le sujet</a>
-                                            <a class="dropdown-item js-delete" href="{{ path('topicComment_delete', {'id': topic.id}) }}">Supprimer </a>
+                            <tr>
+                                <td>
+                                    {{ topic.author.username }}
+                                </td>
+
+                                <td>
+                                    {{ topic.report }}
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                        <button type="button" class="btn btn-primary btn-sm">Primary</button>
+                                        <div class="btn-group" role="group">
+                                            <button id="btnGroupDrop1" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                <a class="dropdown-item" href="{{ path('topic_view', {'id': topic.id}) }}">Lire le sujet</a>
+                                                <a class="dropdown-item js-delete" href="{{ path('topicComment_delete', {'id': topic.id}) }}">Supprimer </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
                         </tbody>
-                    {% endif %}
                     {% endfor %}
                 </table>
             </div>
+        </div>
+        <div>
+            <ul class="pagination pagination-sm">
+                {%  if page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{path('administration_forumComments',{'page': page-1}) }}">&laquo;</a>
+                    </li>
+
+                    <li class="page-item">
+                        <a class="page-link" href="{{path('administration_forumComments',{'page': page-1}) }}" >{{ page - 1}}</a>
+                    </li>
+                {% endif %}
+                <li class="page-item active">
+                    <a class="page-link" href="{{path('administration_forumComments',{'page': page}) }}" >{{ page}}</a>
+                </li>
+                {%  if page < nb_pages %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{path('administration_forumComments',{'page': page+1}) }}" >{{ page + 1}}</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="{{path('administration_forumComments',{'page':page+1 }) }}" >&raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
     </div>
 {% endblock %}

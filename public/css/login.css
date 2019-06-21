@@ -14,7 +14,10 @@ body {
 
 .security-form {
   margin: 0 auto;
-  padding-top: 35%;
+  background: linear-gradient(210deg, #1a1a1a, #343a40);
+}
+.security-form h1 {
+  color: #F5F5F5;
 }
 
 @media all and (max-width: 750px) {

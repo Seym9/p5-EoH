@@ -7,7 +7,7 @@
     {% if app.session.flashBag.has('success') %}
         {% for msg in app.session.flashBag.get('success') %} {{ msg }} <i class="ti-close" id="flash-message-close" style="float:right;cursor:pointer;"></i> {% endfor %}
     {% endif %}
-    <h1>Article Admin</h1>
+    <h1 class="mt-5 text-center">Article Admin</h1>
     <div class="admin-page-summary">
         <div class="row">
             <div class="col-md-12">

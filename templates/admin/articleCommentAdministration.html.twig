@@ -7,7 +7,7 @@
     {% if app.session.flashBag.has('success') %}
         {% for msg in app.session.flashBag.get('success') %} {{ msg }} <i class="ti-close" id="flash-message-close" style="float:right;cursor:pointer;"></i> {% endfor %}
     {% endif %}
-    <h1>Article Admin</h1>
+    <h1 class="mt-5 text-center">Articles Commentaires</h1>
     <div class="admin-page-summary">
         <div class="row">
             <div class="col-md-12">
@@ -18,19 +18,21 @@
                             Titre
                         </th>
                         <th>
+                            Signalement
+                        </th>
+                        <th>
                             Options
                         </th>
                     </tr>
                     </thead>
                     {% for article in articles %}
-                        {% if article.articleCommentReports | length > 0 %}
                         <tbody>
                         <tr class="article-row">
                             <td>
                                 {{ article.author.username }}
                             </td>
                             <td>
-                                {{ article.articleCommentReports | length }}
+                                {{ article.report}}
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
@@ -46,10 +48,33 @@
                             </td>
                         </tr>
                         </tbody>
-                    {% endif %}
                     {% endfor %}
                 </table>
             </div>
+        </div>
+        <div>
+            <ul class="pagination pagination-sm">
+                {%  if page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{path('administration_articleComments',{'page': page-1}) }}">&laquo;</a>
+                    </li>
+
+                    <li class="page-item">
+                        <a class="page-link" href="{{path('administration_articleComments',{'page': page-1}) }}" >{{ page - 1}}</a>
+                    </li>
+                {% endif %}
+                <li class="page-item active">
+                    <a class="page-link" href="{{path('administration_articleComments',{'page': page}) }}" >{{ page}}</a>
+                </li>
+                {%  if page < nb_pages %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{path('administration_articleComments',{'page': page+1}) }}" >{{ page + 1}}</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="{{path('administration_articleComments',{'page':page+1 }) }}" >&raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
     </div>
 {% endblock %}

@@ -1,0 +1,15 @@
+@import "variable";
+body {
+  @include bodyCover("../img/forum/aya-okawa-241362-unsplash.jpg");
+  font-size: 13px;
+}
+.form-creation{
+  margin-top: 10%;
+  background: linear-gradient(210deg, #1a1a1a, #343a40);
+  h1{
+    color: #F5F5F5;
+  }
+  label{
+    color: #868686;
+  }
+}
