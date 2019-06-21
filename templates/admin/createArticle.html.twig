@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="{{ asset('css/creation.css') }}">
 {% endblock %}
 {% block body %}
-
         <h1 class="title-creation-page">
     {% if editMode %}
             Modification d'un article !
@@ -13,10 +12,7 @@
         Création d'un article !
     {% endif %}
         </h1>
-
-
     {{ form_start(formArticle) }}
-
     {{ form_row(formArticle.name, {'attr': {'placeholder': 'titre'}}) }}
     {{ form_row(formArticle.category) }}
     {{ form_row(formArticle.content,{'attr': {'placeholder': 'contenu', 'class': 'editor'}}) }}
@@ -36,7 +32,6 @@
             Ajouter l'article
         {% endif %}
     </button>
-
     {{ form_end(formArticle) }}
 {% endblock %}
 {% block footer %}
@@ -46,4 +41,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
     <script src="{{ asset('js/inputFix.js') }}"></script>
     <script src="{{ asset('js/editor.js') }}"></script>
+    <script src="{{ asset('js/fr_FR.js') }}"></script>
 {% endblock %}

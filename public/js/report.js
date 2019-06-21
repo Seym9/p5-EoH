@@ -1,21 +1,20 @@
 function onClickBtnReport(e){
     e.preventDefault();
-
     const url = this.href;
-    const spanCount = this.querySelector('span.js-report');
-    const icon = this.querySelector('i');
+
 
     axios.get(url).then(function (response) {
-        spanCount.textContent = response.data.report;
-
-        if (icon.classList.contains('fas')) {
-            icon.classList.replace('fas', 'far')
-        }else{
-            icon.classList.replace('far', 'fas')
+        console.log(response);
+        if (response.data.message === "Reported") {
+            window.alert("Vous avez bien signaler ce commentaire !")
+        }else if(response.data.message === "TopicReported"){
+            window.alert("Vous avez bien signaler ce sujet !")
         }
     }).catch(function (error) {
-        if (error.response.status === 403) {
-            window.alert("Il faut être co pour like")
+        if (error.response.data.message === "Already reported") {
+            window.alert("Vous avez déjà signaler ce commentaire !")
+        }else if(error.response.data.message ==="Unauthorized"){
+            window.alert("Vous devez être connecter pour signalier un commentaire !")
         }else{
             window.alert("Une erreur s'est produite")
         }

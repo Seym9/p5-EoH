@@ -1,10 +1,26 @@
-h2 {
-  padding-top: 10%;
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background: url("../img/admin/elisa-kerschbaumer-1167172-unsplash.jpg") center/cover no-repeat fixed;
+  align-items: center;
+}
+
+.main-dashboard {
+  margin-top: 5%;
+  padding: 30px;
+  background-color: rgba(240, 240, 240, 0.7);
 }
 
 .dashboard-users {
   padding-top: 3%;
   margin: 0 auto;
+}
+
+.text-center i {
+  font-size: 25px;
+  margin-bottom: 10px;
 }
 
 /*# sourceMappingURL=dashboard.css.map */

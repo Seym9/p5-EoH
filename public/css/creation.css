@@ -13,7 +13,7 @@ body {
   background: linear-gradient(210deg, #1a1a1a, #343a40);
 }
 .inscription-form label {
-  color: #F5F5F5;
+  color: #969194;
 }
 .inscription-form p {
   color: #F5F5F5;
@@ -35,7 +35,6 @@ h2 {
 
 .panel-body {
   margin: auto;
-  border: solid 3px black;
 }
 
 @media all and (max-width: 750px) {

@@ -15,7 +15,7 @@
                             Titre
                         </th>
                         <th>
-                           Signalement
+                            Signalement
                         </th>
                         <th>
                             Options
@@ -23,14 +23,14 @@
                     </tr>
                     </thead>
                     {% for topic in topics %}
-
+                        {% if topic.topicCommentReports | length > 0 %}
                         <tbody>
                         <tr>
                             <td>
-                                {{ topic.name }}
+                                {{ topic.author.username }}
                             </td>
                             <td>
-                                {{ topic.topicReports | length }}
+                                {{ topic.topicCommentReports | length }}
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
@@ -39,41 +39,18 @@
                                         <button id="btnGroupDrop1" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                             <a class="dropdown-item" href="{{ path('topic_view', {'id': topic.id}) }}">Lire le sujet</a>
-                                            <a class="dropdown-item js-delete" href="{{ path('topic_delete', {'id': topic.id}) }}">Supprimer le sujet </a>
+                                            <a class="dropdown-item js-delete" href="{{ path('topicComment_delete', {'id': topic.id}) }}">Supprimer </a>
                                         </div>
                                     </div>
                                 </div>
                             </td>
                         </tr>
                         </tbody>
+                    {% endif %}
                     {% endfor %}
                 </table>
             </div>
         </div>
-    </div>
-    <div>
-        <ul class="pagination pagination-sm">
-            {%  if page > 1 %}
-                <li class="page-item">
-                    <a class="page-link" {{path('administration_forum',{'page': page-1}) }}>&laquo;</a>
-                </li>
-
-                <li class="page-item">
-                    <a class="page-link" href="{{path('administration_forum',{'page': page-1}) }}" >{{ page - 1}}</a>
-                </li>
-            {% endif %}
-            <li class="page-item active">
-                <a class="page-link" href="{{path('administration_forum',{'page': page}) }}" >{{ page}}</a>
-            </li>
-            {%  if page < nb_pages %}
-                <li class="page-item">
-                    <a class="page-link" href="{{path('administration_forum',{'page': page+1}) }}" >{{ page + 1}}</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="{{path('administration_forum',{'page':page+1 }) }}" >&raquo;</a>
-                </li>
-            {% endif %}
-        </ul>
     </div>
 {% endblock %}
 {% block footer %}

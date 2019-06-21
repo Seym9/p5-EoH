@@ -4,7 +4,10 @@
     <link rel="stylesheet" href="{{ asset('css/adminPage.css') }}">
 {% endblock %}
 {% block body %}
-    <h1>Forum Admin</h1>
+    {% if app.session.flashBag.has('success') %}
+        {% for msg in app.session.flashBag.get('success') %} {{ msg }} <i class="ti-close" id="flash-message-close" style="float:right;cursor:pointer;"></i> {% endfor %}
+    {% endif %}
+    <h1>Article Admin</h1>
     <div class="admin-page-summary">
         <div class="row">
             <div class="col-md-12">
@@ -15,22 +18,19 @@
                             Titre
                         </th>
                         <th>
-                           Signalement
-                        </th>
-                        <th>
                             Options
                         </th>
                     </tr>
                     </thead>
-                    {% for topic in topics %}
-
+                    {% for article in articles %}
+                        {% if article.articleCommentReports | length > 0 %}
                         <tbody>
-                        <tr>
+                        <tr class="article-row">
                             <td>
-                                {{ topic.name }}
+                                {{ article.author.username }}
                             </td>
                             <td>
-                                {{ topic.topicReports | length }}
+                                {{ article.articleCommentReports | length }}
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
@@ -38,42 +38,19 @@
                                     <div class="btn-group" role="group">
                                         <button id="btnGroupDrop1" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                            <a class="dropdown-item" href="{{ path('topic_view', {'id': topic.id}) }}">Lire le sujet</a>
-                                            <a class="dropdown-item js-delete" href="{{ path('topic_delete', {'id': topic.id}) }}">Supprimer le sujet </a>
+                                            <a class="dropdown-item" href="{{ path('articleRead', {'id': article.id}) }}">Voir l'article</a>
+                                            <a class="dropdown-item js-delete" href="{{ path('articleComment_delete', {'id': article.id}) }}">Supprimer</a>
                                         </div>
                                     </div>
                                 </div>
                             </td>
                         </tr>
                         </tbody>
+                    {% endif %}
                     {% endfor %}
                 </table>
             </div>
         </div>
-    </div>
-    <div>
-        <ul class="pagination pagination-sm">
-            {%  if page > 1 %}
-                <li class="page-item">
-                    <a class="page-link" {{path('administration_forum',{'page': page-1}) }}>&laquo;</a>
-                </li>
-
-                <li class="page-item">
-                    <a class="page-link" href="{{path('administration_forum',{'page': page-1}) }}" >{{ page - 1}}</a>
-                </li>
-            {% endif %}
-            <li class="page-item active">
-                <a class="page-link" href="{{path('administration_forum',{'page': page}) }}" >{{ page}}</a>
-            </li>
-            {%  if page < nb_pages %}
-                <li class="page-item">
-                    <a class="page-link" href="{{path('administration_forum',{'page': page+1}) }}" >{{ page + 1}}</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="{{path('administration_forum',{'page':page+1 }) }}" >&raquo;</a>
-                </li>
-            {% endif %}
-        </ul>
     </div>
 {% endblock %}
 {% block footer %}
@@ -83,4 +60,3 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="{{ asset('js/delete.js') }}"></script>
 {% endblock %}
-

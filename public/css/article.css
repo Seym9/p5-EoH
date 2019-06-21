@@ -26,6 +26,11 @@
   display: none;
 }
 
+.comment-content {
+  display: flex;
+  flex-direction: row;
+}
+
 @media all and (max-width: 1024px) {
   #imagemd-article-page {
     display: block;
@@ -47,6 +52,14 @@
   }
 
   #imagemd-article-page {
+    display: none;
+  }
+
+  .comment-content {
+    display: flex;
+    flex-direction: column;
+  }
+  .comment-content img {
     display: none;
   }
 }

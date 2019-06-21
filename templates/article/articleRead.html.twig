@@ -40,10 +40,8 @@
         Connectez vous pour pouvoir mettre un com
         {% endif %}
     </div>
-
-        {% for comment in article.ArticlesComments %}
-
-            <div class="media card flex-row p-2 mb-2">
+        {% for comment in article.articlesComments %}
+            <div class="media card p-2 mb-2 comment-content">
                 <div>
                     {% if comment.author.image.name is defined %}
                         <img class="card-img-left" src="{{ asset('img/uploaded-img/user-img/')~comment.author.image.name }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
@@ -58,22 +56,22 @@
                         <span>Le : {{ comment.createdAt | date ("d-m-Y") }}</span>
                         <a href="{{ path('report_article_comment', {'id': comment.id}) }}" class="btn btn-link js-report">
                             <i class="fas fa-exclamation-triangle"></i>
-                            <span>Signaler</span>
                         </a>
                     </div>
                     <div class="card p-2">
-                    <p>{{ comment.content | raw }}</p>
+                        <p>{{ comment.content | raw }}</p>
                     </div>
                 </div>
             </div>
-        </div>
     {% endfor %}
+    </div>
 {% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/editor.js') }}"></script>
-    <script src="{{ asset('js/fr_FR.js') }}"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="{{ asset('js/report.js') }}"></script>
+    <script src="{{ asset('js/editor.js') }}"></script>
+    <script src="{{ asset('js/fr_FR.js') }}"></script>
 {% endblock %}
 

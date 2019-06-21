@@ -6,11 +6,8 @@ body {
 .inscription-form{
   padding: 5px;
   background: linear-gradient(210deg, #1a1a1a, #343a40);
-  //input{
-  //  background-color: #f1f2f3;
-  //}
   label{
-    color: #F5F5F5;
+    color: #969194;
   }
   p{
     color: #F5F5F5;
@@ -32,7 +29,6 @@ h2 {
 }
 .panel-body {
   margin: auto;
-  border: solid 3px black;
 }
 @media all and (max-width: 750px){
   .panel-primary {
