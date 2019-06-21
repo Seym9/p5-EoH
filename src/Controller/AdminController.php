@@ -108,6 +108,7 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/admin-forum/{page}", name="administration_forum")
+     * @Route("/admin-forum-comment/{page}", name="administration_forumComments")
      *
      * @param TopicsRepository $topicsRepository
      * @param $page
@@ -118,7 +119,7 @@ class AdminController extends AbstractController
 
         $nb_topics 		    = $topicsRepository->FindAllAsInt();
         $nb_topics_page 	= 12;
-        $nb_pages 			=  ceil($nb_topics / $nb_topics_page);
+        $nb_pages 			=  floor($nb_topics / $nb_topics_page);
         $offset 			= ($page-1) * $nb_topics_page;
 
         $topics	= $topicsRepository->FindByPage($nb_topics_page ,$offset);

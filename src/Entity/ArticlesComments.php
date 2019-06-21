@@ -50,7 +50,7 @@ class ArticlesComments
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ArticleCommentReport", mappedBy="comment")
+     * @ORM\OneToMany(targetEntity="App\Entity\ArticleCommentReport", mappedBy="comment",cascade={"persist", "remove"})
      */
     private $articleCommentReports;
 

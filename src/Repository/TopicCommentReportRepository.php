@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\TopicCommentReport;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -18,6 +19,7 @@ class TopicCommentReportRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, TopicCommentReport::class);
     }
+
 
     // /**
     //  * @return TopicCommentReport[] Returns an array of TopicCommentReport objects

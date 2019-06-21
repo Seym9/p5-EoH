@@ -196,8 +196,7 @@ class TopicController extends AbstractController
         $manager->flush();
         return $this->json([
             'code' => 200,
-            'message' => 'Reported',
-            'report' => $reportRepository->count(['topic' => $topic])
+            'message' => 'TopicReported',
         ], 200);
     }
 }

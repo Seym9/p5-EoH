@@ -40,6 +40,13 @@ class TopicsCommentsRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findByNbOfReports() {
+        return $this->createQueryBuilder('t')
+            ->where('t.id')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
     /*
     public function findOneBySomeField($value): ?TopicsComments

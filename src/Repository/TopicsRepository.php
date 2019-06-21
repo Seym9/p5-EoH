@@ -58,18 +58,17 @@ class TopicsRepository extends ServiceEntityRepository
      */
     public function FindAllAsInt(){
         $qb=$this->createQueryBuilder('a')
-            ->select('COUNT(a)');
+            ->select('COUNT(a)')
+            ->orderBy('a.report', 'ASC');
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
-//, $category = null
-//->where('a.categoryId')
     public function FindByPage($nb_topics_page,$offset){
 
         $q = $this->createQueryBuilder('a')
             ->select('a')
             ->setFirstResult($offset)
             ->setMaxResults($nb_topics_page)
-            ->orderBy('a.createdAt','desc')
+            ->orderBy('a.report','DESC')
         ;
 
         return $q->getQuery()->getResult();
