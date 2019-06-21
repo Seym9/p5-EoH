@@ -57,7 +57,6 @@ class ArticlesRepository extends ServiceEntityRepository
         return $q->getQuery()->getResult();
     }
 
-
     /**
      * @param $value
      * @param $nb

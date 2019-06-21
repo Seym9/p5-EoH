@@ -20,7 +20,6 @@ class ArticlesCommentsRepository extends ServiceEntityRepository
         parent::__construct($registry, ArticlesComments::class);
     }
 
-
     /**
      * @return int
      * @throws NonUniqueResultException

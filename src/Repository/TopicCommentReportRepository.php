@@ -20,45 +20,6 @@ class TopicCommentReportRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, TopicCommentReport::class);
     }
-
-
-    /**
-     * @param $id
-     * @return array
-     * @throws DBALException
-     */
-    public function findAllReported($id): array
-    {
-        $conn = $this->getEntityManager()->getConnection();
-
-        $sql = '
-            SELECT * FROM topic_comment_report 
-                INNER JOIN p5_topicscomments 
-                    ON p5_topicscomments.id = topic_comment_report.comment_id 
-                INNER JOIN p5_users 
-                    ON p5_users.id = p5_topicscomments.author_id 
-            WHERE topic_comment_report.comment_id = $id
-        ';
-        $stmt = $conn->prepare($sql);
-        $stmt->execute($id);
-
-        // returns an array of arrays (i.e. a raw data set)
-        return $stmt->fetchAll();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function findAllReport(){
-        return $this->createQueryBuilder('r')
-            ->innerJoin('r.comment', 'c')
-            ->select('c.topicCommentReports')
-            ->where('c.id')
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
     /**
      * @return int
      * @throws NonUniqueResultException
