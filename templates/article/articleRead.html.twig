@@ -3,6 +3,7 @@
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/article.css') }}">
 {% endblock %}
+{% block title %}{{ article.name }}{% endblock %}
 {% block body %}
     <div class="mt-5" id="main-article-page">
         <h1 class="text-center">{{ article.name }}</h1>
@@ -16,7 +17,7 @@
         </div>
         <p>{{ article.content | raw }}</p>
         <div class="mt-5 mb-5" id="article-author-date">
-            <p>Publier le {{ article.createdAt | date('d-m-Y') }} par <span>{{ article.author.username }}</span></p>
+            <p>Publiez-le {{ article.createdAt | date('d-m-Y') }} par <span>{{ article.author.username }}</span></p>
         </div>
     </div>
     <div class="article-comment">
@@ -34,17 +35,19 @@
         {% if app.user %}
         {{ form_start(commentForm) }}
         {{ form_row(commentForm.content, {'label':'Message', 'attr': {'placeholder': "Message", 'class': 'editor'}}) }}
-        <button type="submit" class="btn btn-success mb-5">Envoyer</button>
+        <button type="submit" class="btn btn-success mb-5">Commentez</button>
         {{ form_end(commentForm) }}
         {% else %}
-        Connectez vous pour pouvoir mettre un com
+            <div class="text-center mt-5 mb-5">
+                <a href="{{ path('user_login') }}">Connectez-vous pour pouvoir mettre un com</a>
+            </div>
         {% endif %}
     </div>
         {% for comment in article.articlesComments %}
             <div class="media card p-2 mb-2 comment-content">
                 <div>
                     {% if comment.author.image.name is defined %}
-                        <img class="card-img-left" src="{{ asset('img/uploaded-img/user-img/')~comment.author.image.name }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
+                        <img class="card-img-left" src="{{ asset('img/uploaded-img/user-img/')~comment.author.image.name }}" alt="">
                     {% else %}
                         <img src="{{ asset('img/user/avatar-default.png') }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
                     {% endif %}

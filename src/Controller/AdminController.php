@@ -28,7 +28,7 @@ class AdminController extends AbstractController
 
         $entityManager->remove($article);
         $entityManager->flush();
-        $this->addFlash("success", "Ce message a ");
+        $this->addFlash("success", "Cet article a bien été supprimer");
 
         return $this->json([
             'code' => 200,
@@ -101,7 +101,7 @@ class AdminController extends AbstractController
 
         $entityManager->remove($user);
         $entityManager->flush();
-        $this->addFlash("success", "Cet utilisateur a ");
+        $this->addFlash("success", "Cet utilisateur a été supprimer");
 
         return $this->json([
             'code' => 200,
@@ -147,7 +147,7 @@ class AdminController extends AbstractController
 
         $entityManager->remove($topic);
         $entityManager->flush();
-        $this->addFlash("success", "Ce topic a ");
+        $this->addFlash("success", "Ce topic a bien été supprimer");
         return $this->json([
             'code' => 200,
             'message' => 'Topic delete',

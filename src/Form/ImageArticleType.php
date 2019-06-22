@@ -23,7 +23,7 @@ class ImageArticleType extends AbstractType
                                 'image/png',
                                 'image/jpg'
                             ],
-                            'mimeTypesMessage' => 'Seuls les formats ..'
+                            'mimeTypesMessage' => 'Seuls les formats png et jpg sont autorisés'
                         ])]
             ]);
     }

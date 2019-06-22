@@ -4,6 +4,7 @@
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/creationAccount.css') }}">
 {% endblock %}
+{% block title %}Créer un compte !{% endblock %}
 {% block body %}
 
             <div class="panel panel-primary">
@@ -35,7 +36,7 @@
                         {{ form_row(form.image, {'attr': {'class': 'custom-file-name'}}) }}
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Create your account</button>
+                        <button type="submit" class="btn btn-primary">Créer un compte</button>
                     </div>
                     <hr>
                     <p>Vous avez déjà un compte ? <a href="{{ path('user_login') }}" class="text-warning">Connectez-vous</a></p>

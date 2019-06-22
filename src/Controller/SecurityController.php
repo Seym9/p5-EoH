@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
-class UserController extends AbstractController
+class SecurityController extends AbstractController
 {
     /**
      * @Route("/registration", name = "user_registration")
@@ -151,7 +151,7 @@ class UserController extends AbstractController
                 ->setFrom('g.ponty@dev-web.io')
                 ->setTo($user->getEmail())
                 ->setBody(
-                    "Suivez le lien pour reset votre mot de passe : " . $url,
+                    "Suivez ce lien pour redéfinir votre mot de passe : " . $url,
                     'text/html'
                 );
             $mailer->send($message);

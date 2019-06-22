@@ -3,7 +3,7 @@
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/articleSummary.css') }}">
 {% endblock %}
-{% block title %}Hello ArticleController!{% endblock %}
+{% block title %}Tous les articles{% endblock %}
 
 {% block body %}
 <div class="row" id="main-article-sum">
@@ -17,7 +17,7 @@
             <div class="media-body pr-5">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mt-0 p-2">
-                        Titre : {{ article.name }}
+                        {{ article.name }}
                     </h5>
                     <span>Créer le : {{ article.createdAt | date ("d-m-Y") }}</span>
                 </div>

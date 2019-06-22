@@ -3,7 +3,7 @@
 {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 {% endblock %}
-{% block title %}Hello Discord{% endblock %}
+{% block title %}Earth , our heart{% endblock %}
 
 {% block header %}
 
@@ -31,7 +31,7 @@
 {% block body %}
     <div class="row" id="home-content">
         <div class="border-primary mb-3 col-md-7">
-            <h2>Dernière news</h2>
+            <h2>Dernières news</h2>
             <div class="card col-md-12">
                 <div class="card-header"><h3>{{ articles.name }}</h3></div>
                 {% if articles.image.name is defined %}
@@ -43,7 +43,6 @@
                     <a href="{{ path('articleRead', {'id': articles.id}) }}" class="btn btn-primary">Lire la suite</a>
                 </div>
             </div>
-
         </div>
 
         <div class="col-md-5">

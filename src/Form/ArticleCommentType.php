@@ -14,9 +14,6 @@ class ArticleCommentType extends AbstractType
     {
         $builder
             ->add('content', TextareaType::class,  ['required' => false])
-//            ->add('createdAt')
-//            ->add('article')
-//            ->add('author')
         ;
     }
 

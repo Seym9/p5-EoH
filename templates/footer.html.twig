@@ -2,15 +2,15 @@
     <footer class="footer-bs mt-auto">
         <div class="row">
             <div class="col-md-3 footer-brand animated fadeInLeft">
-                <h2>Logo</h2>
+                <h2>Earth, our heart</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci blanditiis dicta doloremque eligendi ex id illum iure laborum laudantium magnam modi molestias nobis quam soluta, suscipit tempora ut vero voluptates.</p>
                 <p>Copyright © 2019 Aymeric Earth , Our Heart . Tous droits réservés.</p>
             </div>
             <div class="col-md-3 footer-nav animated fadeInUp">
                 <h4>Menu —</h4>
                     <ul class="pages">
-                        <li><a href="#">Article</a></li>
-                        <li><a href="#">Forum</a></li>
+                        <li><a href="{{ path('article', {'page' : 1}) }}">Article</a></li>
+                        <li><a href="{{ path('forum_home')}}">Forum</a></li>
                     </ul>
             </div>
             <div class="col-md-3 footer-social animated fadeInDown">
@@ -22,7 +22,7 @@
                 </ul>
             </div>
             <div class="col-md-3 footer-social animated fadeInDown">
-                <h4>Help</h4>
+                <h4>Aide</h4>
                 <ul>
                     <li><a href="#">A propros</a></li>
                     <li><a href="#">Contacts</a></li>

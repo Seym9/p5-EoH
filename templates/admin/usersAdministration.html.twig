@@ -3,7 +3,11 @@
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/adminPage.css') }}">
 {% endblock %}
+{% block title %}Utilisateurs admin{% endblock %}
 {% block body %}
+    {% if app.session.flashBag.has('success') %}
+        {% for msg in app.session.flashBag.get('success') %} {{ msg }} <i class="ti-close" id="flash-message-close" style="float:right;cursor:pointer;"></i> {% endfor %}
+    {% endif %}
     <h1 class="mt-5 text-center">User Admin</h1>
     <div class="admin-page-summary">
         <div class="row">

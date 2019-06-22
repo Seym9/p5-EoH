@@ -3,6 +3,7 @@
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/topic.css') }}">
 {% endblock %}
+{% block title %}{{ topic.name }}{% endblock %}
 {% block body %}
 
 <div id="main-topic-page">

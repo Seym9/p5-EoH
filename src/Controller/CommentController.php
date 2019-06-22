@@ -176,7 +176,7 @@ class CommentController extends AbstractController
 
         $entityManager->remove($articleComment);
         $entityManager->flush();
-        $this->addFlash("success", "Ce message a ");
+        $this->addFlash("success", "Ce message a bien été supprimer");
 
         return $this->json([
             'code' => 200,
@@ -195,7 +195,7 @@ class CommentController extends AbstractController
 
         $entityManager->remove($articleComment);
         $entityManager->flush();
-        $this->addFlash("success", "Ce message a ");
+        $this->addFlash("success", "Ce message a bien été supprimer");
 
         return $this->json([
             'code' => 200,

@@ -3,11 +3,12 @@
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/adminPage.css') }}">
 {% endblock %}
+{% block title %}Articles Admin{% endblock %}
 {% block body %}
     {% if app.session.flashBag.has('success') %}
         {% for msg in app.session.flashBag.get('success') %} {{ msg }} <i class="ti-close" id="flash-message-close" style="float:right;cursor:pointer;"></i> {% endfor %}
     {% endif %}
-    <h1 class="mt-5 text-center">Article Admin</h1>
+    <h1 class="mt-5 text-center">Articles Admin</h1>
     <div class="admin-page-summary">
         <div class="row">
             <div class="col-md-12">
@@ -52,8 +53,8 @@
     <div>
         <ul class="pagination pagination-sm">
             {%  if page > 1 %}
-            <li class="page-item disabled">
-                <a class="page-link" {{path('administration_article',{'page': page-1}) }}>&laquo;</a>
+            <li class="page-item">
+                <a class="page-link" href="{{path('administration_article',{'page': page-1}) }}">&laquo;</a>
             </li>
 
             <li class="page-item">

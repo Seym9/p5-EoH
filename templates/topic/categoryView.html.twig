@@ -3,7 +3,7 @@
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/forumCategory.css') }}">
 {% endblock %}
-
+{% block title %}{{ category.name }}{% endblock %}
 {% block body %}
     <div id="forum-category-view" class="card">
     <h1>Nom categorie : {{ category.name }}</h1>
