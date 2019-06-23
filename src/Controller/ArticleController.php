@@ -100,7 +100,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/create-article", name="article_creation")
+     * @Route("/admin/create-article", name="article_creation")
      * @Route ("/edit-article/{id}", name="article_edit")
      * @param Request $request
      * @param ObjectManager $manager

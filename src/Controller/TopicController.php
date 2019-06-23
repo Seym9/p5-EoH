@@ -50,6 +50,9 @@ class TopicController extends AbstractController
      * @return Response
      */
     public function categoryView (ForumCategories $category) {
+
+
+
         return $this->render("topic/categoryView.html.twig",[
             'category' => $category
         ]);
@@ -96,12 +99,11 @@ class TopicController extends AbstractController
      * @Route ("/create-topic", name="topic_creation")
      * @param Request $request
      * @param ObjectManager $manager
-     * @param Security $security
      * @return RedirectResponse|Response
      * @throws Exception
      */
-    public function createTopic(Request $request, ObjectManager $manager, Security $security){
-        $user = $security->getUser();
+    public function createTopic(Request $request, ObjectManager $manager){
+        $user = $this->getUser();
         $topic = new Topics();
 
         $form = $this->createForm(TopicType::class, $topic);
@@ -117,7 +119,7 @@ class TopicController extends AbstractController
             return $this->redirectToRoute('topic_view' , ['id' => $topic->getId()]);
         }
 
-        return $this->render('admin/createTopic.html.twig', [
+        return $this->render('topic/createTopic.html.twig', [
             'formTopic' => $form->createView(),
         ]);
     }

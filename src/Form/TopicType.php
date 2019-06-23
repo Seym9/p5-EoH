@@ -17,7 +17,7 @@ class TopicType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('content', TextareaType::class,  ['required' => false])
+            ->add('content', TextareaType::class,  ['required' => false, 'sanitize_html' => true])
             ->add('category', EntityType::class, [
                 'class' => ForumCategories::class,
                 'choice_label' => 'name'

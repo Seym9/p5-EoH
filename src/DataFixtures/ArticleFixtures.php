@@ -41,7 +41,7 @@ class ArticleFixtures extends Fixture
 
         for ($i = 1; $i <=3; $i++){
             $category = new ArticlesCategories();
-            $category->setName($faker->sentence());
+            $category->setName($faker->word);
 
             $manager->persist($category);
 
@@ -49,7 +49,7 @@ class ArticleFixtures extends Fixture
                 $article = new Articles();
 
                 $content = '<p>' . join($faker->paragraphs(5), '</p><p>') . '</p>';
-                $article->setName($faker->sentence())
+                $article->setName($faker->word)
                         ->setContent($content)
                         ->setCreatedAt($faker->dateTimeBetween('-months'))
                         ->setCategory($category)
@@ -74,7 +74,7 @@ class ArticleFixtures extends Fixture
         }
         for ($i = 1; $i <= mt_rand(6, 8); $i++){
             $category = new ForumCategories();
-            $category->setName($faker->sentence());
+            $category->setName($faker->word);
 
             $manager->persist($category);
 
@@ -82,7 +82,7 @@ class ArticleFixtures extends Fixture
                 $article = new Topics();
 
                 $content = '<p>' . join($faker->paragraphs(5), '</p><p>') . '</p>';
-                $article->setName($faker->sentence())
+                $article->setName($faker->word)
                     ->setContent($content)
                     ->setCreatedAt($faker->dateTimeBetween('-months'))
                     ->setCategory($category)

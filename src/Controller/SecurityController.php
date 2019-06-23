@@ -56,7 +56,7 @@ class SecurityController extends AbstractController
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setCreatedAt(new \DateTime());
             $user->setPassword($hash);
-            $user->setRole(['ROLE_ADMIN']);
+            $user->setRole(['ROLE_USER']);
 
             $manager->persist($user);
             $manager->flush();
@@ -98,7 +98,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/user-promot/{id}",name="user_promotion")
+     * @Route("/admin/user-promot/{id}",name="user_promotion")
      * @param Users $users
      * @param ObjectManager $manager
      * @return RedirectResponse

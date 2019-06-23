@@ -13,7 +13,7 @@ class ArticleCommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content', TextareaType::class,  ['required' => false])
+            ->add('content', TextareaType::class,  ['required' => false, 'sanitize_html' => true])
         ;
     }
 

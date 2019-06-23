@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/article-delete/{id}" ,name="article_delete")
+     * @Route("/admin/article-delete/{id}" ,name="article_delete")
      * @param $id
      * @return Response
      */
@@ -91,7 +91,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/user-delete/{id}" ,name="user_delete")
+     * @Route("/admin/user-delete/{id}" ,name="user_delete")
      * @param $id
      * @return Response
      */
@@ -137,7 +137,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/topic-delete/{id}" ,name="topic_delete")
+     * @Route("/admin/topic-delete/{id}" ,name="topic_delete")
      * @param $id
      * @return Response
      */

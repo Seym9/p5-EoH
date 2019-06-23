@@ -27,7 +27,7 @@ class TopicsRepository extends ServiceEntityRepository
     public function findByThree()
     {
         return $this->createQueryBuilder('t')
-            ->orderBy('t.id', 'ASC')
+            ->orderBy('t.id', 'DESC')
             ->setMaxResults(3)
             ->getQuery()
             ->getResult()

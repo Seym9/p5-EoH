@@ -166,7 +166,7 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("/comment-article-delete/{id}" ,name="articleComment_delete")
+     * @Route("/admin/comment-article-delete/{id}" ,name="articleComment_delete")
      * @param $id
      * @return Response
      */
@@ -185,7 +185,7 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("/comment-topic-delete/{id}" ,name="topicComment_delete")
+     * @Route("/admin/comment-topic-delete/{id}" ,name="topicComment_delete")
      * @param $id
      * @return Response
      */
