@@ -6,14 +6,14 @@
 {% block title %}{{ category.name }}{% endblock %}
 {% block body %}
     <div id="forum-category-view" class="card">
-    <h1>Nom categorie : {{ category.name }}</h1>
+    <h1>{{ category.name }}</h1>
     <a href="{{ path('topic_creation') }}" class="btn btn-primary mb-5">Créer un nouveau sujet </a>
     <div class="row">
-        {% for topic in category.topics %}
-        <div class="col-md-11" id="card-category-forum">
+        {% for topic in category.topics | reverse %}
+        <div class="col-md-11 card-category-forum">
             <h5><a href="{{ path('topic_view', {'id': topic.id}) }}">{{ topic.name }}</a></h5>
                 <div class="d-flex justify-content-between">
-                    <p>le {{ topic.createdAt|date('d-m-Y') }}<br id="break-forum-categories"> par {{ topic.author.username }} </p>
+                    <p>le {{ topic.createdAt|date('d-m-Y') }}<br class="break-forum-categories"> par {{ topic.author.username }} </p>
                     <p>Message {{ topic.topicscomments | length}} , <i class="fas fa-thumbs-up"></i> {{ topic.topicLikes.count }} </p>
                 </div>
         </div>

@@ -49,12 +49,12 @@
                     {% if comment.author.image.name is defined %}
                         <img class="card-img-left" src="{{ asset('img/uploaded-img/user-img/')~comment.author.image.name }}" alt="">
                     {% else %}
-                        <img src="{{ asset('img/user/avatar-default.png') }}" alt="" style="max-width: 150px;max-height: 150px;min-width: 100px;min-height: 100px;">
+                        <img src="{{ asset('img/user/avatar-default.png') }}" alt="">
                     {% endif %}
                     <p class="mr-2 pt-2">{{ comment.author.username}}</p>
                     <p>Message : <span>{{ comment.author.articlesComments | length }}</span></p>
                 </div>
-                <div class="media-body pr-5 pl-2 ml-4" id="profile-article-comment">
+                <div class="media-body pr-5 pl-2 ml-4 profile-article-comment">
                     <div class="d-flex w-100 justify-content-between">
                         <span>Le : {{ comment.createdAt | date ("d-m-Y") }}</span>
                         <a href="{{ path('report_article_comment', {'id': comment.id}) }}" class="btn btn-link js-report">

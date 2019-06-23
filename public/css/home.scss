@@ -1,11 +1,18 @@
+
 .carousel-item {
-  height: 100%;
-  min-height: 350px;
-  background: no-repeat center center scroll;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  .carousel-caption{
+    top: 30%;
+    bottom: 70%;
+    position: absolute;
+    p{
+      color: #F5F5F5;
+      background: linear-gradient(210deg, rgb(26, 26, 26, 0.7), rgb(52, 58, 64, 0.7));
+      font-size: 25px;
+    }
+    a{
+      font-size: 20px;
+    }
+  }
 }
 #home-content{
   margin-top: 10%;
@@ -24,6 +31,9 @@
   }
 }
 @media all and (max-width: 750px){
+  header{
+    margin-top: 20%;
+  }
   .slide{
     display: none;
   }
@@ -31,3 +41,4 @@
     margin-top: 10%;
   }
 }
+

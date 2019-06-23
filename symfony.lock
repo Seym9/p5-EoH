@@ -132,6 +132,9 @@
     "knplabs/knp-paginator-bundle": {
         "version": "v3.0.0"
     },
+    "league/uri-parser": {
+        "version": "1.4.1"
+    },
     "liip/imagine-bundle": {
         "version": "1.8",
         "recipe": {
@@ -144,6 +147,9 @@
             "./config/packages/liip_imagine.yaml",
             "./config/routes/liip_imagine.yaml"
         ]
+    },
+    "masterminds/html5": {
+        "version": "2.6.0"
     },
     "monolog/monolog": {
         "version": "1.24.0"
@@ -189,6 +195,9 @@
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "snilius/twig-sort-by-field": {
+        "version": "v0.1.5"
     },
     "swiftmailer/swiftmailer": {
         "version": "v6.2.1"
@@ -559,6 +568,21 @@
     },
     "symfony/yaml": {
         "version": "v4.2.8"
+    },
+    "tgalopin/html-sanitizer": {
+        "version": "1.2.0"
+    },
+    "tgalopin/html-sanitizer-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "26a72f38eede2c53b5d3ccbed5c150e10a93268d"
+        },
+        "files": [
+            "./config/packages/html_sanitizer.yaml"
+        ]
     },
     "twig/twig": {
         "version": "v2.9.0"

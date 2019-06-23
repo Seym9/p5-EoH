@@ -8,15 +8,24 @@
 {% block header %}
 
     <header>
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="5000">
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="10000">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="d-block w-100" src="{{ asset('img/home/slider-1.jpg') }}" alt="First slide">
+                    <img class="w-100" src="{{ asset('img/home/slider-1.jpg') }}" alt="First slide">
+                    <div class="carousel-caption col-lg-3 col-md-5  m-auto">
+                        <p>Vous en avez marre de voir l'état de la planète se dégrader ?</p>
+                        <a class=" btn btn-danger btn-lg" href="#carouselExampleControls" role="button" data-slide="next">Agissez</a>
+                    </div>
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="{{ asset('img/home/slider-2.jpg') }}" alt="Second slide">
+                    <img class="w-100" src="{{ asset('img/home/slider-2.jpg') }}" alt="Second slide">
+                    <div class="carousel-caption col-lg-3 col-md-5 m-auto">
+                        <p>Commencer à changer les choses</p>
+                        <a class=" btn btn-success btn-lg" href="{{ path('user_registration') }}">Rejoignez-nous</a>
+                    </div>
                 </div>
             </div>
+
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
@@ -46,7 +55,7 @@
         </div>
 
         <div class="col-md-5">
-            <h2>Sujets populaires</h2>
+            <h2>Derniers sujets</h2>
             <ul class="list-group">
                 {% for topic in topics %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">

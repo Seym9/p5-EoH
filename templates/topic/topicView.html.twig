@@ -61,7 +61,7 @@
             <p class="mr-2 pt-2">{{ comment.author.username}}</p>
             <p>Message : <span>{{ comment.author.articlesComments | length }}</span></p>
         </div>
-        <div class="media-body pr-5 pl-2 ml-4" id="profile-article-comment">
+        <div class="media-body pr-5 pl-2 ml-4 profile-article-comment">
             <div class="d-flex w-100 justify-content-between">
                 <span>Le : {{ comment.createdAt | date ("d-m-Y") }}</span>
                 <a href="{{ path('report_topic_comment', {'id': comment.id}) }}" class="btn btn-link js-report">
@@ -82,7 +82,9 @@
             <button type="submit" class="btn btn-success">Envoyer</button>
             {{ form_end(commentForm) }}
         {% else %}
-            Connectez vous pour pouvoir mettre un com
+            <div class="text-center mt-5 mb-5">
+                <a href="{{ path('user_login') }}">Connectez-vous pour pouvoir mettre un com</a>
+            </div>
         {% endif %}
     </div>
 </div>

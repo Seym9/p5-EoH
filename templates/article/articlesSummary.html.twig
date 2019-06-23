@@ -22,7 +22,7 @@
                     <span>Créer le : {{ article.createdAt | date ("d-m-Y") }}</span>
                 </div>
                     <p class="p-2">Preview de l'article : {{ article.content | striptags | slice(0, 100) }}</p>
-                    <p><a class="btn btn-primary btn-large mt-2 ml-2" href="{{ path('articleRead', {'id': article.id}) }}">Learn more</a></p>
+                    <p><a class="btn btn-primary btn-large mt-2 ml-2" href="{{ path('articleRead', {'id': article.id}) }}">Lire la suite</a></p>
             </div>
         </div>
         {% endfor %}

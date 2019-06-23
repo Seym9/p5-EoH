@@ -1,11 +1,15 @@
-.carousel-item {
-  height: 100%;
-  min-height: 350px;
-  background: no-repeat center center scroll;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+.carousel-item .carousel-caption {
+  top: 30%;
+  bottom: 70%;
+  position: absolute;
+}
+.carousel-item .carousel-caption p {
+  color: #F5F5F5;
+  background: linear-gradient(210deg, rgba(26, 26, 26, 0.7), rgba(52, 58, 64, 0.7));
+  font-size: 25px;
+}
+.carousel-item .carousel-caption a {
+  font-size: 20px;
 }
 
 #home-content {
@@ -26,6 +30,10 @@
   }
 }
 @media all and (max-width: 750px) {
+  header {
+    margin-top: 20%;
+  }
+
   .slide {
     display: none;
   }
